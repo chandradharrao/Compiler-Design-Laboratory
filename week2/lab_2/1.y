@@ -1,5 +1,6 @@
 %{
-    int yylineno;    
+    #include<stdio.h>
+    int yylex();    
 %}
 
 %token INT
@@ -13,7 +14,6 @@
 %token IF
 %token ELSE
 
-%token INCLUDE 
 %token MAIN 
 
 %token ID 
@@ -54,5 +54,87 @@
 
 %start program
 
+%%
 program :   HEADER
-        |   
+        |   mainf program
+        |   declr SCOL program
+        |   assgn SCOL program
+        |
+        ;
+
+declr   :   type listvar
+        ;
+
+type    :   INT
+        |   CHAR
+        |   FLOAT
+        |   DOUBLE
+
+listvar :   listvar COMMA ID
+        |   ID
+        ;
+
+assgn   :   ID ASSI expr
+        ;
+
+expr    :   expr relop e
+        |   e
+        ;
+
+relop   :   LESS
+        |   LESSEREQ
+        |   GREATER
+        |   GREATEREQ
+        |   EQCOMP
+        |   NOTEQ
+        ;
+
+e       :   e ADD t
+        |   e SUB t
+        |   t
+        ;
+
+t       :   t MUL f
+        |   t DIV f
+        |   f
+        ;
+
+f       :   OBRKT expr CBRCS
+        |   ID
+        |   NUMBER
+        ;
+
+mainf   :   type MAIN OBRKT empty_listvar CBRKT OBRCS stmnt CBRCS
+        ;
+
+empty_listvar   :   listvar
+                |
+                ;
+
+stmnt   :   single stmnt
+        |   multiline stmnt
+        |
+        ;
+
+single  :   declr SCOL
+        |   assgn SCOL
+        |   IF OBRKT cond CBRKT stmnt
+        |   IF OBRKT cond CBRKT stmnt ELSE stmnt
+        |   while
+        ;
+
+multiline   :   OBRCS stmnt CBRCS
+            ;
+
+cond    :   expr
+        |   assgn
+        ;
+
+while   :   WHILE OBRKT cond CBRKT whilecontent
+        ;
+
+whilecontent    :   single
+                |   OBRCS stmnt CBRCS
+                |
+                ;
+%%
