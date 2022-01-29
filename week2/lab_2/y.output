@@ -1,0 +1,1240 @@
+
+
+Terminals which are not used:
+
+   FOR
+   DO
+   SLITERAL
+   INC
+   DEC
+   OROR
+   ANDAND
+   NOT
+   ARR
+   FUNC
+
+
+State 60 contains 8 shift/reduce conflicts.
+State 61 contains 8 shift/reduce conflicts.
+State 77 contains 8 shift/reduce conflicts.
+State 84 contains 8 shift/reduce conflicts.
+
+Grammar
+rule 1    program -> HEADER program
+rule 2    program -> mainf program
+rule 3    program -> declr SCOL program
+rule 4    program -> assgn SCOL program
+rule 5    program ->		/* empty */
+rule 6    declr -> type listvar
+rule 7    type -> INT
+rule 8    type -> CHAR
+rule 9    type -> FLOAT
+rule 10   type -> DOUBLE
+rule 11   listvar -> listvar COMMA ID
+rule 12   listvar -> ID
+rule 13   assgn -> ID ASSI expr
+rule 14   expr -> expr relop e
+rule 15   expr -> e
+rule 16   relop -> LESS
+rule 17   relop -> LESSEREQ
+rule 18   relop -> GREATER
+rule 19   relop -> GREATEREQ
+rule 20   relop -> EQCOMP
+rule 21   relop -> NOTEQ
+rule 22   e -> e ADD t
+rule 23   e -> e SUB t
+rule 24   e -> t
+rule 25   t -> t MUL f
+rule 26   t -> t DIV f
+rule 27   t -> f
+rule 28   f -> OBRKT expr CBRKT
+rule 29   f -> ID
+rule 30   f -> NUMBER
+rule 31   mainf -> type MAIN OBRKT empty_listvar CBRKT OBRCS stmnt CBRCS
+rule 32   empty_listvar -> listvar
+rule 33   empty_listvar ->		/* empty */
+rule 34   stmnt -> single stmnt
+rule 35   stmnt -> multiline stmnt
+rule 36   stmnt ->		/* empty */
+rule 37   single -> declr SCOL
+rule 38   single -> assgn SCOL
+rule 39   single -> IF OBRKT cond CBRKT stmnt LOWER_THAN_ELSE
+rule 40   single -> IF OBRKT cond CBRKT stmnt ELSE stmnt
+rule 41   single -> whileL
+rule 42   multiline -> OBRCS stmnt CBRCS
+rule 43   cond -> expr
+rule 44   cond -> assgn
+rule 45   whileL -> WHILE OBRKT cond CBRKT whilecontent
+rule 46   whilecontent -> single
+rule 47   whilecontent -> OBRCS stmnt CBRCS
+rule 48   whilecontent ->		/* empty */
+
+Terminals, with rules where they appear
+
+$ (-1)
+error (256)
+INT (258) 7
+CHAR (259) 8
+FLOAT (260) 9
+DOUBLE (261) 10
+WHILE (262) 45
+FOR (263)
+DO (264)
+IF (265) 39 40
+ELSE (266) 40
+MAIN (267) 31
+ID (268) 11 12 13 29
+NUMBER (269) 30
+SLITERAL (270)
+HEADER (271) 1
+EQCOMP (272) 20
+GREATEREQ (273) 19
+LESSEREQ (274) 17
+NOTEQ (275) 21
+INC (276)
+DEC (277)
+SUB (278) 23
+ADD (279) 22
+MUL (280) 25
+DIV (281) 26
+OROR (282)
+ANDAND (283)
+NOT (284)
+OBRKT (285) 28 31 39 40 45
+CBRKT (286) 28 31 39 40 45
+OBRCS (287) 31 42 47
+CBRCS (288) 31 42 47
+ARR (289)
+SCOL (290) 3 4 37 38
+COMMA (291) 11
+FUNC (292)
+ASSI (293) 13
+LESS (294) 16
+GREATER (295) 18
+LOWER_THAN_ELSE (296) 39
+
+Nonterminals, with rules where they appear
+
+program (42)
+    on left: 1 2 3 4 5, on right: 1 2 3 4
+declr (43)
+    on left: 6, on right: 3 37
+type (44)
+    on left: 7 8 9 10, on right: 6 31
+listvar (45)
+    on left: 11 12, on right: 6 11 32
+assgn (46)
+    on left: 13, on right: 4 38 44
+expr (47)
+    on left: 14 15, on right: 13 14 28 43
+relop (48)
+    on left: 16 17 18 19 20 21, on right: 14
+e (49)
+    on left: 22 23 24, on right: 14 15 22 23
+t (50)
+    on left: 25 26 27, on right: 22 23 24 25 26
+f (51)
+    on left: 28 29 30, on right: 25 26 27
+mainf (52)
+    on left: 31, on right: 2
+empty_listvar (53)
+    on left: 32 33, on right: 31
+stmnt (54)
+    on left: 34 35 36, on right: 31 34 35 39 40 42 47
+single (55)
+    on left: 37 38 39 40 41, on right: 34 46
+multiline (56)
+    on left: 42, on right: 35
+cond (57)
+    on left: 43 44, on right: 39 40 45
+whileL (58)
+    on left: 45, on right: 41
+whilecontent (59)
+    on left: 46 47 48, on right: 45
+
+
+state 0
+
+    INT 	shift, and go to state 1
+    CHAR	shift, and go to state 2
+    FLOAT	shift, and go to state 3
+    DOUBLE	shift, and go to state 4
+    ID  	shift, and go to state 5
+    HEADER	shift, and go to state 6
+
+    $default	reduce using rule 5 (program)
+
+    program	go to state 88
+    declr	go to state 7
+    type	go to state 8
+    assgn	go to state 9
+    mainf	go to state 10
+
+
+
+state 1
+
+    type  ->  INT .   (rule 7)
+
+    $default	reduce using rule 7 (type)
+
+
+
+state 2
+
+    type  ->  CHAR .   (rule 8)
+
+    $default	reduce using rule 8 (type)
+
+
+
+state 3
+
+    type  ->  FLOAT .   (rule 9)
+
+    $default	reduce using rule 9 (type)
+
+
+
+state 4
+
+    type  ->  DOUBLE .   (rule 10)
+
+    $default	reduce using rule 10 (type)
+
+
+
+state 5
+
+    assgn  ->  ID . ASSI expr   (rule 13)
+
+    ASSI	shift, and go to state 11
+
+
+
+state 6
+
+    program  ->  HEADER . program   (rule 1)
+
+    INT 	shift, and go to state 1
+    CHAR	shift, and go to state 2
+    FLOAT	shift, and go to state 3
+    DOUBLE	shift, and go to state 4
+    ID  	shift, and go to state 5
+    HEADER	shift, and go to state 6
+
+    $default	reduce using rule 5 (program)
+
+    program	go to state 12
+    declr	go to state 7
+    type	go to state 8
+    assgn	go to state 9
+    mainf	go to state 10
+
+
+
+state 7
+
+    program  ->  declr . SCOL program   (rule 3)
+
+    SCOL	shift, and go to state 13
+
+
+
+state 8
+
+    declr  ->  type . listvar   (rule 6)
+    mainf  ->  type . MAIN OBRKT empty_listvar CBRKT OBRCS stmnt CBRCS   (rule 31)
+
+    MAIN	shift, and go to state 14
+    ID  	shift, and go to state 15
+
+    listvar	go to state 16
+
+
+
+state 9
+
+    program  ->  assgn . SCOL program   (rule 4)
+
+    SCOL	shift, and go to state 17
+
+
+
+state 10
+
+    program  ->  mainf . program   (rule 2)
+
+    INT 	shift, and go to state 1
+    CHAR	shift, and go to state 2
+    FLOAT	shift, and go to state 3
+    DOUBLE	shift, and go to state 4
+    ID  	shift, and go to state 5
+    HEADER	shift, and go to state 6
+
+    $default	reduce using rule 5 (program)
+
+    program	go to state 18
+    declr	go to state 7
+    type	go to state 8
+    assgn	go to state 9
+    mainf	go to state 10
+
+
+
+state 11
+
+    assgn  ->  ID ASSI . expr   (rule 13)
+
+    ID  	shift, and go to state 19
+    NUMBER	shift, and go to state 20
+    OBRKT	shift, and go to state 21
+
+    expr	go to state 22
+    e   	go to state 23
+    t   	go to state 24
+    f   	go to state 25
+
+
+
+state 12
+
+    program  ->  HEADER program .   (rule 1)
+
+    $default	reduce using rule 1 (program)
+
+
+
+state 13
+
+    program  ->  declr SCOL . program   (rule 3)
+
+    INT 	shift, and go to state 1
+    CHAR	shift, and go to state 2
+    FLOAT	shift, and go to state 3
+    DOUBLE	shift, and go to state 4
+    ID  	shift, and go to state 5
+    HEADER	shift, and go to state 6
+
+    $default	reduce using rule 5 (program)
+
+    program	go to state 26
+    declr	go to state 7
+    type	go to state 8
+    assgn	go to state 9
+    mainf	go to state 10
+
+
+
+state 14
+
+    mainf  ->  type MAIN . OBRKT empty_listvar CBRKT OBRCS stmnt CBRCS   (rule 31)
+
+    OBRKT	shift, and go to state 27
+
+
+
+state 15
+
+    listvar  ->  ID .   (rule 12)
+
+    $default	reduce using rule 12 (listvar)
+
+
+
+state 16
+
+    declr  ->  type listvar .   (rule 6)
+    listvar  ->  listvar . COMMA ID   (rule 11)
+
+    COMMA	shift, and go to state 28
+
+    $default	reduce using rule 6 (declr)
+
+
+
+state 17
+
+    program  ->  assgn SCOL . program   (rule 4)
+
+    INT 	shift, and go to state 1
+    CHAR	shift, and go to state 2
+    FLOAT	shift, and go to state 3
+    DOUBLE	shift, and go to state 4
+    ID  	shift, and go to state 5
+    HEADER	shift, and go to state 6
+
+    $default	reduce using rule 5 (program)
+
+    program	go to state 29
+    declr	go to state 7
+    type	go to state 8
+    assgn	go to state 9
+    mainf	go to state 10
+
+
+
+state 18
+
+    program  ->  mainf program .   (rule 2)
+
+    $default	reduce using rule 2 (program)
+
+
+
+state 19
+
+    f  ->  ID .   (rule 29)
+
+    $default	reduce using rule 29 (f)
+
+
+
+state 20
+
+    f  ->  NUMBER .   (rule 30)
+
+    $default	reduce using rule 30 (f)
+
+
+
+state 21
+
+    f  ->  OBRKT . expr CBRKT   (rule 28)
+
+    ID  	shift, and go to state 19
+    NUMBER	shift, and go to state 20
+    OBRKT	shift, and go to state 21
+
+    expr	go to state 30
+    e   	go to state 23
+    t   	go to state 24
+    f   	go to state 25
+
+
+
+state 22
+
+    assgn  ->  ID ASSI expr .   (rule 13)
+    expr  ->  expr . relop e   (rule 14)
+
+    EQCOMP	shift, and go to state 31
+    GREATEREQ	shift, and go to state 32
+    LESSEREQ	shift, and go to state 33
+    NOTEQ	shift, and go to state 34
+    LESS	shift, and go to state 35
+    GREATER	shift, and go to state 36
+
+    $default	reduce using rule 13 (assgn)
+
+    relop	go to state 37
+
+
+
+state 23
+
+    expr  ->  e .   (rule 15)
+    e  ->  e . ADD t   (rule 22)
+    e  ->  e . SUB t   (rule 23)
+
+    SUB 	shift, and go to state 38
+    ADD 	shift, and go to state 39
+
+    $default	reduce using rule 15 (expr)
+
+
+
+state 24
+
+    e  ->  t .   (rule 24)
+    t  ->  t . MUL f   (rule 25)
+    t  ->  t . DIV f   (rule 26)
+
+    MUL 	shift, and go to state 40
+    DIV 	shift, and go to state 41
+
+    $default	reduce using rule 24 (e)
+
+
+
+state 25
+
+    t  ->  f .   (rule 27)
+
+    $default	reduce using rule 27 (t)
+
+
+
+state 26
+
+    program  ->  declr SCOL program .   (rule 3)
+
+    $default	reduce using rule 3 (program)
+
+
+
+state 27
+
+    mainf  ->  type MAIN OBRKT . empty_listvar CBRKT OBRCS stmnt CBRCS   (rule 31)
+
+    ID  	shift, and go to state 15
+
+    $default	reduce using rule 33 (empty_listvar)
+
+    listvar	go to state 42
+    empty_listvar	go to state 43
+
+
+
+state 28
+
+    listvar  ->  listvar COMMA . ID   (rule 11)
+
+    ID  	shift, and go to state 44
+
+
+
+state 29
+
+    program  ->  assgn SCOL program .   (rule 4)
+
+    $default	reduce using rule 4 (program)
+
+
+
+state 30
+
+    expr  ->  expr . relop e   (rule 14)
+    f  ->  OBRKT expr . CBRKT   (rule 28)
+
+    EQCOMP	shift, and go to state 31
+    GREATEREQ	shift, and go to state 32
+    LESSEREQ	shift, and go to state 33
+    NOTEQ	shift, and go to state 34
+    CBRKT	shift, and go to state 45
+    LESS	shift, and go to state 35
+    GREATER	shift, and go to state 36
+
+    relop	go to state 37
+
+
+
+state 31
+
+    relop  ->  EQCOMP .   (rule 20)
+
+    $default	reduce using rule 20 (relop)
+
+
+
+state 32
+
+    relop  ->  GREATEREQ .   (rule 19)
+
+    $default	reduce using rule 19 (relop)
+
+
+
+state 33
+
+    relop  ->  LESSEREQ .   (rule 17)
+
+    $default	reduce using rule 17 (relop)
+
+
+
+state 34
+
+    relop  ->  NOTEQ .   (rule 21)
+
+    $default	reduce using rule 21 (relop)
+
+
+
+state 35
+
+    relop  ->  LESS .   (rule 16)
+
+    $default	reduce using rule 16 (relop)
+
+
+
+state 36
+
+    relop  ->  GREATER .   (rule 18)
+
+    $default	reduce using rule 18 (relop)
+
+
+
+state 37
+
+    expr  ->  expr relop . e   (rule 14)
+
+    ID  	shift, and go to state 19
+    NUMBER	shift, and go to state 20
+    OBRKT	shift, and go to state 21
+
+    e   	go to state 46
+    t   	go to state 24
+    f   	go to state 25
+
+
+
+state 38
+
+    e  ->  e SUB . t   (rule 23)
+
+    ID  	shift, and go to state 19
+    NUMBER	shift, and go to state 20
+    OBRKT	shift, and go to state 21
+
+    t   	go to state 47
+    f   	go to state 25
+
+
+
+state 39
+
+    e  ->  e ADD . t   (rule 22)
+
+    ID  	shift, and go to state 19
+    NUMBER	shift, and go to state 20
+    OBRKT	shift, and go to state 21
+
+    t   	go to state 48
+    f   	go to state 25
+
+
+
+state 40
+
+    t  ->  t MUL . f   (rule 25)
+
+    ID  	shift, and go to state 19
+    NUMBER	shift, and go to state 20
+    OBRKT	shift, and go to state 21
+
+    f   	go to state 49
+
+
+
+state 41
+
+    t  ->  t DIV . f   (rule 26)
+
+    ID  	shift, and go to state 19
+    NUMBER	shift, and go to state 20
+    OBRKT	shift, and go to state 21
+
+    f   	go to state 50
+
+
+
+state 42
+
+    listvar  ->  listvar . COMMA ID   (rule 11)
+    empty_listvar  ->  listvar .   (rule 32)
+
+    COMMA	shift, and go to state 28
+
+    $default	reduce using rule 32 (empty_listvar)
+
+
+
+state 43
+
+    mainf  ->  type MAIN OBRKT empty_listvar . CBRKT OBRCS stmnt CBRCS   (rule 31)
+
+    CBRKT	shift, and go to state 51
+
+
+
+state 44
+
+    listvar  ->  listvar COMMA ID .   (rule 11)
+
+    $default	reduce using rule 11 (listvar)
+
+
+
+state 45
+
+    f  ->  OBRKT expr CBRKT .   (rule 28)
+
+    $default	reduce using rule 28 (f)
+
+
+
+state 46
+
+    expr  ->  expr relop e .   (rule 14)
+    e  ->  e . ADD t   (rule 22)
+    e  ->  e . SUB t   (rule 23)
+
+    SUB 	shift, and go to state 38
+    ADD 	shift, and go to state 39
+
+    $default	reduce using rule 14 (expr)
+
+
+
+state 47
+
+    e  ->  e SUB t .   (rule 23)
+    t  ->  t . MUL f   (rule 25)
+    t  ->  t . DIV f   (rule 26)
+
+    MUL 	shift, and go to state 40
+    DIV 	shift, and go to state 41
+
+    $default	reduce using rule 23 (e)
+
+
+
+state 48
+
+    e  ->  e ADD t .   (rule 22)
+    t  ->  t . MUL f   (rule 25)
+    t  ->  t . DIV f   (rule 26)
+
+    MUL 	shift, and go to state 40
+    DIV 	shift, and go to state 41
+
+    $default	reduce using rule 22 (e)
+
+
+
+state 49
+
+    t  ->  t MUL f .   (rule 25)
+
+    $default	reduce using rule 25 (t)
+
+
+
+state 50
+
+    t  ->  t DIV f .   (rule 26)
+
+    $default	reduce using rule 26 (t)
+
+
+
+state 51
+
+    mainf  ->  type MAIN OBRKT empty_listvar CBRKT . OBRCS stmnt CBRCS   (rule 31)
+
+    OBRCS	shift, and go to state 52
+
+
+
+state 52
+
+    mainf  ->  type MAIN OBRKT empty_listvar CBRKT OBRCS . stmnt CBRCS   (rule 31)
+
+    INT 	shift, and go to state 1
+    CHAR	shift, and go to state 2
+    FLOAT	shift, and go to state 3
+    DOUBLE	shift, and go to state 4
+    WHILE	shift, and go to state 53
+    IF  	shift, and go to state 54
+    ID  	shift, and go to state 5
+    OBRCS	shift, and go to state 55
+
+    $default	reduce using rule 36 (stmnt)
+
+    declr	go to state 56
+    type	go to state 57
+    assgn	go to state 58
+    stmnt	go to state 59
+    single	go to state 60
+    multiline	go to state 61
+    whileL	go to state 62
+
+
+
+state 53
+
+    whileL  ->  WHILE . OBRKT cond CBRKT whilecontent   (rule 45)
+
+    OBRKT	shift, and go to state 63
+
+
+
+state 54
+
+    single  ->  IF . OBRKT cond CBRKT stmnt LOWER_THAN_ELSE   (rule 39)
+    single  ->  IF . OBRKT cond CBRKT stmnt ELSE stmnt   (rule 40)
+
+    OBRKT	shift, and go to state 64
+
+
+
+state 55
+
+    multiline  ->  OBRCS . stmnt CBRCS   (rule 42)
+
+    INT 	shift, and go to state 1
+    CHAR	shift, and go to state 2
+    FLOAT	shift, and go to state 3
+    DOUBLE	shift, and go to state 4
+    WHILE	shift, and go to state 53
+    IF  	shift, and go to state 54
+    ID  	shift, and go to state 5
+    OBRCS	shift, and go to state 55
+
+    $default	reduce using rule 36 (stmnt)
+
+    declr	go to state 56
+    type	go to state 57
+    assgn	go to state 58
+    stmnt	go to state 65
+    single	go to state 60
+    multiline	go to state 61
+    whileL	go to state 62
+
+
+
+state 56
+
+    single  ->  declr . SCOL   (rule 37)
+
+    SCOL	shift, and go to state 66
+
+
+
+state 57
+
+    declr  ->  type . listvar   (rule 6)
+
+    ID  	shift, and go to state 15
+
+    listvar	go to state 16
+
+
+
+state 58
+
+    single  ->  assgn . SCOL   (rule 38)
+
+    SCOL	shift, and go to state 67
+
+
+
+state 59
+
+    mainf  ->  type MAIN OBRKT empty_listvar CBRKT OBRCS stmnt . CBRCS   (rule 31)
+
+    CBRCS	shift, and go to state 68
+
+
+
+state 60
+
+    stmnt  ->  single . stmnt   (rule 34)
+
+    INT 	shift, and go to state 1
+    CHAR	shift, and go to state 2
+    FLOAT	shift, and go to state 3
+    DOUBLE	shift, and go to state 4
+    WHILE	shift, and go to state 53
+    IF  	shift, and go to state 54
+    ID  	shift, and go to state 5
+    OBRCS	shift, and go to state 55
+
+    INT 	[reduce using rule 36 (stmnt)]
+    CHAR	[reduce using rule 36 (stmnt)]
+    FLOAT	[reduce using rule 36 (stmnt)]
+    DOUBLE	[reduce using rule 36 (stmnt)]
+    WHILE	[reduce using rule 36 (stmnt)]
+    IF  	[reduce using rule 36 (stmnt)]
+    ID  	[reduce using rule 36 (stmnt)]
+    OBRCS	[reduce using rule 36 (stmnt)]
+    $default	reduce using rule 36 (stmnt)
+
+    declr	go to state 56
+    type	go to state 57
+    assgn	go to state 58
+    stmnt	go to state 69
+    single	go to state 60
+    multiline	go to state 61
+    whileL	go to state 62
+
+
+
+state 61
+
+    stmnt  ->  multiline . stmnt   (rule 35)
+
+    INT 	shift, and go to state 1
+    CHAR	shift, and go to state 2
+    FLOAT	shift, and go to state 3
+    DOUBLE	shift, and go to state 4
+    WHILE	shift, and go to state 53
+    IF  	shift, and go to state 54
+    ID  	shift, and go to state 5
+    OBRCS	shift, and go to state 55
+
+    INT 	[reduce using rule 36 (stmnt)]
+    CHAR	[reduce using rule 36 (stmnt)]
+    FLOAT	[reduce using rule 36 (stmnt)]
+    DOUBLE	[reduce using rule 36 (stmnt)]
+    WHILE	[reduce using rule 36 (stmnt)]
+    IF  	[reduce using rule 36 (stmnt)]
+    ID  	[reduce using rule 36 (stmnt)]
+    OBRCS	[reduce using rule 36 (stmnt)]
+    $default	reduce using rule 36 (stmnt)
+
+    declr	go to state 56
+    type	go to state 57
+    assgn	go to state 58
+    stmnt	go to state 70
+    single	go to state 60
+    multiline	go to state 61
+    whileL	go to state 62
+
+
+
+state 62
+
+    single  ->  whileL .   (rule 41)
+
+    $default	reduce using rule 41 (single)
+
+
+
+state 63
+
+    whileL  ->  WHILE OBRKT . cond CBRKT whilecontent   (rule 45)
+
+    ID  	shift, and go to state 71
+    NUMBER	shift, and go to state 20
+    OBRKT	shift, and go to state 21
+
+    assgn	go to state 72
+    expr	go to state 73
+    e   	go to state 23
+    t   	go to state 24
+    f   	go to state 25
+    cond	go to state 74
+
+
+
+state 64
+
+    single  ->  IF OBRKT . cond CBRKT stmnt LOWER_THAN_ELSE   (rule 39)
+    single  ->  IF OBRKT . cond CBRKT stmnt ELSE stmnt   (rule 40)
+
+    ID  	shift, and go to state 71
+    NUMBER	shift, and go to state 20
+    OBRKT	shift, and go to state 21
+
+    assgn	go to state 72
+    expr	go to state 73
+    e   	go to state 23
+    t   	go to state 24
+    f   	go to state 25
+    cond	go to state 75
+
+
+
+state 65
+
+    multiline  ->  OBRCS stmnt . CBRCS   (rule 42)
+
+    CBRCS	shift, and go to state 76
+
+
+
+state 66
+
+    single  ->  declr SCOL .   (rule 37)
+
+    $default	reduce using rule 37 (single)
+
+
+
+state 67
+
+    single  ->  assgn SCOL .   (rule 38)
+
+    $default	reduce using rule 38 (single)
+
+
+
+state 68
+
+    mainf  ->  type MAIN OBRKT empty_listvar CBRKT OBRCS stmnt CBRCS .   (rule 31)
+
+    $default	reduce using rule 31 (mainf)
+
+
+
+state 69
+
+    stmnt  ->  single stmnt .   (rule 34)
+
+    $default	reduce using rule 34 (stmnt)
+
+
+
+state 70
+
+    stmnt  ->  multiline stmnt .   (rule 35)
+
+    $default	reduce using rule 35 (stmnt)
+
+
+
+state 71
+
+    assgn  ->  ID . ASSI expr   (rule 13)
+    f  ->  ID .   (rule 29)
+
+    ASSI	shift, and go to state 11
+
+    $default	reduce using rule 29 (f)
+
+
+
+state 72
+
+    cond  ->  assgn .   (rule 44)
+
+    $default	reduce using rule 44 (cond)
+
+
+
+state 73
+
+    expr  ->  expr . relop e   (rule 14)
+    cond  ->  expr .   (rule 43)
+
+    EQCOMP	shift, and go to state 31
+    GREATEREQ	shift, and go to state 32
+    LESSEREQ	shift, and go to state 33
+    NOTEQ	shift, and go to state 34
+    LESS	shift, and go to state 35
+    GREATER	shift, and go to state 36
+
+    $default	reduce using rule 43 (cond)
+
+    relop	go to state 37
+
+
+
+state 74
+
+    whileL  ->  WHILE OBRKT cond . CBRKT whilecontent   (rule 45)
+
+    CBRKT	shift, and go to state 77
+
+
+
+state 75
+
+    single  ->  IF OBRKT cond . CBRKT stmnt LOWER_THAN_ELSE   (rule 39)
+    single  ->  IF OBRKT cond . CBRKT stmnt ELSE stmnt   (rule 40)
+
+    CBRKT	shift, and go to state 78
+
+
+
+state 76
+
+    multiline  ->  OBRCS stmnt CBRCS .   (rule 42)
+
+    $default	reduce using rule 42 (multiline)
+
+
+
+state 77
+
+    whileL  ->  WHILE OBRKT cond CBRKT . whilecontent   (rule 45)
+
+    INT 	shift, and go to state 1
+    CHAR	shift, and go to state 2
+    FLOAT	shift, and go to state 3
+    DOUBLE	shift, and go to state 4
+    WHILE	shift, and go to state 53
+    IF  	shift, and go to state 54
+    ID  	shift, and go to state 5
+    OBRCS	shift, and go to state 79
+
+    INT 	[reduce using rule 48 (whilecontent)]
+    CHAR	[reduce using rule 48 (whilecontent)]
+    FLOAT	[reduce using rule 48 (whilecontent)]
+    DOUBLE	[reduce using rule 48 (whilecontent)]
+    WHILE	[reduce using rule 48 (whilecontent)]
+    IF  	[reduce using rule 48 (whilecontent)]
+    ID  	[reduce using rule 48 (whilecontent)]
+    OBRCS	[reduce using rule 48 (whilecontent)]
+    $default	reduce using rule 48 (whilecontent)
+
+    declr	go to state 56
+    type	go to state 57
+    assgn	go to state 58
+    single	go to state 80
+    whileL	go to state 62
+    whilecontent	go to state 81
+
+
+
+state 78
+
+    single  ->  IF OBRKT cond CBRKT . stmnt LOWER_THAN_ELSE   (rule 39)
+    single  ->  IF OBRKT cond CBRKT . stmnt ELSE stmnt   (rule 40)
+
+    INT 	shift, and go to state 1
+    CHAR	shift, and go to state 2
+    FLOAT	shift, and go to state 3
+    DOUBLE	shift, and go to state 4
+    WHILE	shift, and go to state 53
+    IF  	shift, and go to state 54
+    ID  	shift, and go to state 5
+    OBRCS	shift, and go to state 55
+
+    $default	reduce using rule 36 (stmnt)
+
+    declr	go to state 56
+    type	go to state 57
+    assgn	go to state 58
+    stmnt	go to state 82
+    single	go to state 60
+    multiline	go to state 61
+    whileL	go to state 62
+
+
+
+state 79
+
+    whilecontent  ->  OBRCS . stmnt CBRCS   (rule 47)
+
+    INT 	shift, and go to state 1
+    CHAR	shift, and go to state 2
+    FLOAT	shift, and go to state 3
+    DOUBLE	shift, and go to state 4
+    WHILE	shift, and go to state 53
+    IF  	shift, and go to state 54
+    ID  	shift, and go to state 5
+    OBRCS	shift, and go to state 55
+
+    $default	reduce using rule 36 (stmnt)
+
+    declr	go to state 56
+    type	go to state 57
+    assgn	go to state 58
+    stmnt	go to state 83
+    single	go to state 60
+    multiline	go to state 61
+    whileL	go to state 62
+
+
+
+state 80
+
+    whilecontent  ->  single .   (rule 46)
+
+    $default	reduce using rule 46 (whilecontent)
+
+
+
+state 81
+
+    whileL  ->  WHILE OBRKT cond CBRKT whilecontent .   (rule 45)
+
+    $default	reduce using rule 45 (whileL)
+
+
+
+state 82
+
+    single  ->  IF OBRKT cond CBRKT stmnt . LOWER_THAN_ELSE   (rule 39)
+    single  ->  IF OBRKT cond CBRKT stmnt . ELSE stmnt   (rule 40)
+
+    ELSE	shift, and go to state 84
+    LOWER_THAN_ELSE	shift, and go to state 85
+
+
+
+state 83
+
+    whilecontent  ->  OBRCS stmnt . CBRCS   (rule 47)
+
+    CBRCS	shift, and go to state 86
+
+
+
+state 84
+
+    single  ->  IF OBRKT cond CBRKT stmnt ELSE . stmnt   (rule 40)
+
+    INT 	shift, and go to state 1
+    CHAR	shift, and go to state 2
+    FLOAT	shift, and go to state 3
+    DOUBLE	shift, and go to state 4
+    WHILE	shift, and go to state 53
+    IF  	shift, and go to state 54
+    ID  	shift, and go to state 5
+    OBRCS	shift, and go to state 55
+
+    INT 	[reduce using rule 36 (stmnt)]
+    CHAR	[reduce using rule 36 (stmnt)]
+    FLOAT	[reduce using rule 36 (stmnt)]
+    DOUBLE	[reduce using rule 36 (stmnt)]
+    WHILE	[reduce using rule 36 (stmnt)]
+    IF  	[reduce using rule 36 (stmnt)]
+    ID  	[reduce using rule 36 (stmnt)]
+    OBRCS	[reduce using rule 36 (stmnt)]
+    $default	reduce using rule 36 (stmnt)
+
+    declr	go to state 56
+    type	go to state 57
+    assgn	go to state 58
+    stmnt	go to state 87
+    single	go to state 60
+    multiline	go to state 61
+    whileL	go to state 62
+
+
+
+state 85
+
+    single  ->  IF OBRKT cond CBRKT stmnt LOWER_THAN_ELSE .   (rule 39)
+
+    $default	reduce using rule 39 (single)
+
+
+
+state 86
+
+    whilecontent  ->  OBRCS stmnt CBRCS .   (rule 47)
+
+    $default	reduce using rule 47 (whilecontent)
+
+
+
+state 87
+
+    single  ->  IF OBRKT cond CBRKT stmnt ELSE stmnt .   (rule 40)
+
+    $default	reduce using rule 40 (single)
+
+
+
+state 88
+
+    $   	go to state 89
+
+
+
+state 89
+
+    $   	go to state 90
+
+
+
+state 90
+
+    $default	accept

@@ -1,5 +1,7 @@
 %{
-    #include <stdio.h>
+    #include<stdio.h>
+    #include "y.tab.h"
+    void yyerror(char *s);
 
     #define INT 1
     #define CHAR 2
@@ -68,8 +70,8 @@ for return FOR;
 do return DO;
 if return IF;
 else return ELSE;
-main{space}*\(\) return MAIN;
 
+main{space}*\(\) return MAIN;
 {identifier} return ID;
 {number} return NUMBER;
 \"[^"\\]*(\\.[^"\\]*)*\" return SLITERAL;

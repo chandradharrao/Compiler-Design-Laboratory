@@ -1,11 +1,14 @@
 %{
     #include<stdio.h>
-    void yyerror(char *);
-    int yylex();    
+    #include<stdlib.h>
+
+    int yydebug=1;
+
+    int yylex();  
+    void yyerror(char *);  
 %}
 
-%option yylineno
-
+%name parse
 %token INT
 %token CHAR
 %token FLOAT
@@ -57,8 +60,15 @@
 
 %start program
 
+%nonassoc LOWER_THAN_ELSE
+%nonassoc ELSE
+%left GREATER LESS GREATEREQ LESSEREQ NOTEQ
+%left ADD SUB
+%left MUL DIV
+%expect 32
+
 %%
-program :   HEADER
+program :   HEADER program
         |   mainf program
         |   declr SCOL program
         |   assgn SCOL program
@@ -72,6 +82,7 @@ type    :   INT
         |   CHAR
         |   FLOAT
         |   DOUBLE
+        ;
 
 listvar :   listvar COMMA ID
         |   ID
@@ -102,7 +113,7 @@ t       :   t MUL f
         |   f
         ;
 
-f       :   OBRKT expr CBRCS
+f       :   OBRKT expr CBRKT
         |   ID
         |   NUMBER
         ;
@@ -121,9 +132,9 @@ stmnt   :   single stmnt
 
 single  :   declr SCOL
         |   assgn SCOL
-        |   IF OBRKT cond CBRKT stmnt
+        |   IF OBRKT cond CBRKT stmnt LOWER_THAN_ELSE
         |   IF OBRKT cond CBRKT stmnt ELSE stmnt
-        |   while
+        |   whileL
         ;
 
 multiline   :   OBRCS stmnt CBRCS
@@ -133,7 +144,7 @@ cond    :   expr
         |   assgn
         ;
 
-while   :   WHILE OBRKT cond CBRKT whilecontent
+whileL   :   WHILE OBRKT cond CBRKT whilecontent
         ;
 
 whilecontent    :   single
@@ -143,10 +154,14 @@ whilecontent    :   single
 %%
 
 void yyerror(char* s){
-    fprintf(stderr,"line %d:\t%s\n",yylineno,s);
+    fprintf(stderr,"[ERROR]: %s\n",s);
 }
 
-int main(){
-    yyparse();
-    return 0;
+nt main()
+{
+if(!yyparse())
+	printf("Parsing Successful\n");
+else
+	printf("Unsuccessful\n");
+return 0;
 }
