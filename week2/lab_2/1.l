@@ -12,7 +12,6 @@
     #define IF 8
     #define ELSE 9
 
-    #define INCLUDE 10
     #define MAIN 11
     
     #define ID 12
@@ -57,6 +56,7 @@ digit [0-9]
 alphanumeric [a-zA-Z0-9]
 identifier {letter}({letter}|{digit})*
 number [+-]?{digit}{digit}*(\.{digit}+)?
+space [\n\t ]+
 
 %%
 int return INT;
@@ -68,12 +68,12 @@ for return FOR;
 do return DO;
 if return IF;
 else return ELSE;
-main return MAIN;
+main{space}*\(\) return MAIN;
 
 {identifier} return ID;
 {number} return NUMBER;
 \"[^"\\]*(\\.[^"\\]*)*\" return SLITERAL;
-\#include(\"{letter}{alphanumeric}+[\.]{letter}+\"|\<{letter}{alphanumeric}+[\.]{letter}+\>) return HEADER;
+\#include({space}*)(\"{letter}{alphanumeric}+[\.]{letter}+\"|\<{letter}{alphanumeric}+[\.]{alphanumeric}+\>) return HEADER;
 
 {identifier}\[{digit}*\] return ARR;
 \((({identifier}([,]{identifier})*)?)\) return FUNC;

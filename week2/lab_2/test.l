@@ -2,11 +2,14 @@ letter [a-zA-Z]
 digit [0-9]
 identifier {letter}({letter}|{digit})*
 number [+-]?{digit}{digit}*(\.{digit}+)?
+space [\n\t ]+
 
 %%
-main\(\) return 1;
+{letter} return 69;
+{space} return 100;
+main{space}*\(\) return 1;
 ^\"[^"\\]*(\\.[^"\\]*)*\"$ return 2;
-\#include(\"[a-zA-Z][a-zA-Z0-9]+[\.][a-zA-Z]+\"|\<[a-zA-Z][a-zA-Z0-9]+[\.][a-zA-Z]+\>) return 3;
+\#include({space}*)(\"[a-zA-Z][a-zA-Z0-9]+[\.][a-zA-Z]+\"|\<[a-zA-Z][a-zA-Z0-9]+[\.][a-zA-Z]+\>) return 3;
 \((({identifier}([,]{identifier})*)?)\) return 4;
 \((({number}([,]{number})*)?)\) return 4;
 %%
