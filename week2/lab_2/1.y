@@ -1,7 +1,10 @@
 %{
     #include<stdio.h>
+    void yyerror(char *);
     int yylex();    
 %}
+
+%option yylineno
 
 %token INT
 %token CHAR
@@ -138,3 +141,12 @@ whilecontent    :   single
                 |
                 ;
 %%
+
+void yyerror(char* s){
+    fprintf(stderr,"line %d:\t%s\n",yylineno,s);
+}
+
+int main(){
+    yyparse();
+    return 0;
+}

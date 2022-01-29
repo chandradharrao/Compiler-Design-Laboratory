@@ -103,6 +103,8 @@ main{space}*\(\) return MAIN;
 "=" return ASSI;
 ">" return GREATER;
 "<" return LESS;
+
+{space} /*do nothing for new line or white space*/;
 %%
 
 int yywrap(){
@@ -113,7 +115,7 @@ int main(){
     int scan;
     scan = yylex();
     while(scan){
-        printf("\ntoken\t%d",scan);
+        printf("token\t%d\n",scan);
         scan = yylex();
     }
     return 0;
