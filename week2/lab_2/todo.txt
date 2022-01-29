@@ -1,3 +1,4 @@
 work on NUM
 work on MAIN and include
 work on header
+work on struct field accessing
