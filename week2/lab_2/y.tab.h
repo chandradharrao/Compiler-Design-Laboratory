@@ -199,32 +199,32 @@ typedef
 #define	ID	268
 #define	NUMBER	269
 #define	SLITERAL	270
-#define	HEADER	271
-#define	EQCOMP	272
-#define	GREATEREQ	273
-#define	LESSEREQ	274
-#define	NOTEQ	275
-#define	INC	276
-#define	DEC	277
-#define	SUB	278
-#define	ADD	279
-#define	MUL	280
-#define	DIV	281
-#define	OROR	282
-#define	ANDAND	283
-#define	NOT	284
-#define	OBRKT	285
-#define	CBRKT	286
-#define	OBRCS	287
-#define	CBRCS	288
-#define	ARR	289
-#define	SCOL	290
-#define	COMMA	291
-#define	FUNC	292
-#define	ASSI	293
-#define	LESS	294
-#define	GREATER	295
-#define	LOWER_THAN_ELSE	296
+#define	CLITERAL	271
+#define	HEADER	272
+#define	EQCOMP	273
+#define	GREATEREQ	274
+#define	LESSEREQ	275
+#define	NOTEQ	276
+#define	INC	277
+#define	DEC	278
+#define	SUB	279
+#define	ADD	280
+#define	MUL	281
+#define	DIV	282
+#define	OROR	283
+#define	ANDAND	284
+#define	NOT	285
+#define	OBRKT	286
+#define	CBRKT	287
+#define	OBRCS	288
+#define	CBRCS	289
+#define	ARR	290
+#define	SCOL	291
+#define	COMMA	292
+#define	FUNC	293
+#define	ASSI	294
+#define	LESS	295
+#define	GREATER	296
 
 
 #line 169 "/usr/share/bison++/bison.h"
@@ -286,6 +286,7 @@ static const int MAIN;
 static const int ID;
 static const int NUMBER;
 static const int SLITERAL;
+static const int CLITERAL;
 static const int HEADER;
 static const int EQCOMP;
 static const int GREATEREQ;
@@ -311,7 +312,6 @@ static const int FUNC;
 static const int ASSI;
 static const int LESS;
 static const int GREATER;
-static const int LOWER_THAN_ELSE;
 
 
 #line 212 "/usr/share/bison++/bison.h"
@@ -333,32 +333,32 @@ static const int LOWER_THAN_ELSE;
 	,ID=268
 	,NUMBER=269
 	,SLITERAL=270
-	,HEADER=271
-	,EQCOMP=272
-	,GREATEREQ=273
-	,LESSEREQ=274
-	,NOTEQ=275
-	,INC=276
-	,DEC=277
-	,SUB=278
-	,ADD=279
-	,MUL=280
-	,DIV=281
-	,OROR=282
-	,ANDAND=283
-	,NOT=284
-	,OBRKT=285
-	,CBRKT=286
-	,OBRCS=287
-	,CBRCS=288
-	,ARR=289
-	,SCOL=290
-	,COMMA=291
-	,FUNC=292
-	,ASSI=293
-	,LESS=294
-	,GREATER=295
-	,LOWER_THAN_ELSE=296
+	,CLITERAL=271
+	,HEADER=272
+	,EQCOMP=273
+	,GREATEREQ=274
+	,LESSEREQ=275
+	,NOTEQ=276
+	,INC=277
+	,DEC=278
+	,SUB=279
+	,ADD=280
+	,MUL=281
+	,DIV=282
+	,OROR=283
+	,ANDAND=284
+	,NOT=285
+	,OBRKT=286
+	,CBRKT=287
+	,OBRCS=288
+	,CBRCS=289
+	,ARR=290
+	,SCOL=291
+	,COMMA=292
+	,FUNC=293
+	,ASSI=294
+	,LESS=295
+	,GREATER=296
 
 
 #line 215 "/usr/share/bison++/bison.h"

@@ -5,3 +5,12 @@ work on struct field accessing
 
 convert to make file:
 clear;lex lexer.l;yacc -d parser.y;gcc y.tab.c lex.yy.c -ll -ly;./a.out<test.c
+
+
+EXTRAS i have done:
+
+{identifier}\[{digit}*\] {DISP; return ARR;}
+\((({identifier}([,]{identifier})*)?)\) {DISP; return FUNC;}
+\((({number}([,]{number})*)?)\) {DISP; return FUNC;}
+
+\"[^"\\]*(\\.[^"\\]*)*\" {DISP; return SLITERAL;}

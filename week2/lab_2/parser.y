@@ -25,6 +25,7 @@
 %token ID 
 %token NUMBER 
 %token SLITERAL 
+%token CLITERAL
 %token HEADER 
 
 %token EQCOMP 
@@ -60,12 +61,12 @@
 
 %start program
 
-%nonassoc LOWER_THAN_ELSE
 %nonassoc ELSE
 %left GREATER LESS GREATEREQ LESSEREQ NOTEQ
 %left ADD SUB
 %left MUL DIV
-%expect 32
+%right ASSI
+%expect 41
 
 %%
 program :   HEADER program
@@ -116,6 +117,7 @@ t       :   t MUL f
 f       :   OBRKT expr CBRKT
         |   ID
         |   NUMBER
+        |   CLITERAL       
         ;
 
 mainf   :   type MAIN OBRKT empty_listvar CBRKT OBRCS stmnt CBRCS
@@ -132,7 +134,7 @@ stmnt   :   single stmnt
 
 single  :   declr SCOL
         |   assgn SCOL
-        |   IF OBRKT cond CBRKT stmnt LOWER_THAN_ELSE
+        |   IF OBRKT cond CBRKT stmnt
         |   IF OBRKT cond CBRKT stmnt ELSE stmnt
         |   whileL
         ;
