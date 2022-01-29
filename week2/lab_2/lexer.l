@@ -1,7 +1,12 @@
 %{
     #include<stdio.h>
     #include "y.tab.h"
+    #define DEBUG
+    #ifdef DEBUG
     #define DISP printf("[detected @ %d: %s]\n",yylineno,yytext)
+    #else
+    #define DISP do {} while(0)
+    #endif
     void yyerror(char *s);
 %}
 
@@ -15,7 +20,8 @@ number [+-]?{digit}{digit}*(\.{digit}+)?
 space [\n\t ]+
 
 %%
-\/\*({space}*)(.*)({space}*)\*\/ {printf("[multilinecomment]\n");}
+\/\/({space}*)(.*) ;
+"/*"([^*]|\*+[^*/])*\*+"/" ;
 
 int {DISP; return INT;}
 char {DISP; return CHAR;}
@@ -61,19 +67,43 @@ main {DISP; return MAIN;}
 ">" {DISP; return GREATER;}
 "<" {DISP; return LESS;}
 
-{space} /*do nothing for new line or white space*/;
+{space} /*do nothing*/;
 %%
 
-// int yywrap(){
-//     return 1;
-// }
+int yywrap(){
+    return 1;
+}
 
-// int main(){
-//     int scan;
-//     scan = yylex();
-//     while(scan){
-//         printf("token\t%d\n",scan);
-//         scan = yylex();
-//     }
-//     return 0;
-// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+int main(){
+    int scan;
+    scan = yylex();
+    while(scan){
+        printf("token\t%d\n",scan);
+        scan = yylex();
+    }
+    return 0;
+}
+*/

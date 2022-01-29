@@ -1,10 +1,15 @@
+/*
+This file contains valid C code
+*/
+
 #include<stdio.h>
 //This program is about testing comments in c 
 //Hello
 //Hi
 int main(){
     /* 
-    Multiline comment!*/
+    Multiline comment!
+    */
     //test
     return 0;
 }

@@ -5,6 +5,9 @@ number [+-]?{digit}{digit}*(\.{digit}+)?
 space [\n\t ]+
 
 %%
+\/\/({space}*)(.*) return 55;
+\/\*({space}*)(.*)({space}*)\*\/ return 55;
+
 int return 44;
 main{space}*\(\) return 1;
 ^\"[^"\\]*(\\.[^"\\]*)*\"$ return 2;

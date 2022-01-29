@@ -73,7 +73,7 @@ program :   HEADER program
         |   mainf program
         |   declr SCOL program
         |   assgn SCOL program
-        |
+        |   /*empty*/   
         ;
 
 declr   :   type listvar
@@ -118,18 +118,18 @@ f       :   OBRKT expr CBRKT
         |   ID
         |   NUMBER
         |   CLITERAL       
-        ;
+        ;   /*empty*/
 
 mainf   :   type MAIN OBRKT empty_listvar CBRKT OBRCS stmnt CBRCS
         ;
 
 empty_listvar   :   listvar
-                |
+                |   /*empty*/
                 ;
 
 stmnt   :   single stmnt
         |   multiline stmnt
-        |
+        |   /*empty*/
         ;
 
 single  :   declr SCOL
@@ -151,20 +151,19 @@ whileL   :   WHILE OBRKT cond CBRKT whilecontent
 
 whilecontent    :   single
                 |   OBRCS stmnt CBRCS
-                |
+                |   /*empty*/
                 ;
 %%
 
 void yyerror(char* s){
         extern int yylineno;
-    fprintf(stderr,"[ERROR at line: %d]: %s\n",yylineno,s);
+        extern char* yytext;
+    fprintf(stderr,"Syntax Error %s at line %d\n",yytext,yylineno);
 }
 
 int main()
 {
 if(!yyparse())
-	printf("Parsing Successful\n");
-else
-	printf("Unsuccessful\n");
+	printf("Valid\n");
 return 0;
 }
