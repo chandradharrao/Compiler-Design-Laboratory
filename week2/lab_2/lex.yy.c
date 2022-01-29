@@ -264,9 +264,13 @@ static void yy_flex_free YY_PROTO(( void * ));
 
 #define YY_AT_BOL() (yy_current_buffer->yy_at_bol)
 
+
+#define YY_USES_REJECT
 typedef unsigned char YY_CHAR;
 FILE *yyin = (FILE *) 0, *yyout = (FILE *) 0;
 typedef int yy_state_type;
+extern int yylineno;
+int yylineno = 1;
 extern char *yytext;
 #define yytext_ptr yytext
 
@@ -287,22 +291,39 @@ static void yy_fatal_error YY_PROTO(( yyconst char msg[] ));
 
 #define YY_NUM_RULES 41
 #define YY_END_OF_BUFFER 42
-static yyconst short int yy_accept[124] =
+static yyconst short int yy_acclist[112] =
     {   0,
-        0,    0,   42,   41,   40,   26,   41,   41,   41,   31,
-       32,   29,   28,   35,   27,   30,   12,   36,   39,   37,
-       38,   11,   11,   11,   11,   11,   11,   11,   11,   33,
-       41,   34,   40,   21,    0,   13,    0,    0,   25,   16,
-        0,    0,    0,   22,   12,   23,    0,   12,   20,   18,
-       19,   11,    0,   11,    7,   11,   11,   11,    8,   11,
-       11,   11,   24,    0,    0,   17,    0,    0,    0,   16,
-        0,    0,   12,    0,   15,   11,   11,   11,   11,    6,
-        1,   11,   11,    0,    0,    0,    0,    0,    0,    2,
-       11,    9,   11,   11,   11,    0,    0,    0,    0,   11,
+       42,   41,   40,   41,   26,   41,   41,   41,   41,   31,
+       41,   32,   41,   29,   41,   28,   41,   35,   41,   27,
+       41,   30,   41,   12,   41,   36,   41,   39,   41,   37,
+       41,   38,   41,   11,   41,   11,   41,   11,   41,   11,
+       41,   11,   41,   11,   41,   11,   41,   11,   41,   33,
+       41,   41,   34,   41,   40,   21,   13,   25,   16,   17,
+       22,   12,   23,   12,   20,   18,   19,   11,   11,    7,
+       11,   11,   11,   11,    8,   11,   11,   11,   11,   24,
+       17,   16,   12,   15,   11,   11,   11,   11,    6,   11,
+        1,   11,   11,   11,    2,   11,   11,    9,   11,   11,
 
-        3,    0,    0,    5,    0,    0,    4,   10,    0,    0,
-        0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-        0,   14,    0
+       11,   11,   11,    3,   11,    5,   11,    4,   11,   10,
+       14
+    } ;
+
+static yyconst short int yy_accept[125] =
+    {   0,
+        1,    1,    1,    2,    3,    5,    7,    8,    9,   10,
+       12,   14,   16,   18,   20,   22,   24,   26,   28,   30,
+       32,   34,   36,   38,   40,   42,   44,   46,   48,   50,
+       52,   53,   55,   56,   57,   57,   58,   58,   58,   59,
+       61,   61,   61,   61,   62,   63,   64,   64,   65,   66,
+       67,   68,   69,   69,   70,   72,   73,   74,   75,   77,
+       78,   79,   80,   81,   81,   81,   82,   82,   82,   82,
+       83,   83,   83,   84,   84,   85,   86,   87,   88,   89,
+       91,   93,   94,   95,   95,   95,   95,   95,   95,   95,
+       97,   98,  100,  101,  102,  103,  103,  103,  103,  103,
+
+      104,  106,  106,  106,  108,  108,  108,  110,  111,  111,
+      111,  111,  111,  111,  111,  111,  111,  111,  111,  111,
+      111,  111,  112,  112
     } ;
 
 static yyconst int yy_ec[256] =
@@ -460,13 +481,16 @@ static yyconst short int yy_chk[303] =
       123,  123
     } ;
 
-static yy_state_type yy_last_accepting_state;
-static char *yy_last_accepting_cpos;
-
-/* The intent behind this definition is that it'll catch
- * any uses of REJECT which flex missed.
- */
-#define REJECT reject_used_but_not_detected
+static yy_state_type yy_state_buf[YY_BUF_SIZE + 2], *yy_state_ptr;
+static char *yy_full_match;
+static int yy_lp;
+#define REJECT \
+{ \
+*yy_cp = yy_hold_char; /* undo effects of setting up yytext */ \
+yy_cp = yy_full_match; /* restore poss. backed-over text */ \
+++yy_lp; \
+goto find_rule; \
+}
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
@@ -526,7 +550,7 @@ char *yytext;
     #define ASSI 38
     #define LESS 39
     #define GREATER 40
-#line 530 "lex.yy.c"
+#line 554 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -688,9 +712,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 63 "lexer.l"
+#line 65 "lexer.l"
 
-#line 694 "lex.yy.c"
+#line 718 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -729,15 +753,12 @@ YY_DECL
 		yy_bp = yy_cp;
 
 		yy_current_state = yy_start;
+		yy_state_ptr = yy_state_buf;
+		*yy_state_ptr++ = yy_current_state;
 yy_match:
 		do
 			{
 			register YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)];
-			if ( yy_accept[yy_current_state] )
-				{
-				yy_last_accepting_state = yy_current_state;
-				yy_last_accepting_cpos = yy_cp;
-				}
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
@@ -745,242 +766,253 @@ yy_match:
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
+			*yy_state_ptr++ = yy_current_state;
 			++yy_cp;
 			}
 		while ( yy_base[yy_current_state] != 258 );
 
 yy_find_action:
-		yy_act = yy_accept[yy_current_state];
-		if ( yy_act == 0 )
-			{ /* have to back up */
-			yy_cp = yy_last_accepting_cpos;
-			yy_current_state = yy_last_accepting_state;
-			yy_act = yy_accept[yy_current_state];
+		yy_current_state = *--yy_state_ptr;
+		yy_lp = yy_accept[yy_current_state];
+find_rule: /* we branch to this label when backing up */
+		for ( ; ; ) /* until we find what rule we matched */
+			{
+			if ( yy_lp && yy_lp < yy_accept[yy_current_state + 1] )
+				{
+				yy_act = yy_acclist[yy_lp];
+					{
+					yy_full_match = yy_cp;
+					break;
+					}
+				}
+			--yy_cp;
+			yy_current_state = *--yy_state_ptr;
+			yy_lp = yy_accept[yy_current_state];
 			}
 
 		YY_DO_BEFORE_ACTION;
 
+		if ( yy_act != YY_END_OF_BUFFER )
+			{
+			int yyl;
+			for ( yyl = 0; yyl < yyleng; ++yyl )
+				if ( yytext[yyl] == '\n' )
+					++yylineno;
+			}
 
 do_action:	/* This label is used only to access EOF actions. */
 
 
 		switch ( yy_act )
 	{ /* beginning of action switch */
-			case 0: /* must back up */
-			/* undo the effects of YY_DO_BEFORE_ACTION */
-			*yy_cp = yy_hold_char;
-			yy_cp = yy_last_accepting_cpos;
-			yy_current_state = yy_last_accepting_state;
-			goto yy_find_action;
-
 case 1:
 YY_RULE_SETUP
-#line 64 "lexer.l"
+#line 66 "lexer.l"
 return INT;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 65 "lexer.l"
+#line 67 "lexer.l"
 return CHAR;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 66 "lexer.l"
+#line 68 "lexer.l"
 return FLOAT;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 67 "lexer.l"
+#line 69 "lexer.l"
 return DOUBLE;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 68 "lexer.l"
+#line 70 "lexer.l"
 return WHILE;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 69 "lexer.l"
+#line 71 "lexer.l"
 return FOR;
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 70 "lexer.l"
+#line 72 "lexer.l"
 return DO;
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 71 "lexer.l"
+#line 73 "lexer.l"
 return IF;
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 72 "lexer.l"
+#line 74 "lexer.l"
 return ELSE;
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 74 "lexer.l"
-return MAIN;
+#line 76 "lexer.l"
+{ECHO; return MAIN;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 75 "lexer.l"
-return ID;
+#line 77 "lexer.l"
+{ECHO; return ID;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 76 "lexer.l"
-return NUMBER;
+#line 78 "lexer.l"
+{ECHO; return NUMBER;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 77 "lexer.l"
-return SLITERAL;
+#line 79 "lexer.l"
+{ECHO; return SLITERAL;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 78 "lexer.l"
-return HEADER;
+#line 80 "lexer.l"
+{ECHO; return HEADER;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 80 "lexer.l"
-return ARR;
+#line 82 "lexer.l"
+{ECHO; return ARR;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 81 "lexer.l"
-return FUNC;
+#line 83 "lexer.l"
+{ECHO; return FUNC;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 82 "lexer.l"
-return FUNC;
+#line 84 "lexer.l"
+{ECHO; return FUNC;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 84 "lexer.l"
-return EQCOMP;
+#line 86 "lexer.l"
+{ECHO; return EQCOMP;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 85 "lexer.l"
-return GREATEREQ;
+#line 87 "lexer.l"
+{ECHO; return GREATEREQ;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 86 "lexer.l"
-return LESSEREQ;
+#line 88 "lexer.l"
+{ECHO; return LESSEREQ;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 87 "lexer.l"
-return NOTEQ;
+#line 89 "lexer.l"
+{ECHO; return NOTEQ;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 88 "lexer.l"
-return INC;
+#line 90 "lexer.l"
+{ECHO; return INC;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 89 "lexer.l"
-return DEC;
+#line 91 "lexer.l"
+{ECHO; return DEC;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 90 "lexer.l"
-return OROR;
+#line 92 "lexer.l"
+{ECHO; return OROR;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 91 "lexer.l"
-return ANDAND;
+#line 93 "lexer.l"
+{ECHO; return ANDAND;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 92 "lexer.l"
-return NOT; 
+#line 94 "lexer.l"
+{ECHO; return NOT; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 93 "lexer.l"
-return SUB;
+#line 95 "lexer.l"
+{ECHO; return SUB;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 94 "lexer.l"
-return ADD;
+#line 96 "lexer.l"
+{ECHO; return ADD;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 95 "lexer.l"
-return MUL;
+#line 97 "lexer.l"
+{ECHO; return MUL;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 96 "lexer.l"
-return DIV;
+#line 98 "lexer.l"
+{ECHO; return DIV;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 98 "lexer.l"
-return OBRKT;
+#line 100 "lexer.l"
+{ECHO; return OBRKT;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 99 "lexer.l"
-return CBRKT;
+#line 101 "lexer.l"
+{ECHO; return CBRKT;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 100 "lexer.l"
-return OBRCS;
+#line 102 "lexer.l"
+{ECHO; return OBRCS;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 101 "lexer.l"
-return CBRCS;
+#line 103 "lexer.l"
+{ECHO; return CBRCS;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 103 "lexer.l"
-return COMMA;
+#line 105 "lexer.l"
+{ECHO; return COMMA;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 104 "lexer.l"
-return SCOL;
+#line 106 "lexer.l"
+{ECHO; return SCOL;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 105 "lexer.l"
-return ASSI;
+#line 107 "lexer.l"
+{ECHO; return ASSI;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 106 "lexer.l"
-return GREATER;
+#line 108 "lexer.l"
+{ECHO; return GREATER;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 107 "lexer.l"
-return LESS;
+#line 109 "lexer.l"
+{ECHO; return LESS;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 109 "lexer.l"
+#line 111 "lexer.l"
 /*do nothing for new line or white space*/;
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 110 "lexer.l"
+#line 112 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 982 "lex.yy.c"
-case YY_STATE_EOF(INITIAL):
-	yyterminate();
+#line 1014 "lex.yy.c"
+			case YY_STATE_EOF(INITIAL):
+				yyterminate();
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1258,15 +1290,12 @@ static yy_state_type yy_get_previous_state()
 	register char *yy_cp;
 
 	yy_current_state = yy_start;
+	yy_state_ptr = yy_state_buf;
+	*yy_state_ptr++ = yy_current_state;
 
 	for ( yy_cp = yytext_ptr + YY_MORE_ADJ; yy_cp < yy_c_buf_p; ++yy_cp )
 		{
 		register YY_CHAR yy_c = (*yy_cp ? yy_ec[YY_SC_TO_UI(*yy_cp)] : 1);
-		if ( yy_accept[yy_current_state] )
-			{
-			yy_last_accepting_state = yy_current_state;
-			yy_last_accepting_cpos = yy_cp;
-			}
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
@@ -1274,6 +1303,7 @@ static yy_state_type yy_get_previous_state()
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
+		*yy_state_ptr++ = yy_current_state;
 		}
 
 	return yy_current_state;
@@ -1294,14 +1324,8 @@ yy_state_type yy_current_state;
 #endif
 	{
 	register int yy_is_jam;
-	register char *yy_cp = yy_c_buf_p;
 
 	register YY_CHAR yy_c = 1;
-	if ( yy_accept[yy_current_state] )
-		{
-		yy_last_accepting_state = yy_current_state;
-		yy_last_accepting_cpos = yy_cp;
-		}
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
@@ -1310,6 +1334,8 @@ yy_state_type yy_current_state;
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 	yy_is_jam = (yy_current_state == 123);
+	if ( ! yy_is_jam )
+		*yy_state_ptr++ = yy_current_state;
 
 	return yy_is_jam ? 0 : yy_current_state;
 	}
@@ -1352,6 +1378,8 @@ register char *yy_bp;
 
 	*--yy_cp = (char) c;
 
+	if ( c == '\n' )
+		--yylineno;
 
 	yytext_ptr = yy_bp;
 	yy_hold_char = *yy_cp;
@@ -1428,6 +1456,8 @@ static int input()
 	*yy_c_buf_p = '\0';	/* preserve yytext */
 	yy_hold_char = *++yy_c_buf_p;
 
+	if ( c == '\n' )
+		++yylineno;
 
 	return c;
 	}
@@ -1868,19 +1898,19 @@ int main()
 	return 0;
 	}
 #endif
-#line 110 "lexer.l"
+#line 112 "lexer.l"
 
 
-int yywrap(){
-    return 1;
-}
+// int yywrap(){
+//     return 1;
+// }
 
-int main(){
-    int scan;
-    scan = yylex();
-    while(scan){
-        printf("token\t%d\n",scan);
-        scan = yylex();
-    }
-    return 0;
-}
+// int main(){
+//     int scan;
+//     scan = yylex();
+//     while(scan){
+//         printf("token\t%d\n",scan);
+//         scan = yylex();
+//     }
+//     return 0;
+// }

@@ -1445,10 +1445,11 @@ YYLABEL(yyerrhandle)
 
 
 void yyerror(char* s){
-    fprintf(stderr,"[ERROR]: %s\n",s);
+        extern int yylineno;
+    fprintf(stderr,"[ERROR at line: %d]: %s\n",yylineno,s);
 }
 
-nt main()
+int main()
 {
 if(!yyparse())
 	printf("Parsing Successful\n");

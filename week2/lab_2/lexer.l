@@ -53,6 +53,8 @@
     #define GREATER 40
 %}
 
+%option yylineno
+
 letter [a-zA-Z]
 digit [0-9]
 alphanumeric [a-zA-Z0-9]
@@ -71,54 +73,54 @@ do return DO;
 if return IF;
 else return ELSE;
 
-main{space}*\(\) return MAIN;
-{identifier} return ID;
-{number} return NUMBER;
-\"[^"\\]*(\\.[^"\\]*)*\" return SLITERAL;
-\#include({space}*)(\"{letter}{alphanumeric}+[\.]{letter}+\"|\<{letter}{alphanumeric}+[\.]{alphanumeric}+\>) return HEADER;
+main{space}*\(\) {ECHO; return MAIN;}
+{identifier} {ECHO; return ID;}
+{number} {ECHO; return NUMBER;}
+\"[^"\\]*(\\.[^"\\]*)*\" {ECHO; return SLITERAL;}
+\#include({space}*)(\"{letter}{alphanumeric}+[\.]{letter}+\"|\<{letter}{alphanumeric}+[\.]{alphanumeric}+\>) {ECHO; return HEADER;}
 
-{identifier}\[{digit}*\] return ARR;
-\((({identifier}([,]{identifier})*)?)\) return FUNC;
-\((({number}([,]{number})*)?)\) return FUNC;
+{identifier}\[{digit}*\] {ECHO; return ARR;}
+\((({identifier}([,]{identifier})*)?)\) {ECHO; return FUNC;}
+\((({number}([,]{number})*)?)\) {ECHO; return FUNC;}
 
-"==" return EQCOMP;
-">=" return GREATEREQ;
-"<=" return LESSEREQ;
-"!=" return NOTEQ;
-"++" return INC;
-"--" return DEC;
-"||" return OROR;
-"&&" return ANDAND;
-"!" return NOT; 
-"-" return SUB;
-"+" return ADD;
-"*" return MUL;
-"/" return DIV;
+"==" {ECHO; return EQCOMP;}
+">=" {ECHO; return GREATEREQ;}
+"<=" {ECHO; return LESSEREQ;}
+"!=" {ECHO; return NOTEQ;}
+"++" {ECHO; return INC;}
+"--" {ECHO; return DEC;}
+"||" {ECHO; return OROR;}
+"&&" {ECHO; return ANDAND;}
+"!" {ECHO; return NOT; }
+"-" {ECHO; return SUB;}
+"+" {ECHO; return ADD;}
+"*" {ECHO; return MUL;}
+"/" {ECHO; return DIV;}
 
-"(" return OBRKT;
-")" return CBRKT;
-"{" return OBRCS;
-"}" return CBRCS;
+"(" {ECHO; return OBRKT;}
+")" {ECHO; return CBRKT;}
+"{" {ECHO; return OBRCS;}
+"}" {ECHO; return CBRCS;}
 
-"," return COMMA;
-";" return SCOL;
-"=" return ASSI;
-">" return GREATER;
-"<" return LESS;
+"," {ECHO; return COMMA;}
+";" {ECHO; return SCOL;}
+"=" {ECHO; return ASSI;}
+">" {ECHO; return GREATER;}
+"<" {ECHO; return LESS;}
 
 {space} /*do nothing for new line or white space*/;
 %%
 
-int yywrap(){
-    return 1;
-}
+// int yywrap(){
+//     return 1;
+// }
 
-int main(){
-    int scan;
-    scan = yylex();
-    while(scan){
-        printf("token\t%d\n",scan);
-        scan = yylex();
-    }
-    return 0;
-}
+// int main(){
+//     int scan;
+//     scan = yylex();
+//     while(scan){
+//         printf("token\t%d\n",scan);
+//         scan = yylex();
+//     }
+//     return 0;
+// }
