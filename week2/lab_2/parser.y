@@ -17,6 +17,8 @@
 %token WHILE
 %token FOR
 %token DO
+%token INC
+%token DEC
 %token IF
 %token ELSE
 
@@ -32,28 +34,22 @@
 %token GREATEREQ 
 %token LESSEREQ 
 %token NOTEQ 
-%token INC 
-%token DEC
+
 %token SUB 
 %token ADD 
 %token MUL 
 %token DIV 
+%token NOT
 
-%token OROR 
-%token ANDAND 
-%token NOT 
+%token OROR ANDAND
 
 %token OBRKT 
 %token CBRKT 
 %token OBRCS 
 %token CBRCS 
 
-%token ARR 
-
 %token SCOL 
 %token COMMA 
-
-%token FUNC 
 
 %token ASSI 
 %token LESS 
@@ -73,6 +69,7 @@ program :   HEADER program
         |   mainf program
         |   declr SCOL program
         |   assgn SCOL program
+        |   unary_expr SCOL program
         |   /*empty*/   
         ;
 
@@ -90,7 +87,15 @@ listvar :   listvar COMMA ID
         ;
 
 assgn   :   ID ASSI expr
+        |   ID ASSI unary_expr
         ;
+
+unary_expr      :       INC e
+                |       DEC e
+                |       ADD e
+                |       SUB e
+                |       NOT e 
+                ;
 
 expr    :   expr relop e
         |   e
@@ -118,7 +123,7 @@ f       :   OBRKT expr CBRKT
         |   ID
         |   NUMBER
         |   CLITERAL       
-        ;   /*empty*/
+        ;  
 
 mainf   :   type MAIN OBRKT empty_listvar CBRKT OBRCS stmnt CBRCS
         ;
@@ -134,6 +139,7 @@ stmnt   :   single stmnt
 
 single  :   declr SCOL
         |   assgn SCOL
+        |   unary_expr SCOL
         |   IF OBRKT cond CBRKT stmnt
         |   IF OBRKT cond CBRKT stmnt ELSE stmnt
         |   whileL

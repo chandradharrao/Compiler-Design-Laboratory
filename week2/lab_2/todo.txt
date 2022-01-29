@@ -6,6 +6,9 @@ work on struct field accessing
 convert to make file:
 clear;lex lexer.l;yacc -d parser.y;gcc y.tab.c lex.yy.c -ll -ly;./a.out<test.c
 
+work on unary operators like: +,- and ! [DONE]
+work on ++ and -- [DONE]
+
 
 EXTRAS i have done:
 

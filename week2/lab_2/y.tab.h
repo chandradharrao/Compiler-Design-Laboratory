@@ -193,38 +193,36 @@ typedef
 #define	WHILE	262
 #define	FOR	263
 #define	DO	264
-#define	IF	265
-#define	ELSE	266
-#define	MAIN	267
-#define	ID	268
-#define	NUMBER	269
-#define	SLITERAL	270
-#define	CLITERAL	271
-#define	HEADER	272
-#define	EQCOMP	273
-#define	GREATEREQ	274
-#define	LESSEREQ	275
-#define	NOTEQ	276
-#define	INC	277
-#define	DEC	278
+#define	INC	265
+#define	DEC	266
+#define	IF	267
+#define	ELSE	268
+#define	MAIN	269
+#define	ID	270
+#define	NUMBER	271
+#define	SLITERAL	272
+#define	CLITERAL	273
+#define	HEADER	274
+#define	EQCOMP	275
+#define	GREATEREQ	276
+#define	LESSEREQ	277
+#define	NOTEQ	278
 #define	SUB	279
 #define	ADD	280
 #define	MUL	281
 #define	DIV	282
-#define	OROR	283
-#define	ANDAND	284
-#define	NOT	285
+#define	NOT	283
+#define	OROR	284
+#define	ANDAND	285
 #define	OBRKT	286
 #define	CBRKT	287
 #define	OBRCS	288
 #define	CBRCS	289
-#define	ARR	290
-#define	SCOL	291
-#define	COMMA	292
-#define	FUNC	293
-#define	ASSI	294
-#define	LESS	295
-#define	GREATER	296
+#define	SCOL	290
+#define	COMMA	291
+#define	ASSI	292
+#define	LESS	293
+#define	GREATER	294
 
 
 #line 169 "/usr/share/bison++/bison.h"
@@ -280,6 +278,8 @@ static const int DOUBLE;
 static const int WHILE;
 static const int FOR;
 static const int DO;
+static const int INC;
+static const int DEC;
 static const int IF;
 static const int ELSE;
 static const int MAIN;
@@ -292,23 +292,19 @@ static const int EQCOMP;
 static const int GREATEREQ;
 static const int LESSEREQ;
 static const int NOTEQ;
-static const int INC;
-static const int DEC;
 static const int SUB;
 static const int ADD;
 static const int MUL;
 static const int DIV;
+static const int NOT;
 static const int OROR;
 static const int ANDAND;
-static const int NOT;
 static const int OBRKT;
 static const int CBRKT;
 static const int OBRCS;
 static const int CBRCS;
-static const int ARR;
 static const int SCOL;
 static const int COMMA;
-static const int FUNC;
 static const int ASSI;
 static const int LESS;
 static const int GREATER;
@@ -327,38 +323,36 @@ static const int GREATER;
 	,WHILE=262
 	,FOR=263
 	,DO=264
-	,IF=265
-	,ELSE=266
-	,MAIN=267
-	,ID=268
-	,NUMBER=269
-	,SLITERAL=270
-	,CLITERAL=271
-	,HEADER=272
-	,EQCOMP=273
-	,GREATEREQ=274
-	,LESSEREQ=275
-	,NOTEQ=276
-	,INC=277
-	,DEC=278
+	,INC=265
+	,DEC=266
+	,IF=267
+	,ELSE=268
+	,MAIN=269
+	,ID=270
+	,NUMBER=271
+	,SLITERAL=272
+	,CLITERAL=273
+	,HEADER=274
+	,EQCOMP=275
+	,GREATEREQ=276
+	,LESSEREQ=277
+	,NOTEQ=278
 	,SUB=279
 	,ADD=280
 	,MUL=281
 	,DIV=282
-	,OROR=283
-	,ANDAND=284
-	,NOT=285
+	,NOT=283
+	,OROR=284
+	,ANDAND=285
 	,OBRKT=286
 	,CBRKT=287
 	,OBRCS=288
 	,CBRCS=289
-	,ARR=290
-	,SCOL=291
-	,COMMA=292
-	,FUNC=293
-	,ASSI=294
-	,LESS=295
-	,GREATER=296
+	,SCOL=290
+	,COMMA=291
+	,ASSI=292
+	,LESS=293
+	,GREATER=294
 
 
 #line 215 "/usr/share/bison++/bison.h"
