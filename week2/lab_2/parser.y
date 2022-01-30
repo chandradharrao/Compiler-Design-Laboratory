@@ -62,7 +62,7 @@
 %left ADD SUB
 %left MUL DIV
 %right ASSI
-%expect 41
+%expect 66
 
 %%
 program :   HEADER program
@@ -74,6 +74,7 @@ program :   HEADER program
         ;
 
 declr   :   type listvar
+        |   type listvar ASSI expr
         ;
 
 type    :   INT
@@ -90,6 +91,11 @@ assgn   :   ID ASSI expr
         |   ID ASSI unary_expr
         ;
 
+/*
+Arithmetic operators have more precedence than binary operators
+NOT > AND > OR precedence in binary operators
+*/
+
 unary_expr      :       INC e
                 |       DEC e
                 |       ADD e
@@ -98,6 +104,7 @@ unary_expr      :       INC e
                 ;
 
 expr    :   expr relop e
+        |   unary_expr relop e
         |   e
         ;
 
@@ -109,7 +116,15 @@ relop   :   LESS
         |   NOTEQ
         ;
 
-e       :   e ADD t
+e       :   e OROR k
+        |   k
+        ;
+        
+k       :   k ANDAND u
+        |   u
+        ;
+
+u       :   e ADD t
         |   e SUB t
         |   t
         ;
