@@ -1,8 +1,9 @@
 space [\n\t ]+
 
+/*Trying to use new comment parser to allow comments inside the string literal*/
 %%
-\/\/({space}*)(.*) ;
-\/\*({space}*)(.*)({space}*)\*\/ ;
+[^"']\/\/({space}*)(.*) ;
+[^"']"/*"([^*]|\*+[^*/])*\*+"/" ;
 %%
 
 int yywrap(){

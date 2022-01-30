@@ -1,11 +1,11 @@
+#include <stdio.h>
+int main()
+{
 
-
-#include<stdio.h>
-
-
-
-int main(){
-    
-    
-    return 0;
+	int a,b; 
+	char *string = "/*Hello*/";
+    char *string2 = "//Hello";
+	a = 5 + 3;
+	b = a;
+	return 0;
 }

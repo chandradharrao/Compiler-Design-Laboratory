@@ -1,4 +1,6 @@
-/*****/
+/*
+Comment!
+*/
 
 #include <stdio.h>
 
@@ -15,12 +17,14 @@ int main(){
     b = !b;
 
     int x;
-    x =8;
+    // x =8a;
     x = ++b+a;
     a = ++b+a;
 
     x=+x+b;
     !x;
+
+    char c = '/*edwed*/';
 
     b = a > b && 45 <= sum || sum < a + b && d > 90;
 }
