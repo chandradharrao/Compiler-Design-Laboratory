@@ -2,6 +2,15 @@ work on NUM
 work on MAIN and include
 work on header
 work on struct field accessing
+work on conditional expressions(ternary operations)
+work on array declerations 
+work on for construct
+work on x+=5
+work on eliminating NUM++ or ++NUM (curr detects this as good syntax)
+work on  adding ++ID and ++ID 
+work on brackets with relational operations ++(x==x)
+work on relational operation followed by unary operation x||b++
+work on while(!-2), x++;
 
 convert to make file:
 clear;lex lexer.l;yacc -d parser.y;gcc y.tab.c lex.yy.c -ll -ly;./a.out<test.c
