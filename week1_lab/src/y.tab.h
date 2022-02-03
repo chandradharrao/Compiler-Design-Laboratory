@@ -207,22 +207,23 @@ typedef
 #define	GREATEREQ	276
 #define	LESSEREQ	277
 #define	NOTEQ	278
-#define	SUB	279
-#define	ADD	280
-#define	MUL	281
-#define	DIV	282
-#define	NOT	283
-#define	OROR	284
-#define	ANDAND	285
-#define	OBRKT	286
-#define	CBRKT	287
-#define	OBRCS	288
-#define	CBRCS	289
-#define	SCOL	290
-#define	COMMA	291
-#define	ASSI	292
-#define	LESS	293
-#define	GREATER	294
+#define	MOD	279
+#define	SUB	280
+#define	ADD	281
+#define	MUL	282
+#define	DIV	283
+#define	NOT	284
+#define	OROR	285
+#define	ANDAND	286
+#define	OBRKT	287
+#define	CBRKT	288
+#define	OBRCS	289
+#define	CBRCS	290
+#define	SCOL	291
+#define	COMMA	292
+#define	ASSI	293
+#define	LESS	294
+#define	GREATER	295
 
 
 #line 169 "/usr/share/bison++/bison.h"
@@ -292,6 +293,7 @@ static const int EQCOMP;
 static const int GREATEREQ;
 static const int LESSEREQ;
 static const int NOTEQ;
+static const int MOD;
 static const int SUB;
 static const int ADD;
 static const int MUL;
@@ -337,22 +339,23 @@ static const int GREATER;
 	,GREATEREQ=276
 	,LESSEREQ=277
 	,NOTEQ=278
-	,SUB=279
-	,ADD=280
-	,MUL=281
-	,DIV=282
-	,NOT=283
-	,OROR=284
-	,ANDAND=285
-	,OBRKT=286
-	,CBRKT=287
-	,OBRCS=288
-	,CBRCS=289
-	,SCOL=290
-	,COMMA=291
-	,ASSI=292
-	,LESS=293
-	,GREATER=294
+	,MOD=279
+	,SUB=280
+	,ADD=281
+	,MUL=282
+	,DIV=283
+	,NOT=284
+	,OROR=285
+	,ANDAND=286
+	,OBRKT=287
+	,CBRKT=288
+	,OBRCS=289
+	,CBRCS=290
+	,SCOL=291
+	,COMMA=292
+	,ASSI=293
+	,LESS=294
+	,GREATER=295
 
 
 #line 215 "/usr/share/bison++/bison.h"

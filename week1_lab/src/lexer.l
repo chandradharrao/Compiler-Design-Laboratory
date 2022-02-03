@@ -66,6 +66,7 @@ main {DISP; return MAIN;}
 "=" {DISP; return ASSI;}
 ">" {DISP; return GREATER;}
 "<" {DISP; return LESS;}
+"%" {DISP; return MOD;}
 
 {space} /*do nothing*/;
 %%
