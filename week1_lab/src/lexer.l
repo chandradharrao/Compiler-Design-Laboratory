@@ -28,7 +28,6 @@ char {DISP; return CHAR;}
 float {DISP; return FLOAT;}
 double {DISP; return DOUBLE;}
 while {DISP; return WHILE;}
-for {DISP; return FOR;}
 do {DISP; return DO;}
 if {DISP; return IF;}
 else {DISP; return ELSE;}
@@ -38,7 +37,6 @@ main {DISP; return MAIN;}
 {number} {DISP; return NUMBER;}
 \#include({space}*)(\"{letter}{alphanumeric}+[\.]{letter}+\"|\<{letter}{alphanumeric}+[\.]{letter}+\>) {DISP; return HEADER;}
 
-\"[^"\\]*(\\.[^"\\]*)*\" {DISP; return SLITERAL;}
 \'[^"\\]*(\\.[^"\\]*)*\' {DISP; return CLITERAL;}
 
 
@@ -46,8 +44,6 @@ main {DISP; return MAIN;}
 ">=" {DISP; return GREATEREQ;}
 "<=" {DISP; return LESSEREQ;}
 "!=" {DISP; return NOTEQ;}
-"++" {DISP; return INC;}
-"--" {DISP; return DEC;}
 "||" {DISP; return OROR;}
 "&&" {DISP; return ANDAND;}
 "!" {DISP; return NOT; }
