@@ -11,6 +11,12 @@ work on  adding ++ID and ++ID
 work on brackets with relational operations ++(x==x)
 work on relational operation followed by unary operation x||b++
 work on while(!-2), x++;
+"abc"+1 is valid
+but "abc"|3 is invalid
+"abc" + "abc" is invalid
+basically manage string literals and character literals
+integer array indexing only allowed (but ours allows float too
+conditional expressions)
 
 convert to make file:
 clear;lex lexer.l;yacc -d parser.y;gcc y.tab.c lex.yy.c -ll -ly;./a.out<test.c

@@ -48,6 +48,8 @@ main {DISP; return MAIN;}
 "!=" {DISP; return NOTEQ;}
 "++" {DISP; return INC;}
 "--" {DISP; return DEC;}
+"|" {DISP; return OR;}
+"&" {DISP; return AND;}
 "||" {DISP; return OROR;}
 "&&" {DISP; return ANDAND;}
 "!" {DISP; return NOT; }
@@ -60,6 +62,9 @@ main {DISP; return MAIN;}
 ")" {DISP; return CBRKT;}
 "{" {DISP; return OBRCS;}
 "}" {DISP; return CBRCS;}
+
+"[" {DISP; return ARROPEN;}
+"]" {DISP; return ARRCLOSE;}
 
 "," {DISP; return COMMA;}
 ";" {DISP; return SCOL;}

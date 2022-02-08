@@ -42,6 +42,8 @@
 %token DIV 
 %token NOT
 
+%token OR AND
+
 %token OROR ANDAND
 
 %token OBRKT 
@@ -56,6 +58,8 @@
 %token LESS 
 %token GREATER 
 
+%token ARROPEN ARRCLOSE
+
 %start program
 
 %nonassoc ELSE
@@ -67,125 +71,171 @@
 
 %%
 program :   HEADER program
-	|   mainf program
-	|   declr SCOL program
-	|   assgn SCOL program
-	|   unary_expr SCOL program
-	|   /*empty*/   
-	;
+		|   mainf program
+		|   declr SCOL program
+		|	assgn SCOL program
+		|   /*empty*/   
+		;
+
+mainf   :   type MAIN OBRKT empty_listvar CBRKT OBRCS stmnt CBRCS
+		;
+
+empty_listvar   :   listvar
+				|   /*empty*/
+				;
+
+stmnt   :   single stmnt
+		|   multiline stmnt
+		|   /*empty*/
+		;
+
+single  :   declr SCOL
+		|   assgn SCOL
+		|   IF OBRKT cond CBRKT stmnt
+		|   IF OBRKT cond CBRKT stmnt ELSE stmnt
+		|   iterators
+		;
+
+multiline   :   OBRCS stmnt CBRCS
+			;
+
+cond    :   expr
+		|   assgn
+		;
 
 /*Decleration*/
 declr   :   type listvar
-	|   type listvar ASSI expr
-	;
-
-type    :   INT
-	|   CHAR
-	|   FLOAT
-	|   DOUBLE
-	;
-
-listvar :   listvar COMMA ID
-	|   ID
-	;
-
-assgn   :   ID ASSI expr
-	|   ID ASSI unary_expr
-	;
-
-/*
-Arithmetic operators have more precedence than binary operators
-NOT > AND > OR precedence in binary operators
-*/
-
-unary_expr      :       ADD e
-		|       SUB e
-		|       NOT e 
+		|   type listvar ASSI expr
 		;
 
-/*Arithmetic expression
+type    :   INT
+		|   CHAR
+		|   FLOAT
+		|   DOUBLE
+		;
+
+listvar :   listvar COMMA ID
+		|   ID
+		|	ID ARROPEN NUMBER ARRCLOSE
+		;
+
+/*
+Arithmetic expression
 Relational expressions
 Conditional/ternary expressions,(todo)
 Relational Expressions,
 Logical Expressions,
-Unary Expression (todo properly)
+Binary Expressions
+Unary Expression
+
+Precedence: Highest ---to---> lowest
+
+conditional expr
+||
+&&
+|
+&
+== , !=
+< , > , <= , >=
++ , -
+*|
++ , - , ++ , -- !
+() , []
 */
-expr    :   expr relop e
-	|   unary_expr relop e
-	|   e
-	;
+expr    :	expr OROR relAndExpr
+		|	relAndExpr
+		;
+
+relAndExpr	:	relAndExpr ANDAND bitOrExpr
+			|	bitOrExpr
+			;
+
+bitOrExpr	:	bitOrExpr OR bitAndExpr
+			|	bitAndExpr
+			;
+
+bitAndExpr	:	bitAndExpr AND equality
+			|	equality
+			;
+
+equality	:	equality eqop relExpr
+			|	relExpr
+			;
+
+eqop		:	EQCOMP
+			|	NOTEQ
+			;
+
+relExpr		:	arithExpr relop arithExpr
+			|	arithExpr
+			;
 
 relop   :   LESS
-	|   LESSEREQ
-	|   GREATER
-	|   GREATEREQ
-	|   EQCOMP
-	|   NOTEQ
-	;
-
-e       :   e OROR k
-	|   k
-	;
-	
-k       :   k ANDAND u
-	|   u
-	;
-
-u       :   e ADD t
-	|   e SUB t
-	|   t
-	;
-
-t       :   t MUL f
-	|   t DIV f
-	|   t MOD f
-	|   f
-	;
-
-f       :   OBRKT expr CBRKT
-	|   ID
-	|   NUMBER
-	|   CLITERAL       
-	;  
-
-mainf   :   type MAIN OBRKT empty_listvar CBRKT OBRCS stmnt CBRCS
-	;
-
-empty_listvar   :   listvar
-		|   /*empty*/
+		|   LESSEREQ
+		|   GREATER
+		|   GREATEREQ
 		;
 
-stmnt   :   single stmnt
-	|   multiline stmnt
-	|   /*empty*/
+arithExpr	:	arithExpr ADD muldivExpr
+			|	arithExpr SUB muldivExpr
+			|	muldivExpr
+			;
+
+muldivExpr	:	muldivExpr MUL unaryExpr
+			|	muldivExpr DIV unaryExpr
+			|	unaryExpr
+			;
+
+unaryExpr	:	ADD unaryExpr
+			|	SUB unaryExpr
+			|	NOT unaryExpr
+			|	INC var
+			|	DEC var
+			|	var INC
+			|	var DEC
+			|	term
+			;
+
+var	:	ID
+	|	ARROPEN expr ARRCLOSE /*Array decleration*/
 	;
 
-single  :   declr SCOL
-	|   assgn SCOL
-	|   unary_expr SCOL
-	|   IF OBRKT cond CBRKT stmnt
-	|   IF OBRKT cond CBRKT stmnt ELSE stmnt
-	|   whileL
-	|   dowhile
+term	:	var
+		|	iconst //immutable constant - non variable expressions
+		;
+
+iconst	:	OBRKT expr CBRKT
+		| 	NUMBER
+		| 	CLITERAL
+		|	SLITERAL
+		;
+
+assgn   :   ID ASSI expr
+		;
+
+iterators	:	whileL
+			|	dowhile
+			|	for
+			;
+
+for	:	FOR OBRKT forExpr SCOL forExpr SCOL forExpr SCOL CBRKT
 	;
 
-multiline   :   OBRCS stmnt CBRCS
-	    ;
+forExpr	:	expr
+		|	/*Empty*/
+		;
 
-cond    :   expr
-	|   assgn
-	;
 
 whileL   :   WHILE OBRKT cond CBRKT whilecontent
-	 ;
+	 	 ;
 
 dowhile	:	DO whilecontent WHILE OBRCS cond CBRCS SCOL
-	;
+		;
 
 whilecontent    :   single /*without using braces*/
-		|   OBRCS stmnt CBRCS
-		|   /*empty*/
-		;
+				|   OBRCS stmnt CBRCS
+				|   /*empty*/
+				;
 %%
 
 void yyerror(char* s){
