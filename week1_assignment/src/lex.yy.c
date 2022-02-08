@@ -488,7 +488,7 @@ char *yytext;
 #line 2 "lexer.l"
     #include<stdio.h>
     #include "y.tab.h"
-    #define DEBUG
+    // #define DEBUG
     #ifdef DEBUG
     #define DISP printf("[detected @ %d: %s]\n",yylineno,yytext)
     #else

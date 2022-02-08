@@ -126,7 +126,7 @@ listvar :   listvar COMMA ID
 		;
 
 /*Array decleration*/
-arrID	:	ID ARROPEN arrIndx ARRCLOSE arrInit
+arrID	:	ID ARROPEN arrIndx ARRCLOSE
 		;
 
 arrIndx	:	PUREINT
@@ -144,8 +144,8 @@ arrInit	:	ASSI OBRCS arrContent CBRCS
 		|	/*Empty*/
 		;
 
-arrList	:	arrList COMMA arrID 
-		|	arrID
+arrList	:	arrList COMMA arrID arrInit
+		|	arrID arrInit
 		;
 
 arrContent	:	number
