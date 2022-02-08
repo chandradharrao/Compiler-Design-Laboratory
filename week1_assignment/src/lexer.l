@@ -16,6 +16,7 @@ letter [a-zA-Z]
 digit [0-9]
 alphanumeric [a-zA-Z0-9]
 identifier ({letter}|_)({letter}|{digit}|_)*
+pureint [+-]?{digit}+
 number [+-]?{digit}{digit}*(\.{digit}+)?
 space [\n\t ]+
 
@@ -35,6 +36,7 @@ else {DISP; return ELSE;}
 
 main {DISP; return MAIN;}
 {identifier} {DISP; return ID;}
+{pureint} {DISP; return PUREINT;}
 {number} {DISP; return NUMBER;}
 \#include({space}*)(\"{letter}{alphanumeric}+[\.]{letter}+\"|\<{letter}{alphanumeric}+[\.]{letter}+\>) {DISP; return HEADER;}
 

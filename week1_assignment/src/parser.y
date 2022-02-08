@@ -25,7 +25,7 @@
 %token MAIN 
 
 %token ID 
-%token NUMBER 
+%token NUMBER PUREINT
 %token SLITERAL 
 %token CLITERAL
 %token HEADER 
@@ -73,6 +73,7 @@
 program :   HEADER program
 		|   mainf program
 		|   declr SCOL program
+		|	arrDeclr SCOL program
 		|	assgn SCOL program
 		|   /*empty*/   
 		;
@@ -90,6 +91,7 @@ stmnt   :   single stmnt
 		;
 
 single  :   declr SCOL
+		|	arrDeclr SCOL
 		|   assgn SCOL
 		|	expr SCOL
 		|   IF OBRKT cond CBRKT stmnt
@@ -98,6 +100,7 @@ single  :   declr SCOL
 		;
 
 assgn   :   ID ASSI expr
+		|	arrID ASSI expr /*Array assignment*/
 		;
 
 multiline   :   OBRCS stmnt CBRCS
@@ -120,8 +123,35 @@ type    :   INT
 
 listvar :   listvar COMMA ID
 		|   ID
-		/* |	ID ARROPEN NUMBER ARRCLOSE */
 		;
+
+/*Array decleration*/
+arrID	:	ID ARROPEN arrIndx ARRCLOSE arrInit
+		;
+
+arrIndx	:	PUREINT
+		|	expr
+		|	/*Empty*/
+		;
+
+arrDeclr	:	type  arrList
+			|	type arrList arrInit
+			;
+
+arrInit	:	ASSI OBRCS arrContent CBRCS
+		|	ASSI SLITERAL
+		|	ASSI CLITERAL
+		|	/*Empty*/
+		;
+
+arrList	:	arrList COMMA arrID 
+		|	arrID
+		;
+
+arrContent	:	number
+			|	number COMMA arrContent
+			| 	CLITERAL COMMA arrContent
+			;
 
 /*
 Arithmetic expression
@@ -142,7 +172,7 @@ conditional expr
 == , !=
 < , > , <= , >=
 + , -
-*|
+* / %
 + , - , ++ , -- !
 () , []
 */
@@ -187,6 +217,7 @@ arithExpr	:	arithExpr ADD muldivExpr
 
 muldivExpr	:	muldivExpr MUL unaryExpr
 			|	muldivExpr DIV unaryExpr
+			|	muldivExpr MOD unaryExpr
 			|	unaryExpr
 			;
 
@@ -201,15 +232,19 @@ unaryExpr	:	ADD unaryExpr
 			;
 
 var	:	ID
-	/* |	ARROPEN expr ARRCLOSE Array decleration */
+	|	arrID /*using arr[i] in various kinds if expressions*/
 	;
 
 term	:	var
 		|	iconst //immutable constant - non variable expressions
 		;
 
+number	:	NUMBER
+		|	PUREINT
+		;
+
 iconst	:	OBRKT expr CBRKT
-		| 	NUMBER
+		| 	number
 		| 	CLITERAL
 		|	SLITERAL
 		;
@@ -219,9 +254,12 @@ iterators	:	whileL
 			|	for
 			;
 
-for	:	FOR OBRKT declr SCOL expr SCOL expr CBRKT stmnt 
+for	:	FOR OBRKT forDeclr SCOL expr SCOL expr CBRKT stmnt 
 	;
 
+forDeclr	:	declr
+			|	arrDeclr
+			;
 
 whileL   :   WHILE OBRKT cond CBRKT whilecontent
 	 	 ;

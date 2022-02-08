@@ -289,41 +289,41 @@ static void yy_fatal_error YY_PROTO(( yyconst char msg[] ));
 	*yy_cp = '\0'; \
 	yy_c_buf_p = yy_cp;
 
-#define YY_NUM_RULES 46
-#define YY_END_OF_BUFFER 47
-static yyconst short int yy_acclist[123] =
+#define YY_NUM_RULES 47
+#define YY_END_OF_BUFFER 48
+static yyconst short int yy_acclist[126] =
     {   0,
-       47,   46,   45,   46,   28,   46,   46,   46,   44,   46,
-       25,   46,   46,   33,   46,   34,   46,   31,   46,   30,
-       46,   39,   46,   29,   46,   32,   46,   14,   46,   40,
-       46,   43,   46,   41,   46,   42,   46,   13,   46,   37,
-       46,   38,   46,   13,   46,   13,   46,   13,   46,   13,
-       46,   13,   46,   13,   46,   13,   46,   35,   46,   24,
-       46,   36,   46,   45,   21,   16,   27,   17,   22,   14,
-       23,    1,   14,   20,   18,   19,   13,   13,    9,   13,
-       13,   13,   13,   10,   13,   13,   13,   13,   26,    1,
-        1,    1,   14,   13,   13,   13,   13,    8,   13,    3,
+       48,   47,   46,   47,   29,   47,   47,   47,   45,   47,
+       26,   47,   47,   34,   47,   35,   47,   32,   47,   31,
+       47,   40,   47,   30,   47,   33,   47,   14,   15,   47,
+       41,   47,   44,   47,   42,   47,   43,   47,   13,   47,
+       38,   47,   39,   47,   13,   47,   13,   47,   13,   47,
+       13,   47,   13,   47,   13,   47,   13,   47,   36,   47,
+       25,   47,   37,   47,   46,   22,   17,   28,   18,   23,
+       14,   15,   24,    1,   14,   15,   21,   19,   20,   13,
+       13,    9,   13,   13,   13,   13,   10,   13,   13,   13,
+       13,   27,    1,    1,    1,   15,   13,   13,   13,   13,
 
-       13,   13,   13,   17,    2,    4,   13,   13,   11,   13,
-       13,   12,   13,   13,   13,    5,   13,    7,   13,    6,
-       13,   15
+        8,   13,    3,   13,   13,   13,   18,    2,    4,   13,
+       13,   11,   13,   13,   12,   13,   13,   13,    5,   13,
+        7,   13,    6,   13,   16
     } ;
 
 static yyconst short int yy_accept[118] =
     {   0,
         1,    1,    1,    2,    3,    5,    7,    8,    9,   11,
-       13,   14,   16,   18,   20,   22,   24,   26,   28,   30,
-       32,   34,   36,   38,   40,   42,   44,   46,   48,   50,
-       52,   54,   56,   58,   60,   62,   64,   65,   66,   66,
-       67,   67,   67,   68,   68,   69,   69,   70,   71,   72,
-       72,   73,   73,   74,   75,   76,   77,   78,   79,   81,
-       82,   83,   84,   86,   87,   88,   89,   90,   90,   90,
-       90,   90,   90,   91,   92,   93,   94,   95,   96,   97,
-       98,  100,  102,  103,  104,  104,  104,  104,  105,  106,
-      108,  109,  111,  112,  114,  115,  115,  116,  118,  120,
+       13,   14,   16,   18,   20,   22,   24,   26,   28,   31,
+       33,   35,   37,   39,   41,   43,   45,   47,   49,   51,
+       53,   55,   57,   59,   61,   63,   65,   66,   67,   67,
+       68,   68,   68,   69,   69,   70,   70,   71,   73,   74,
+       74,   75,   75,   77,   78,   79,   80,   81,   82,   84,
+       85,   86,   87,   89,   90,   91,   92,   93,   93,   93,
+       93,   93,   93,   94,   95,   96,   97,   98,   99,  100,
+      101,  103,  105,  106,  107,  107,  107,  107,  108,  109,
+      111,  112,  114,  115,  117,  118,  118,  119,  121,  123,
 
-      120,  122,  122,  122,  122,  122,  122,  122,  122,  122,
-      122,  122,  122,  122,  122,  123,  123
+      123,  125,  125,  125,  125,  125,  125,  125,  125,  125,
+      125,  125,  125,  125,  125,  126,  126
     } ;
 
 static yyconst int yy_ec[256] =
@@ -657,7 +657,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 22 "lexer.l"
+#line 23 "lexer.l"
 
 #line 663 "lex.yy.c"
 
@@ -752,235 +752,240 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 23 "lexer.l"
+#line 24 "lexer.l"
 ;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 24 "lexer.l"
+#line 25 "lexer.l"
 ;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 26 "lexer.l"
+#line 27 "lexer.l"
 {DISP; return INT;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 27 "lexer.l"
+#line 28 "lexer.l"
 {DISP; return CHAR;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 28 "lexer.l"
+#line 29 "lexer.l"
 {DISP; return FLOAT;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 29 "lexer.l"
+#line 30 "lexer.l"
 {DISP; return DOUBLE;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 30 "lexer.l"
+#line 31 "lexer.l"
 {DISP; return WHILE;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 31 "lexer.l"
+#line 32 "lexer.l"
 {DISP; return FOR;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 32 "lexer.l"
+#line 33 "lexer.l"
 {DISP; return DO;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 33 "lexer.l"
+#line 34 "lexer.l"
 {DISP; return IF;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 34 "lexer.l"
+#line 35 "lexer.l"
 {DISP; return ELSE;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 36 "lexer.l"
+#line 37 "lexer.l"
 {DISP; return MAIN;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 37 "lexer.l"
+#line 38 "lexer.l"
 {DISP; return ID;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 38 "lexer.l"
-{DISP; return NUMBER;}
+#line 39 "lexer.l"
+{DISP; return PUREINT;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 39 "lexer.l"
-{DISP; return HEADER;}
+#line 40 "lexer.l"
+{DISP; return NUMBER;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 41 "lexer.l"
-{DISP; return SLITERAL;}
+{DISP; return HEADER;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 42 "lexer.l"
-{DISP; return CLITERAL;}
+#line 43 "lexer.l"
+{DISP; return SLITERAL;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 45 "lexer.l"
-{DISP; return EQCOMP;}
+#line 44 "lexer.l"
+{DISP; return CLITERAL;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 46 "lexer.l"
-{DISP; return GREATEREQ;}
+#line 47 "lexer.l"
+{DISP; return EQCOMP;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 47 "lexer.l"
-{DISP; return LESSEREQ;}
+#line 48 "lexer.l"
+{DISP; return GREATEREQ;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 48 "lexer.l"
-{DISP; return NOTEQ;}
+#line 49 "lexer.l"
+{DISP; return LESSEREQ;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 49 "lexer.l"
-{DISP; return INC;}
+#line 50 "lexer.l"
+{DISP; return NOTEQ;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 50 "lexer.l"
-{DISP; return DEC;}
+#line 51 "lexer.l"
+{DISP; return INC;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 51 "lexer.l"
-{DISP; return OR;}
+#line 52 "lexer.l"
+{DISP; return DEC;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 52 "lexer.l"
-{DISP; return AND;}
+#line 53 "lexer.l"
+{DISP; return OR;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 53 "lexer.l"
-{DISP; return OROR;}
+#line 54 "lexer.l"
+{DISP; return AND;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 54 "lexer.l"
-{DISP; return ANDAND;}
+#line 55 "lexer.l"
+{DISP; return OROR;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 55 "lexer.l"
-{DISP; return NOT; }
+#line 56 "lexer.l"
+{DISP; return ANDAND;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 56 "lexer.l"
-{DISP; return SUB;}
+#line 57 "lexer.l"
+{DISP; return NOT; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 57 "lexer.l"
-{DISP; return ADD;}
+#line 58 "lexer.l"
+{DISP; return SUB;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 58 "lexer.l"
-{DISP; return MUL;}
+#line 59 "lexer.l"
+{DISP; return ADD;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 59 "lexer.l"
-{DISP; return DIV;}
+#line 60 "lexer.l"
+{DISP; return MUL;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 61 "lexer.l"
-{DISP; return OBRKT;}
+{DISP; return DIV;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 62 "lexer.l"
-{DISP; return CBRKT;}
+#line 63 "lexer.l"
+{DISP; return OBRKT;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 63 "lexer.l"
-{DISP; return OBRCS;}
+#line 64 "lexer.l"
+{DISP; return CBRKT;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 64 "lexer.l"
-{DISP; return CBRCS;}
+#line 65 "lexer.l"
+{DISP; return OBRCS;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 66 "lexer.l"
-{DISP; return ARROPEN;}
+{DISP; return CBRCS;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 67 "lexer.l"
-{DISP; return ARRCLOSE;}
+#line 68 "lexer.l"
+{DISP; return ARROPEN;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
 #line 69 "lexer.l"
-{DISP; return COMMA;}
+{DISP; return ARRCLOSE;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 70 "lexer.l"
-{DISP; return SCOL;}
+#line 71 "lexer.l"
+{DISP; return COMMA;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 71 "lexer.l"
-{DISP; return ASSI;}
+#line 72 "lexer.l"
+{DISP; return SCOL;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 72 "lexer.l"
-{DISP; return GREATER;}
+#line 73 "lexer.l"
+{DISP; return ASSI;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 73 "lexer.l"
-{DISP; return LESS;}
+#line 74 "lexer.l"
+{DISP; return GREATER;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 74 "lexer.l"
-{DISP; return MOD;}
+#line 75 "lexer.l"
+{DISP; return LESS;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
 #line 76 "lexer.l"
-/*do nothing*/;
+{DISP; return MOD;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 77 "lexer.l"
+#line 78 "lexer.l"
+/*do nothing*/;
+	YY_BREAK
+case 47:
+YY_RULE_SETUP
+#line 79 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 984 "lex.yy.c"
+#line 989 "lex.yy.c"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1868,7 +1873,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 77 "lexer.l"
+#line 79 "lexer.l"
 
 
 int yywrap(){
