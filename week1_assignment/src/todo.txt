@@ -17,6 +17,7 @@ but "abc"|3 is invalid
 basically manage string literals and character literals
 integer array indexing only allowed (but ours allows float too
 conditional expressions)
+array decleration
 
 convert to make file:
 clear;lex lexer.l;yacc -d parser.y;gcc y.tab.c lex.yy.c -ll -ly;./a.out<test.c

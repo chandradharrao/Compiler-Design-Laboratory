@@ -67,7 +67,7 @@
 %left ADD SUB
 %left MUL DIV
 %right ASSI
-%expect 66
+%expect 102
 
 %%
 program :   HEADER program
@@ -91,9 +91,13 @@ stmnt   :   single stmnt
 
 single  :   declr SCOL
 		|   assgn SCOL
+		|	expr SCOL
 		|   IF OBRKT cond CBRKT stmnt
 		|   IF OBRKT cond CBRKT stmnt ELSE stmnt
 		|   iterators
+		;
+
+assgn   :   ID ASSI expr
 		;
 
 multiline   :   OBRCS stmnt CBRCS
@@ -116,7 +120,7 @@ type    :   INT
 
 listvar :   listvar COMMA ID
 		|   ID
-		|	ID ARROPEN NUMBER ARRCLOSE
+		/* |	ID ARROPEN NUMBER ARRCLOSE */
 		;
 
 /*
@@ -197,7 +201,7 @@ unaryExpr	:	ADD unaryExpr
 			;
 
 var	:	ID
-	|	ARROPEN expr ARRCLOSE /*Array decleration*/
+	/* |	ARROPEN expr ARRCLOSE Array decleration */
 	;
 
 term	:	var
@@ -210,20 +214,13 @@ iconst	:	OBRKT expr CBRKT
 		|	SLITERAL
 		;
 
-assgn   :   ID ASSI expr
-		;
-
 iterators	:	whileL
 			|	dowhile
 			|	for
 			;
 
-for	:	FOR OBRKT forExpr SCOL forExpr SCOL forExpr SCOL CBRKT
+for	:	FOR OBRKT declr SCOL expr SCOL expr CBRKT stmnt 
 	;
-
-forExpr	:	expr
-		|	/*Empty*/
-		;
 
 
 whileL   :   WHILE OBRKT cond CBRKT whilecontent

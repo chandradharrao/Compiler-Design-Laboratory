@@ -213,17 +213,21 @@ typedef
 #define	MUL	282
 #define	DIV	283
 #define	NOT	284
-#define	OROR	285
-#define	ANDAND	286
-#define	OBRKT	287
-#define	CBRKT	288
-#define	OBRCS	289
-#define	CBRCS	290
-#define	SCOL	291
-#define	COMMA	292
-#define	ASSI	293
-#define	LESS	294
-#define	GREATER	295
+#define	OR	285
+#define	AND	286
+#define	OROR	287
+#define	ANDAND	288
+#define	OBRKT	289
+#define	CBRKT	290
+#define	OBRCS	291
+#define	CBRCS	292
+#define	SCOL	293
+#define	COMMA	294
+#define	ASSI	295
+#define	LESS	296
+#define	GREATER	297
+#define	ARROPEN	298
+#define	ARRCLOSE	299
 
 
 #line 169 "/usr/share/bison++/bison.h"
@@ -299,6 +303,8 @@ static const int ADD;
 static const int MUL;
 static const int DIV;
 static const int NOT;
+static const int OR;
+static const int AND;
 static const int OROR;
 static const int ANDAND;
 static const int OBRKT;
@@ -310,6 +316,8 @@ static const int COMMA;
 static const int ASSI;
 static const int LESS;
 static const int GREATER;
+static const int ARROPEN;
+static const int ARRCLOSE;
 
 
 #line 212 "/usr/share/bison++/bison.h"
@@ -345,17 +353,21 @@ static const int GREATER;
 	,MUL=282
 	,DIV=283
 	,NOT=284
-	,OROR=285
-	,ANDAND=286
-	,OBRKT=287
-	,CBRKT=288
-	,OBRCS=289
-	,CBRCS=290
-	,SCOL=291
-	,COMMA=292
-	,ASSI=293
-	,LESS=294
-	,GREATER=295
+	,OR=285
+	,AND=286
+	,OROR=287
+	,ANDAND=288
+	,OBRKT=289
+	,CBRKT=290
+	,OBRCS=291
+	,CBRCS=292
+	,SCOL=293
+	,COMMA=294
+	,ASSI=295
+	,LESS=296
+	,GREATER=297
+	,ARROPEN=298
+	,ARRCLOSE=299
 
 
 #line 215 "/usr/share/bison++/bison.h"
