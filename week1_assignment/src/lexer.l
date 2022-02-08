@@ -16,8 +16,8 @@ letter [a-zA-Z]
 digit [0-9]
 alphanumeric [a-zA-Z0-9]
 identifier ({letter}|_)({letter}|{digit}|_)*
-pureint [+-]?{digit}+
-number [+-]?{digit}{digit}*(\.{digit}+)?
+pureint {digit}+
+number {digit}{digit}*(\.{digit}+)?
 space [\n\t ]+
 
 %%

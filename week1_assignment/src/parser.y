@@ -78,13 +78,16 @@ program :   HEADER program
 		|   /*empty*/   
 		;
 
+/*main function (not compulsory for a program) */
 mainf   :   type MAIN OBRKT empty_listvar CBRKT OBRCS stmnt CBRCS
 		;
 
+/*parameter for main function*/
 empty_listvar   :   listvar
 				|   /*empty*/
 				;
 
+/*Stmnts can be single or multiline ones*/
 stmnt   :   single stmnt
 		|   multiline stmnt
 		|   /*empty*/
@@ -99,10 +102,6 @@ single  :   declr SCOL
 		|   iterators
 		;
 
-assgn   :   ID ASSI expr
-		|	arrID ASSI expr /*Array assignment*/
-		;
-
 multiline   :   OBRCS stmnt CBRCS
 			;
 
@@ -110,7 +109,12 @@ cond    :   expr
 		|   assgn
 		;
 
-/*Decleration*/
+/*Can be array assignment or variable assignment only*/
+assgn   :   ID ASSI expr
+		|	arrID ASSI expr /*Array assignment*/
+		;
+
+/*Non array variable Decleration*/
 declr   :   type listvar
 		|   type listvar ASSI expr
 		;
@@ -131,6 +135,7 @@ arrID	:	ID ARROPEN arrIndx ARRCLOSE
 
 arrIndx	:	PUREINT
 		|	expr
+		|	assgn
 		|	/*Empty*/
 		;
 
@@ -231,32 +236,39 @@ unaryExpr	:	ADD unaryExpr
 			|	term
 			;
 
-var	:	ID
-	|	arrID /*using arr[i] in various kinds if expressions*/
-	;
-
+/*Non terminal*/		
 term	:	var
 		|	iconst //immutable constant - non variable expressions
 		;
 
+/*Variables are mutables : Identifiers and array[indx] */
+var	:	ID
+	|	arrID /*using arr[i] in various kinds if expressions*/
+	;
+
+/*Number can be an INTEGER or non integer*/
 number	:	NUMBER
 		|	PUREINT
 		;
 
+/* constants*/
 iconst	:	OBRKT expr CBRKT
 		| 	number
 		| 	CLITERAL
 		|	SLITERAL
 		;
 
+/*iteratos like while,do while and for loop*/
 iterators	:	whileL
 			|	dowhile
 			|	for
 			;
 
+/* For loop*/
 for	:	FOR OBRKT forDeclr SCOL expr SCOL expr CBRKT stmnt 
 	;
 
+/*the decleration can be an array initialization or a variable intiialization or nothing*/
 forDeclr	:	declr
 			|	arrDeclr
 			;
