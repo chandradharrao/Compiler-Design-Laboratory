@@ -83,7 +83,7 @@ mainf   :   type MAIN OBRKT empty_listvar CBRKT OBRCS stmnt CBRCS
 		;
 
 /*parameter for main function*/
-empty_listvar   :   listvar
+empty_listvar   :   varList
 				|   /*empty*/
 				;
 
@@ -116,8 +116,8 @@ assgn   :   ID ASSI expr
 		;
 
 /*Non array variable Decleration*/
-declr   :   type listvar
-		|   type listvar ASSI expr
+declr   :   type varList
+		|   type varList ASSI expr
 		;
 
 type    :   INT
@@ -126,9 +126,9 @@ type    :   INT
 		|   DOUBLE
 		;
 
-listvar :   listvar COMMA ID
+varList :   varList COMMA ID
 		|   ID
-		|	listvar COMMA arrID arrInit
+		|	varList COMMA arrID arrInit /*array initialization*/
 		|	arrID arrInit
 		;
 
@@ -142,8 +142,8 @@ arrIndx	:	PUREINT
 		|	/*Empty*/
 		;
 
-arrDeclr	:	type  listvar
-			|	type listvar arrInit
+arrDeclr	:	type  varList
+			|	type varList arrInit
 			;
 
 arrInit	:	ASSI OBRCS arrContent CBRCS
@@ -151,10 +151,6 @@ arrInit	:	ASSI OBRCS arrContent CBRCS
 		|	ASSI CLITERAL
 		|	/*Empty*/
 		;
-
-/* arrList	:	arrList COMMA arrID arrInit
-		|	arrID arrInit
-		; */
 
 arrContent	:	number
 			|	number COMMA arrContent
