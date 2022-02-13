@@ -1,9 +1,9 @@
 %{
     #include<stdio.h>
     #include "y.tab.h"
-    // #define DEBUG
+    #define DEBUG
     #ifdef DEBUG
-    #define DISP printf("[detected @ %d: %s]\n",yylineno,yytext)
+    #define DISP printf("detected @ %d: %s\n",yylineno,yytext)
     #else
     #define DISP do {} while(0)
     #endif

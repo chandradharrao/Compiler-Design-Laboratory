@@ -67,7 +67,7 @@
 %left ADD SUB
 %left MUL DIV
 %right ASSI
-%expect 102
+%expect 130
 
 %%
 program :   HEADER program
@@ -100,6 +100,7 @@ single  :   declr SCOL
 		|   IF OBRKT cond CBRKT stmnt
 		|   IF OBRKT cond CBRKT stmnt ELSE stmnt
 		|   iterators
+		|	SCOL /*only semi colons allowed*/
 		;
 
 multiline   :   OBRCS stmnt CBRCS
@@ -276,7 +277,7 @@ forDeclr	:	declr
 whileL   :   WHILE OBRKT cond CBRKT whilecontent
 	 	 ;
 
-dowhile	:	DO whilecontent WHILE OBRCS cond CBRCS SCOL
+dowhile	:	DO whilecontent WHILE OBRKT cond CBRKT SCOL
 		;
 
 whilecontent    :   single /*without using braces*/
