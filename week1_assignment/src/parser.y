@@ -128,6 +128,8 @@ type    :   INT
 
 listvar :   listvar COMMA ID
 		|   ID
+		|	listvar COMMA arrID arrInit
+		|	arrID arrInit
 		;
 
 /*Array decleration*/
@@ -140,8 +142,8 @@ arrIndx	:	PUREINT
 		|	/*Empty*/
 		;
 
-arrDeclr	:	type  arrList
-			|	type arrList arrInit
+arrDeclr	:	type  listvar
+			|	type listvar arrInit
 			;
 
 arrInit	:	ASSI OBRCS arrContent CBRCS
@@ -150,9 +152,9 @@ arrInit	:	ASSI OBRCS arrContent CBRCS
 		|	/*Empty*/
 		;
 
-arrList	:	arrList COMMA arrID arrInit
+/* arrList	:	arrList COMMA arrID arrInit
 		|	arrID arrInit
-		;
+		; */
 
 arrContent	:	number
 			|	number COMMA arrContent
