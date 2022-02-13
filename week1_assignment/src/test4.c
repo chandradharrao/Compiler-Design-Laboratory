@@ -29,4 +29,11 @@ int main() {
         while(a) a=1;
     }
     while(5);
+
+    for(;;a++)
+        a++;
+
+    for(;;);
+
+    for(;;a++);
 }

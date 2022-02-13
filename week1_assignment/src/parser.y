@@ -264,13 +264,18 @@ iterators	:	whileL
 			;
 
 /* For loop*/
-for	:	FOR OBRKT forDeclr SCOL expr SCOL expr CBRKT stmnt 
+for	:	FOR OBRKT forDeclr SCOL forTstUpdate SCOL forTstUpdate CBRKT stmnt 
 	;
 
 /*the decleration can be an array initialization or a variable intiialization or nothing*/
 forDeclr	:	declr
 			|	arrDeclr
+			| /*Empty*/
 			;
+
+forTstUpdate	:	expr
+				|	/*Empty*/	
+				;
 
 whileL   :   WHILE OBRKT cond CBRKT whilecontent
 	 	 ;
