@@ -18,4 +18,7 @@ int main() {
     int ff = 8+-8;
     // ff = 8++8;
     ff = 8+-8;
+
+    char s[] = "abcd";
+    s+s;
 }

@@ -63,10 +63,7 @@
 %start program
 
 %nonassoc ELSE
-%left GREATER LESS GREATEREQ LESSEREQ NOTEQ
-%left ADD SUB
-%left MUL DIV
-%right ASSI
+%right ASSI INC DEC NOT
 %expect 130
 
 %%
