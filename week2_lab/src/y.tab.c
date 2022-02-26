@@ -105,6 +105,7 @@ Maintained by Magnus Ekdahl <magnus@debian.org>
 	#define doActions
 	#ifdef doActions
 	#define disp(msg) printf("%s\n",msg)
+	#define dispExpr(a,b,c) printf("%d%s%d\n",a,b,c)
 	#else
 	#define disp(msg) do {} while(0)
 	#endif
@@ -694,17 +695,17 @@ static const short yyrhs[] = {    20,
 
 #if (YY_parse_DEBUG != 0) || defined(YY_parse_ERROR_VERBOSE) 
 static const short yyrline[] = { 0,
-    81,    82,    83,    84,    85,    89,    93,    94,    98,    99,
-   100,   103,   104,   105,   106,   107,   108,   109,   112,   115,
-   116,   120,   121,   125,   126,   129,   130,   132,   133,   134,
-   135,   138,   139,   140,   141,   145,   148,   149,   150,   151,
-   154,   155,   156,   157,   160,   161,   162,   188,   189,   192,
-   193,   196,   197,   200,   201,   204,   205,   208,   209,   212,
-   213,   216,   217,   218,   219,   222,   223,   224,   227,   228,
-   229,   230,   233,   234,   235,   236,   237,   238,   239,   240,
-   244,   245,   249,   250,   254,   255,   259,   260,   261,   262,
-   266,   267,   268,   272,   276,   277,   280,   281,   284,   287,
-   290,   291,   292
+    82,    83,    84,    85,    86,    90,    94,    95,    99,   100,
+   101,   104,   105,   106,   107,   108,   109,   110,   113,   116,
+   117,   121,   122,   126,   127,   130,   131,   133,   134,   135,
+   136,   139,   140,   141,   142,   146,   149,   150,   151,   152,
+   155,   156,   157,   158,   161,   162,   163,   189,   190,   193,
+   194,   197,   198,   201,   202,   205,   206,   209,   210,   213,
+   214,   217,   218,   219,   220,   223,   224,   225,   228,   229,
+   230,   231,   234,   235,   236,   237,   238,   239,   240,   241,
+   245,   246,   250,   251,   255,   256,   260,   261,   262,   263,
+   267,   268,   269,   273,   277,   278,   281,   282,   285,   288,
+   291,   292,   293
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","INT","CHAR",
@@ -1366,35 +1367,35 @@ YYLABEL(yyreduce)
   switch (yyn) {
 
 case 1:
-#line 81 "parser.y"
+#line 82 "parser.y"
 {disp("Parsing entire program complete!");;
     break;}
 case 6:
-#line 89 "parser.y"
+#line 90 "parser.y"
 {disp("Main function parsed!");;
     break;}
 case 14:
-#line 105 "parser.y"
+#line 106 "parser.y"
 {disp("Expr");;
     break;}
 case 48:
-#line 188 "parser.y"
-{disp("Boolean || expr");;
+#line 189 "parser.y"
+{yyval=yyvsp[-2]||yyvsp[0];intToString(yyval);dispExpr(yyvsp[-2],"||",yyvsp[0]);disp(temp);;
     break;}
 case 66:
-#line 222 "parser.y"
-{intToString(yyvsp[-2]);disp(temp);intToString(yyvsp[-1]);disp(temp);;
+#line 223 "parser.y"
+{yyval=yyvsp[-2]+yyvsp[0];intToString(yyval);printf("%d%c%d=%d",yyvsp[-2],'+',yyvsp[0],yyval);;
     break;}
 case 69:
-#line 227 "parser.y"
+#line 228 "parser.y"
 {disp("Arithmetic * Expr");;
     break;}
 case 85:
-#line 254 "parser.y"
+#line 255 "parser.y"
 {yyval = yyvsp[0];disp("non int");;
     break;}
 case 86:
-#line 255 "parser.y"
+#line 256 "parser.y"
 {yyval = yyvsp[0];intToString(yyval);disp(temp);;
     break;}
 }
@@ -1601,7 +1602,7 @@ YYLABEL(yyerrhandle)
 /* END */
 
  #line 1038 "/usr/share/bison++/bison.cc"
-#line 294 "parser.y"
+#line 295 "parser.y"
 
 
 void yyerror(char* s){

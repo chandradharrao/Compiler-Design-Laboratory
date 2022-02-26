@@ -4,6 +4,7 @@
 	#define doActions
 	#ifdef doActions
 	#define disp(msg) printf("%s\n",msg)
+	#define dispExpr(a,b,c) printf("%d%s%d\n",a,b,c)
 	#else
 	#define disp(msg) do {} while(0)
 	#endif
@@ -185,7 +186,7 @@ conditional expr
 + , - , ++ , -- !
 () , []
 */
-expr    :	expr OROR relAndExpr {disp("Boolean || expr");}
+expr    :	expr OROR relAndExpr {$$=$1||$3;intToString($$);dispExpr($1,"||",$3);disp(temp);}
 		|	relAndExpr
 		;
 
@@ -219,7 +220,7 @@ relop   :   LESS
 		|   GREATEREQ
 		;
 
-arithExpr	:	arithExpr ADD muldivExpr {intToString($1);disp(temp);intToString($2);disp(temp);}
+arithExpr	:	arithExpr ADD muldivExpr {$$=$1+$3;intToString($$);printf("%d%c%d=%d",$1,'+',$3,$$);}
 			|	arithExpr SUB muldivExpr
 			|	muldivExpr
 			;
