@@ -1,6 +1,12 @@
 %{
     #include<stdio.h>
     #include<stdlib.h>
+	#define doActions
+	#ifdef doActions
+	#define disp(msg) printf("%s\n",msg)
+	#else
+	#define disp(msg) do {} while(0)
+	#endif
 
     int yydebug=1;
 
@@ -67,9 +73,7 @@
 %expect 130
 
 %%
-start	:	program	{printf("\nCompleted parsing!");}
-		;
-program :   HEADER program
+program :   HEADER program {disp("Parsing entire program complete!");}
 		|   mainf program
 		|   declr SCOL program
 		|	assgn SCOL program
@@ -77,7 +81,7 @@ program :   HEADER program
 		;
 
 /*main function (not compulsory for a program) */
-mainf   :   type MAIN OBRKT empty_listvar CBRKT OBRCS stmnt CBRCS
+mainf   :   type MAIN OBRKT empty_listvar CBRKT OBRCS stmnt CBRCS {disp("Main function parsed!");}
 		;
 
 /*parameter for main function*/
@@ -93,7 +97,7 @@ stmnt   :   single stmnt
 
 single  :   declr SCOL
 		|   assgn SCOL
-		|	expr SCOL
+		|	expr SCOL {disp("Expr parsed!");}
 		|   IF OBRKT cond CBRKT stmnt
 		|   IF OBRKT cond CBRKT stmnt ELSE stmnt
 		|   iterators
@@ -243,7 +247,7 @@ var	:	ID
 
 /*Number can be an INTEGER or non integer*/
 number	:	NUMBER
-		|	PUREINT
+		|	PUREINT 
 		;
 
 /* constants*/
