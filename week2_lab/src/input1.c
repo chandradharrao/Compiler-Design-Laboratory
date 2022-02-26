@@ -5,6 +5,7 @@
 int main()
 {
 	int x = 1+1;
+	int z = 1||1;
 	int a, b, gh[15];
 	a=10*10;
 	b=20+20;

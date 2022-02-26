@@ -12,6 +12,11 @@
 
     int yylex();  
     void yyerror(char *);  
+	char temp[100]; //to store string version of integer
+
+	void intToString(int num){
+		sprintf(temp,"%d",num);
+	}
 %}
 
 %name parse
@@ -90,14 +95,14 @@ empty_listvar   :   varList
 				;
 
 /*Stmnts can be single or multiline ones*/
-stmnt   :   single stmnt
+stmnt   :   single stmnt 
 		|   multiline stmnt
 		|   /*empty*/
 		;
 
 single  :   declr SCOL
 		|   assgn SCOL
-		|	expr SCOL {disp("Expr parsed!");}
+		|	expr SCOL {disp("Expr");}
 		|   IF OBRKT cond CBRKT stmnt
 		|   IF OBRKT cond CBRKT stmnt ELSE stmnt
 		|   iterators
@@ -137,7 +142,7 @@ varList :   varList COMMA ID
 		;
 
 /*Array Init*/
-arrID	:	ID ARROPEN arrIndx ARRCLOSE
+arrID	:	ID ARROPEN arrIndx ARRCLOSE 
 		;
 
 arrIndx	:	PUREINT
@@ -180,7 +185,7 @@ conditional expr
 + , - , ++ , -- !
 () , []
 */
-expr    :	expr OROR relAndExpr
+expr    :	expr OROR relAndExpr {disp("Boolean || expr");}
 		|	relAndExpr
 		;
 
@@ -214,12 +219,12 @@ relop   :   LESS
 		|   GREATEREQ
 		;
 
-arithExpr	:	arithExpr ADD muldivExpr
+arithExpr	:	arithExpr ADD muldivExpr {disp("Arithmetic + Expr");}
 			|	arithExpr SUB muldivExpr
 			|	muldivExpr
 			;
 
-muldivExpr	:	muldivExpr MUL unaryExpr
+muldivExpr	:	muldivExpr MUL unaryExpr {disp("Arithmetic * Expr");}
 			|	muldivExpr DIV unaryExpr
 			|	muldivExpr MOD unaryExpr
 			|	unaryExpr
