@@ -10,5 +10,5 @@ int main(){
         // a++(a>5);
     }while(x>5);
     while(0);
-    return 0;
+    // return 0;
 }

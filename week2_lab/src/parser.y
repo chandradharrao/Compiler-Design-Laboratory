@@ -67,6 +67,8 @@
 %expect 130
 
 %%
+start	:	program	{printf("\nCompleted parsing!");}
+		;
 program :   HEADER program
 		|   mainf program
 		|   declr SCOL program
