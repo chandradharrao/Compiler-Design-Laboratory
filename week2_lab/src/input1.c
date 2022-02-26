@@ -31,7 +31,7 @@ int main()
 	}
 	while(5);
 
-	do; while(6);
+	do; while(6969);
 
 	do {
 		a = 1;

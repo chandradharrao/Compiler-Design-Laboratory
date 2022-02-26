@@ -219,7 +219,7 @@ relop   :   LESS
 		|   GREATEREQ
 		;
 
-arithExpr	:	arithExpr ADD muldivExpr {disp("Arithmetic + Expr");}
+arithExpr	:	arithExpr ADD muldivExpr {intToString($1);disp(temp);intToString($2);disp(temp);}
 			|	arithExpr SUB muldivExpr
 			|	muldivExpr
 			;
@@ -251,8 +251,8 @@ var	:	ID
 	;
 
 /*Number can be an INTEGER or non integer*/
-number	:	NUMBER
-		|	PUREINT 
+number	:	NUMBER {$$ = $1;disp("non int");}
+		|	PUREINT {$$ = $1;intToString($$);disp(temp);}
 		;
 
 /* constants*/

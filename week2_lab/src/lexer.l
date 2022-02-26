@@ -36,7 +36,7 @@ else {DISP; return ELSE;}
 
 main {DISP; return MAIN;}
 {identifier} {DISP; return ID;}
-{pureint} {DISP; return PUREINT;}
+{pureint} {DISP; yylval = atoi(yytext); return PUREINT;}
 {number} {DISP; return NUMBER;}
 \#include({space}*)(\"{letter}{alphanumeric}+[\.]{letter}+\"|\<{letter}{alphanumeric}+[\.]{letter}+\>) {DISP; return HEADER;}
 

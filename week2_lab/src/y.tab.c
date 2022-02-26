@@ -1383,11 +1383,19 @@ case 48:
     break;}
 case 66:
 #line 222 "parser.y"
-{disp("Arithmetic + Expr");;
+{intToString(yyvsp[-2]);disp(temp);intToString(yyvsp[-1]);disp(temp);;
     break;}
 case 69:
 #line 227 "parser.y"
 {disp("Arithmetic * Expr");;
+    break;}
+case 85:
+#line 254 "parser.y"
+{yyval = yyvsp[0];disp("non int");;
+    break;}
+case 86:
+#line 255 "parser.y"
+{yyval = yyvsp[0];intToString(yyval);disp(temp);;
     break;}
 }
 
