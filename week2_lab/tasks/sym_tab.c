@@ -3,11 +3,15 @@
 #include <string.h>
 #include "sym_tab.h"
 
-table* init_table()	{
-   t = (table*)malloc(sizeof(table));
-   t->head = NULL;
-   t->tail = NULL;
-   return t;
+//made extern in header file.
+table* t = NULL;
+
+void init_table()	{
+    printf("Allocating table...\n");
+    t = (table*)malloc(sizeof(table));
+    t->head = NULL;
+    t->tail = NULL;
+    printf("table allocated!Now returning...\n");
 }
 
 symbol* init_symbol(char* name, int size, int type, int lineno, int scope){
@@ -49,6 +53,7 @@ int insert_into_table(char* name, int size, int type, int lineno, int scope){
         t->tail->next = new;
         t->tail = t->tail->next;
     }
+    return 1;
 }
 
 int check_symbol_table(char* name,int scope){

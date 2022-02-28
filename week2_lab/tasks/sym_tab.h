@@ -18,9 +18,9 @@ typedef struct table{
 	symbol* tail;
 }table;
 
-static table* t;
+extern table* t;
 
-table* init_table();	//allocate space for start of table,thus making a new symbol table
+void init_table();	//allocate space for start of table,thus making a new symbol table
 
 symbol* init_symbol(char* name, int size, int type, int lineno, int scope);	//allocates space for items in the list and initialisation
 

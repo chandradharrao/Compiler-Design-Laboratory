@@ -12,9 +12,13 @@ int main(){
     scope 1 : global scope
     type 1: int
     type 2: char
+    type 3: float
+    type 4: double
     */
     char a[2] = {'a'};
     int res = insert_into_table(a,4,1,1,1);
+    if(res) printf("insert of '%s' success\n",a);else printf("insert of '%s' not success\n",a);
+    res = insert_into_table(a,4,1,2,2);
     if(res) printf("insert of '%s' success\n",a);else printf("insert of '%s' not success\n",a);
     res = insert_into_table(a,4,1,2,2);
     if(res) printf("insert of '%s' success\n",a);else printf("insert of '%s' not success\n",a);
