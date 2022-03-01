@@ -19,7 +19,7 @@ number	{digits}{opFraction}{opExponent}
 %%
 \/\/(.*) ; // ignore comments
 [\t\n] ; // ignore whitespaces
-"int" 		{printf("YYTEXT %s\n",yytext);return T_INT;}
+"int" 		{/*printf("YYTEXT %s\n",yytext);*/return T_INT;}
 "char"		{return T_CHAR;}
 "double"	{return T_DOUBLE;}
 "float"		{return T_FLOAT;}
@@ -49,14 +49,14 @@ number	{digits}{opFraction}{opExponent}
 ">"         	{return *yytext;}
 "<"         	{return *yytext;}
 {number}	{
-			printf("YYTEXT %s\n",yytext);
+			/*printf("YYTEXT %s\n",yytext);*/
 			yylval.ival = atoi(yytext);  //stores the value of the number to be used later for symbol table insertion
 			return T_NUM;
 		}
 		
 {id}\.h		{return T_HEADER;}  // ending in .h => header file name
 {id}        {
-				printf("YYTEXT %s\n",yytext);
+				/*printf("YYTEXT %s\n",yytext);*/
 				yylval.txt = strdup(yytext); //stores the identifier to be used later for symbol table insertion
 				return T_ID;
 		}

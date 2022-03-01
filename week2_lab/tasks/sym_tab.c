@@ -11,11 +11,11 @@ int strEq(char* a,char* b){
 }
 
 void init_table()	{
-    printf("Allocating table...\n");
+    //printf("Allocating table...\n");
     t = (table*)malloc(sizeof(table));
     t->head = NULL;
     t->tail = NULL;
-    printf("table allocated!Now returning...\n");
+    //printf("table allocated!Now returning...\n");
 }
 
 symbol* init_symbol(char* name, int size, int type, int lineno, int scope){
@@ -30,7 +30,7 @@ symbol* init_symbol(char* name, int size, int type, int lineno, int scope){
 }
 
 int doesExist(symbol* node){
-    printf("Checking for existence of (%s,%d)\n",node->name,node->scope);
+    //printf("Checking for existence of (%s,%d)\n",node->name,node->scope);
     symbol* curr = t->head;
 
     while(curr!=NULL){
@@ -79,7 +79,7 @@ int insert_value_to_name(char* name,char* value){
 }
 
 void display_symbol_table(){
-    printf("Called disp_sym_table()\n");
+    //printf("Called disp_sym_table()\n");
     symbol* curr = t->head;
     printf("+=====+=====+=====+=====+=====+=====+\n");
     printf("|Name |Size |Type |Value|Line |Scope|\n");

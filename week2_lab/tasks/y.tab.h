@@ -13,10 +13,12 @@
 
  #line 8 "/usr/share/bison++/bison.h"
 
-#line 27 "parser.y"
+#line 36 "parser.y"
 typedef union{
 	char* txt;
 	int ival;
+	float fval;
+	double dval;
 } yy_parse_stype;
 #define YY_parse_STYPE yy_parse_stype
 #ifndef YY_USE_CLASS

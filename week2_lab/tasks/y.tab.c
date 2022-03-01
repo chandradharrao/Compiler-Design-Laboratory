@@ -104,14 +104,14 @@ Maintained by Magnus Ekdahl <magnus@debian.org>
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
-	/*
-		declare variables to help you keep track or store properties
-		scope can be default value for this lab(implementation in the next lab)
-	*/
-	void varDeclr(int type,int line);
+	void typTrack(int type);
+	void lineTrack(int lno);
+
 	void yyerror(char* s); // error handling function
 	int yylex(); // declare the function performing lexical analysis
 	extern int yylineno; // track the line number
+
+	/*No need to use stack to track current line number and datatype of variable since in the LMD of tree expansion,after parsing the grammar for first variable,it goes to the second variable.*/
 
 	//current data type while parsing
 	int* currDatatype=NULL;
@@ -119,11 +119,22 @@ Maintained by Magnus Ekdahl <magnus@debian.org>
 	int* currLineNumber=NULL;
 	//manage curr scope
 	int currScope = 1;
+	//get sizeof datatype
+	int size_of(int type);
 
-#line 27 "parser.y"
+	//function to declare variable
+	int declare_variable();
+
+	char temp[100]; //to store string version of integer
+
+	void intToString(int num);
+
+#line 36 "parser.y"
 typedef union{
 	char* txt;
 	int ival;
+	float fval;
+	double dval;
 } yy_parse_stype;
 #define YY_parse_STYPE yy_parse_stype
 #ifndef YY_USE_CLASS
@@ -610,11 +621,11 @@ static const short yyrhs[] = {    44,
 
 #if (YY_parse_DEBUG != 0) || defined(YY_parse_ERROR_VERBOSE) 
 static const short yyrline[] = { 0,
-    33,    36,    37,    38,    39,    42,    46,    47,    50,    54,
-    79,    80,    81,    82,    86,    89,    90,    93,    94,    95,
-    99,   100,   101,   104,   105,   106,   107,   110,   111,   112,
-   113,   114,   115,   120,   122,   123,   126,   127,   128,   132,
-   133,   136,   138,   139
+    44,    47,    48,    49,    50,    53,    57,    58,    61,    62,
+    65,    66,    67,    68,    72,    75,    76,    79,    80,    81,
+    85,    86,    87,    90,    91,    92,    93,    96,    97,    98,
+    99,   100,   101,   106,   108,   109,   112,   113,   114,   118,
+   119,   122,   124,   125
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","T_INT","T_CHAR",
@@ -1196,60 +1207,35 @@ YYLABEL(yyreduce)
   switch (yyn) {
 
 case 1:
-#line 33 "parser.y"
+#line 44 "parser.y"
 { display_symbol_table();printf("Valid syntax\n"); YYACCEPT; ;
     break;}
 case 9:
-#line 50 "parser.y"
-{
-	
-
-;
+#line 61 "parser.y"
+{;
     break;}
 case 10:
-#line 54 "parser.y"
-{		
-				printf("Processing to make sym table entry...\n");
-				int size = 0;
-				switch(*currDatatype){
-					case 1:
-						size = 4;
-						break;
-					case 2:
-						size = 1;
-						break;
-					case 3:
-						size = 8;
-						break;
-					case 4:
-						size=16;
-						break;
-					default:
-						size = 4;
-						break;
-				}
-				int res = insert_into_table(yylval.txt,size,*currDatatype,*currLineNumber,currScope);
-				if(!res)yyerror("[ERROR] Variable already declared!");else printf("Successfully inserted var<%s>!\n",yylval.txt);	
-			;
+#line 62 "parser.y"
+{declare_variable();;
     break;}
 case 11:
-#line 79 "parser.y"
-{varDeclr(1,yylineno);printf("Assigned INT\n");;
+#line 65 "parser.y"
+{typTrack(1);/*printf("Assigned INT\n")*/;;
     break;}
 case 12:
-#line 80 "parser.y"
-{varDeclr(3,yylineno);printf("Assigned FLOAT\n");;
+#line 66 "parser.y"
+{typTrack(3);/*printf("Assigned FLOAT\n")*/;;
     break;}
 case 13:
-#line 81 "parser.y"
-{varDeclr(4,yylineno);printf("Assigned DOUBLE\n");;
+#line 67 "parser.y"
+{typTrack(4);/*printf("Assigned DOUBLE\n")*/;;
     break;}
 case 14:
-#line 82 "parser.y"
-{varDeclr(2,yylineno);printf("Assigned CHAR\n");;
+#line 68 "parser.y"
+{typTrack(2);/*printf("Assigned CHAR\n")*/;;
     break;}
 case 15:
-#line 86 "parser.y"
+#line 72 "parser.y"
 {;
     break;}
 }
@@ -1456,7 +1442,7 @@ YYLABEL(yyerrhandle)
 /* END */
 
  #line 1038 "/usr/share/bison++/bison.cc"
-#line 141 "parser.y"
+#line 127 "parser.y"
 
 
 
@@ -1469,21 +1455,64 @@ void yyerror(char* s)
 
 int main(int argc, char* argv[])
 {
-	printf("Running Parser!\n");
+	//printf("Running Parser!\n");
 	init_table();
-	printf("Table assigned too!\n");
+	//printf("Table assigned too!\n");
 	yyparse();
 	/* display final symbol table*/
 	return 0;
 }
 
-//assign the line number of variable decleration and its type
-void varDeclr(int type,int lno){
-	if(currDatatype==NULL || currLineNumber==NULL){
+//assign the data type of variable decleration
+void typTrack(int type){
+	if(currDatatype==NULL){
 		currDatatype = malloc(sizeof(int));
-		currLineNumber = malloc(sizeof(int));
 	}
 	*currDatatype = type;
+	//printf("Finished creating dtype!\n");
+}
+
+//track the line number of variable decleration
+void lineTrack(int lno){
+	if(currLineNumber==NULL){
+		currLineNumber = malloc(sizeof(int));
+	}
 	*currLineNumber = lno;
-	printf("Finished creating dtype!\n");
+	//printf("Finished asigning lineno!\n");
+}
+
+//function to insert variable decleration with type and line number into symbol table
+int declare_variable(){
+	//printf("Processing to make sym table entry...\n");
+	lineTrack(yylineno);
+	int res = insert_into_table(yylval.txt,size_of(*currDatatype),*currDatatype,*currLineNumber,currScope);
+	if(!res)yyerror("[ERROR] Variable already declared!");else //printf("Successfully inserted var<%s>!\n",yylval.txt);	
+	return res;
+}
+
+//function to return size of datatype
+int size_of(int type){
+	int size = 0;
+	switch(*currDatatype){
+		case 1:
+			size = 4;
+			break;
+		case 2:
+			size = 1;
+			break;
+		case 3:
+			size = 8;
+			break;
+		case 4:
+			size=16;
+			break;
+		default:
+			size = 4;
+			break;
+	}
+	return size;		
+}
+
+void intToString(int num){
+		sprintf(temp,"%d",num);
 }
