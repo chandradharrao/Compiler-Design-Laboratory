@@ -47,29 +47,32 @@ LISTVAR : LISTVAR ',' VAR
 	  	| VAR
 	  	;
 
-VAR		: T_ID '=' EXPR 	{}
+VAR		: T_ID '=' EXPR 	{
+	
+
+}
      	| T_ID 		{		
-			 			printf("Processing to make sym table entry...\n");
-						int size = 0;
-						switch(*currDatatype){
-							case 1:
-								size = 4;
-								break;
-							case 2:
-								size = 1;
-								break;
-							case 3:
-								size = 8;
-								break;
-							case 4:
-								size=16;
-								break;
-							default:
-								size = 4;
-								break;
-						}
-						int res = insert_into_table(yylval.txt,size,*currDatatype,*currLineNumber,currScope);
-						if(!res)printf("Variable already declared!\n");else printf("Successfully inserted var<%s>!\n",yylval.txt);	
+				printf("Processing to make sym table entry...\n");
+				int size = 0;
+				switch(*currDatatype){
+					case 1:
+						size = 4;
+						break;
+					case 2:
+						size = 1;
+						break;
+					case 3:
+						size = 8;
+						break;
+					case 4:
+						size=16;
+						break;
+					default:
+						size = 4;
+						break;
+				}
+				int res = insert_into_table(yylval.txt,size,*currDatatype,*currLineNumber,currScope);
+				if(!res)yyerror("[ERROR] Variable already declared!");else printf("Successfully inserted var<%s>!\n",yylval.txt);	
 			}	 
 
 //assign type here to be returned to the declaration grammar

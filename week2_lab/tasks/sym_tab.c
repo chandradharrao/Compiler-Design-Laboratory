@@ -6,6 +6,10 @@
 //made extern in header file.
 table* t = NULL;
 
+int strEq(char* a,char* b){
+    return(strcmp(a,b)==0);
+}
+
 void init_table()	{
     printf("Allocating table...\n");
     t = (table*)malloc(sizeof(table));
@@ -30,7 +34,7 @@ int doesExist(symbol* node){
     symbol* curr = t->head;
 
     while(curr!=NULL){
-        if(node->name==curr->name && node->scope==curr->scope){
+        if(strEq(node->name,curr->name) && node->scope==curr->scope){
             return 1;
         }else{
             curr=curr->next;
@@ -65,7 +69,7 @@ int insert_value_to_name(char* name,char* value){
     //only if declared before,we can insert into
     symbol* curr = t->head;
     while(curr!=NULL){
-        if(curr->name == name){
+        if(strEq(curr->name,name)){
             curr->val = value;
             return 1;
         }

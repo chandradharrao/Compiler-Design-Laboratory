@@ -610,11 +610,11 @@ static const short yyrhs[] = {    44,
 
 #if (YY_parse_DEBUG != 0) || defined(YY_parse_ERROR_VERBOSE) 
 static const short yyrline[] = { 0,
-    33,    36,    37,    38,    39,    42,    46,    47,    50,    51,
-    76,    77,    78,    79,    83,    86,    87,    90,    91,    92,
-    96,    97,    98,   101,   102,   103,   104,   107,   108,   109,
-   110,   111,   112,   117,   119,   120,   123,   124,   125,   129,
-   130,   133,   135,   136
+    33,    36,    37,    38,    39,    42,    46,    47,    50,    54,
+    79,    80,    81,    82,    86,    89,    90,    93,    94,    95,
+    99,   100,   101,   104,   105,   106,   107,   110,   111,   112,
+   113,   114,   115,   120,   122,   123,   126,   127,   128,   132,
+   133,   136,   138,   139
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","T_INT","T_CHAR",
@@ -1201,52 +1201,55 @@ case 1:
     break;}
 case 9:
 #line 50 "parser.y"
-{;
+{
+	
+
+;
     break;}
 case 10:
-#line 51 "parser.y"
+#line 54 "parser.y"
 {		
-			 			printf("Processing to make sym table entry...\n");
-						int size = 0;
-						switch(*currDatatype){
-							case 1:
-								size = 4;
-								break;
-							case 2:
-								size = 1;
-								break;
-							case 3:
-								size = 8;
-								break;
-							case 4:
-								size=16;
-								break;
-							default:
-								size = 4;
-								break;
-						}
-						int res = insert_into_table(yylval.txt,size,*currDatatype,*currLineNumber,currScope);
-						if(!res)printf("Variable already declared!\n");else printf("Successfully inserted var<%s>!\n",yylval.txt);	
+				printf("Processing to make sym table entry...\n");
+				int size = 0;
+				switch(*currDatatype){
+					case 1:
+						size = 4;
+						break;
+					case 2:
+						size = 1;
+						break;
+					case 3:
+						size = 8;
+						break;
+					case 4:
+						size=16;
+						break;
+					default:
+						size = 4;
+						break;
+				}
+				int res = insert_into_table(yylval.txt,size,*currDatatype,*currLineNumber,currScope);
+				if(!res)yyerror("[ERROR] Variable already declared!");else printf("Successfully inserted var<%s>!\n",yylval.txt);	
 			;
     break;}
 case 11:
-#line 76 "parser.y"
+#line 79 "parser.y"
 {varDeclr(1,yylineno);printf("Assigned INT\n");;
     break;}
 case 12:
-#line 77 "parser.y"
+#line 80 "parser.y"
 {varDeclr(3,yylineno);printf("Assigned FLOAT\n");;
     break;}
 case 13:
-#line 78 "parser.y"
+#line 81 "parser.y"
 {varDeclr(4,yylineno);printf("Assigned DOUBLE\n");;
     break;}
 case 14:
-#line 79 "parser.y"
+#line 82 "parser.y"
 {varDeclr(2,yylineno);printf("Assigned CHAR\n");;
     break;}
 case 15:
-#line 83 "parser.y"
+#line 86 "parser.y"
 {;
     break;}
 }
@@ -1453,7 +1456,7 @@ YYLABEL(yyerrhandle)
 /* END */
 
  #line 1038 "/usr/share/bison++/bison.cc"
-#line 138 "parser.y"
+#line 141 "parser.y"
 
 
 

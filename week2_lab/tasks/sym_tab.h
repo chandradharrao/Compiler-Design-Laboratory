@@ -33,3 +33,5 @@ int insert_value_to_name(char* name,char* value);	//inserts values into the tabl
 int check_symbol_table(char* name,int scope); //checks symbol table whether the variable has been declared or not
 
 void display_symbol_table(void); //displays symbol table
+
+int strEq(char* a,char* b); //are strings equal?
