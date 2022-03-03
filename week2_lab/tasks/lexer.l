@@ -32,10 +32,10 @@ number	{digits}{opFraction}{opExponent}
 \".*\"		{yylval.txt = strdup(yytext); return T_STRLITERAL; }
 "=="		{return T_EQCOMP;}
 "!="		{return T_NOTEQUAL;}
-">="        	{return T_GREATEREQ;}
-"<="        	{return T_LESSEREQ;}
-"("		{return *yytext;}
-")"		{return *yytext;}
+">="        {return T_GREATEREQ;}
+"<="        {return T_LESSEREQ;}
+"("			{return *yytext;}
+")"			{return *yytext;}
 "."         	{return *yytext;}
 ","         	{return *yytext;}
 "{"         	{return *yytext;}

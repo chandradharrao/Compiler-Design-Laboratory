@@ -2,4 +2,5 @@ handle scope
 string compare
 make error object
 unit test symbol table functions before using it in grammar
-use enum for type
+use enum for datatype
+use $$.ival,$$.fval,$$.dval to create values for expression
