@@ -27,6 +27,9 @@
 	char temp[100]; //to store string version of integer
 
 	void intToString(int num);
+
+	int incrScope();
+	int decrScope();
 %}
 
 %token T_INT T_CHAR T_DOUBLE T_WHILE  T_INC T_DEC   T_OROR T_ANDAND T_EQCOMP T_NOTEQUAL T_GREATEREQ T_LESSEREQ T_LEFTSHIFT T_RIGHTSHIFT T_PRINTLN T_STRING  T_FLOAT T_BOOLEAN T_IF T_ELSE T_STRLITERAL T_DO T_INCLUDE T_HEADER T_MAIN T_ID T_NUM
@@ -103,7 +106,11 @@ REL_OP :   T_LESSEREQ
 
 
 /* Grammar for main function */
-MAIN : TYPE T_MAIN '(' EMPTY_LISTVAR ')' '{' STMT '}';
+MAIN : TYPE T_MAIN '(' EMPTY_LISTVAR ')' '{' {currScope = incrScope();}
+
+					STMT 
+					
+					'}'{currScope = decrScope();};
 
 EMPTY_LISTVAR 	: LISTVAR
 				|	
@@ -119,7 +126,9 @@ STMT_NO_BLOCK 	: DECLR ';'
        			| ASSGN ';' 
        			;
 
-BLOCK 	: '{' STMT '}';
+BLOCK 	: '{' 	{currScope = incrScope();}
+			STMT 
+			'}'{currScope=decrScope();} ;
 
 COND : EXPR 
        | ASSGN
@@ -142,6 +151,19 @@ int main(int argc, char* argv[])
 	yyparse();
 	/* display final symbol table*/
 	return 0;
+}
+
+int incrScope(){
+	currScope+=1;
+	return currScope;
+}
+
+int decrScope(){
+	currScope-=1;
+	if(currScope<=0){
+		currScope = 1;
+	}
+	return currScope;
 }
 
 //assign the data type of variable decleration

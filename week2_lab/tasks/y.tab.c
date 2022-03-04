@@ -129,7 +129,10 @@ Maintained by Magnus Ekdahl <magnus@debian.org>
 
 	void intToString(int num);
 
-#line 36 "parser.y"
+	int incrScope();
+	int decrScope();
+
+#line 39 "parser.y"
 typedef union{
 	char* txt;
 	int ival;
@@ -554,11 +557,11 @@ YY_parse_CONSTRUCTOR_CODE;
  #line 352 "/usr/share/bison++/bison.cc"
 
 
-#define	YYFINAL		72
+#define	YYFINAL		74
 #define	YYFLAG		-32768
 #define	YYNTBASE	43
 
-#define YYTRANSLATE(x) ((unsigned)(x) <= 284 ? yytranslate[x] : 60)
+#define YYTRANSLATE(x) ((unsigned)(x) <= 284 ? yytranslate[x] : 62)
 
 static const char yytranslate[] = {     0,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -597,8 +600,8 @@ static const short yyprhs[] = {     0,
      0,     2,     5,     9,    13,    14,    17,    21,    23,    27,
     29,    31,    33,    35,    37,    41,    45,    47,    51,    55,
     57,    61,    65,    67,    71,    73,    75,    77,    79,    81,
-    83,    85,    87,    89,    98,   100,   101,   104,   107,   108,
-   111,   114,   118,   120
+    83,    85,    87,    89,    90,   100,   102,   103,   106,   109,
+   110,   113,   116,   117,   122,   124
 };
 
 static const short yyrhs[] = {    44,
@@ -610,22 +613,22 @@ static const short yyrhs[] = {    44,
     51,    34,    52,     0,    52,     0,    52,    35,    53,     0,
     52,    36,    53,     0,    53,     0,    37,    50,    38,     0,
     28,     0,    29,     0,    23,     0,    14,     0,    13,     0,
-    39,     0,    40,     0,    11,     0,    12,     0,    48,    27,
-    37,    56,    38,    41,    57,    42,     0,    46,     0,     0,
-    58,    57,     0,    59,    57,     0,     0,    45,    30,     0,
-    49,    30,     0,    41,    57,    42,     0,    50,     0,    49,
-     0
+    39,     0,    40,     0,    11,     0,    12,     0,     0,    48,
+    27,    37,    57,    38,    41,    56,    58,    42,     0,    46,
+     0,     0,    59,    58,     0,    60,    58,     0,     0,    45,
+    30,     0,    49,    30,     0,     0,    41,    61,    58,    42,
+     0,    50,     0,    49,     0
 };
 
 #endif
 
 #if (YY_parse_DEBUG != 0) || defined(YY_parse_ERROR_VERBOSE) 
 static const short yyrline[] = { 0,
-    44,    47,    48,    49,    50,    53,    57,    58,    61,    62,
-    65,    66,    67,    68,    72,    75,    76,    79,    80,    81,
-    85,    86,    87,    90,    91,    92,    93,    96,    97,    98,
-    99,   100,   101,   106,   108,   109,   112,   113,   114,   118,
-   119,   122,   124,   125
+    47,    50,    51,    52,    53,    56,    60,    61,    64,    65,
+    68,    69,    70,    71,    75,    78,    79,    82,    83,    84,
+    88,    89,    90,    93,    94,    95,    96,    99,   100,   101,
+   102,   103,   104,   109,   113,   115,   116,   119,   120,   121,
+   125,   126,   129,   131,   133,   134
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","T_INT","T_CHAR",
@@ -634,8 +637,8 @@ static const char * const yytname[] = {   "$","error","$illegal.","T_INT","T_CHA
 "T_FLOAT","T_BOOLEAN","T_IF","T_ELSE","T_STRLITERAL","T_DO","T_INCLUDE","T_HEADER",
 "T_MAIN","T_ID","T_NUM","';'","','","'='","'+'","'-'","'*'","'/'","'('","')'",
 "'<'","'>'","'{'","'}'","START","PROG","DECLR","LISTVAR","VAR","TYPE","ASSGN",
-"EXPR","E","T","F","REL_OP","MAIN","EMPTY_LISTVAR","STMT","STMT_NO_BLOCK","BLOCK",
-"\001\001\001\001\001\001\001\001\001"
+"EXPR","E","T","F","REL_OP","MAIN","@1","EMPTY_LISTVAR","STMT","STMT_NO_BLOCK",
+"BLOCK","@2","d"
 };
 #endif
 
@@ -643,74 +646,74 @@ static const short yyr1[] = {     0,
     43,    44,    44,    44,    44,    45,    46,    46,    47,    47,
     48,    48,    48,    48,    49,    50,    50,    51,    51,    51,
     52,    52,    52,    53,    53,    53,    53,    54,    54,    54,
-    54,    54,    54,    55,    56,    56,    57,    57,    57,    58,
-    58,    59,    -1,    -1
+    54,    54,    54,    56,    55,    57,    57,    58,    58,    58,
+    59,    59,    61,    60,    -1,    -1
 };
 
 static const short yyr2[] = {     0,
      1,     2,     3,     3,     0,     2,     3,     1,     3,     1,
      1,     1,     1,     1,     3,     3,     1,     3,     3,     1,
      3,     3,     1,     3,     1,     1,     1,     1,     1,     1,
-     1,     1,     1,     8,     1,     0,     2,     2,     0,     2,
-     2,     3,     1,     1
+     1,     1,     1,     0,     9,     1,     0,     2,     2,     0,
+     2,     2,     0,     4,     1,     1
 };
 
 static const short yydefact[] = {     5,
     11,    14,    13,    12,     0,     1,     0,     0,     0,     5,
      0,     5,     0,    10,     6,     8,     5,     2,    27,    25,
-    26,     0,    15,    17,    20,    23,     3,    36,     0,     0,
+    26,     0,    15,    17,    20,    23,     3,    37,     0,     0,
      4,     0,    32,    33,    29,    28,    30,    31,     0,     0,
-     0,     0,     0,    35,     0,     9,     7,    24,    16,    18,
-    19,    21,    22,     0,    39,    39,     0,     0,     0,     0,
-    39,    39,     0,    40,    41,    34,    37,    38,    42,     0,
-     0,     0
+     0,     0,     0,    36,     0,     9,     7,    24,    16,    18,
+    19,    21,    22,     0,    34,    40,    43,     0,     0,     0,
+     0,    40,    40,    40,    41,    42,    35,    38,    39,     0,
+    44,     0,     0,     0
 };
 
-static const short yydefgoto[] = {    70,
+static const short yydefgoto[] = {    72,
      6,     7,    15,    16,     8,     9,    23,    24,    25,    26,
-    39,    10,    45,    60,    61,    62
+    39,    10,    56,    45,    61,    62,    63,    64
 };
 
 static const short yypact[] = {     9,
--32768,-32768,-32768,-32768,   -21,-32768,   -11,    14,    -1,     9,
-    11,     9,    18,     1,    15,-32768,     9,-32768,-32768,-32768,
--32768,    11,    -4,    20,    23,-32768,-32768,    32,    11,    32,
+-32768,-32768,-32768,-32768,    -6,-32768,    -1,    14,     3,     9,
+    11,     9,     7,    26,    -7,-32768,     9,-32768,-32768,-32768,
+-32768,    11,    -4,    23,    24,-32768,-32768,    18,    11,    18,
 -32768,    -8,-32768,-32768,-32768,-32768,-32768,-32768,    11,    11,
-    11,    11,    11,    15,    25,    -4,-32768,-32768,    20,    23,
-    23,-32768,-32768,    26,    -3,    -3,    36,    32,    38,    27,
-    -3,    -3,    28,-32768,-32768,-32768,-32768,-32768,-32768,    71,
-    72,-32768
+    11,    11,    11,    -7,    25,    -4,-32768,-32768,    23,    24,
+    24,-32768,-32768,    27,-32768,    -3,-32768,    36,    18,    37,
+    28,    -3,    -3,    -3,-32768,-32768,-32768,-32768,-32768,    29,
+-32768,    69,    72,-32768
 };
 
 static const short yypgoto[] = {-32768,
-    35,   -38,    45,    44,   -35,   -12,    -7,    37,    21,    22,
--32768,-32768,-32768,    -5,-32768,-32768
+    35,   -45,    45,    44,   -41,   -13,    -2,    38,    21,    22,
+-32768,-32768,-32768,-32768,    -9,-32768,-32768,-32768
 };
 
 
-#define	YYLAST		76
+#define	YYLAST		77
 
 
 static const short yytable[] = {     1,
      2,     3,    33,    34,    35,    36,    33,    34,    35,    36,
-    11,     1,     2,     3,    32,     4,    57,    57,    12,    58,
-    58,    46,    57,    57,     5,    58,    58,     4,    17,    48,
-    37,    38,    29,    19,    37,    38,     5,    56,    20,    21,
-    13,    14,    59,    59,    18,    30,    27,    22,    59,    59,
-    63,    31,    40,    41,    28,    67,    68,    42,    43,    14,
-    50,    51,    54,    52,    53,    64,    55,    65,    66,    69,
-    71,    72,    44,    47,     0,    49
+    58,     1,     2,     3,    59,     4,    58,    58,    58,    32,
+    59,    59,    59,    30,     5,    11,    46,     4,    12,    48,
+    37,    38,    17,    19,    37,    38,     5,    57,    20,    21,
+    13,    14,    60,    28,    18,    14,    27,    22,    60,    60,
+    60,    31,    68,    69,    70,    40,    41,    29,    42,    43,
+    50,    51,    54,    52,    53,    65,    66,    55,    73,    67,
+    71,    74,    44,    47,     0,     0,    49
 };
 
 static const short yycheck[] = {     3,
      4,     5,    11,    12,    13,    14,    11,    12,    13,    14,
-    32,     3,     4,     5,    22,    19,    55,    56,    30,    55,
-    56,    29,    61,    62,    28,    61,    62,    19,    30,    38,
-    39,    40,    32,    23,    39,    40,    28,    41,    28,    29,
-    27,    28,    55,    56,    10,    31,    12,    37,    61,    62,
-    56,    17,    33,    34,    37,    61,    62,    35,    36,    28,
-    40,    41,    38,    42,    43,    30,    41,    30,    42,    42,
-     0,     0,    28,    30,    -1,    39
+    56,     3,     4,     5,    56,    19,    62,    63,    64,    22,
+    62,    63,    64,    31,    28,    32,    29,    19,    30,    38,
+    39,    40,    30,    23,    39,    40,    28,    41,    28,    29,
+    27,    28,    56,    37,    10,    28,    12,    37,    62,    63,
+    64,    17,    62,    63,    64,    33,    34,    32,    35,    36,
+    40,    41,    38,    42,    43,    30,    30,    41,     0,    42,
+    42,     0,    28,    30,    -1,    -1,    39
 };
 
 #line 352 "/usr/share/bison++/bison.cc"
@@ -1207,36 +1210,52 @@ YYLABEL(yyreduce)
   switch (yyn) {
 
 case 1:
-#line 44 "parser.y"
+#line 47 "parser.y"
 { display_symbol_table();printf("Valid syntax\n"); YYACCEPT; ;
     break;}
 case 9:
-#line 61 "parser.y"
+#line 64 "parser.y"
 {;
     break;}
 case 10:
-#line 62 "parser.y"
+#line 65 "parser.y"
 {declare_variable();;
     break;}
 case 11:
-#line 65 "parser.y"
+#line 68 "parser.y"
 {typTrack(1);/*printf("Assigned INT\n")*/;;
     break;}
 case 12:
-#line 66 "parser.y"
+#line 69 "parser.y"
 {typTrack(3);/*printf("Assigned FLOAT\n")*/;;
     break;}
 case 13:
-#line 67 "parser.y"
+#line 70 "parser.y"
 {typTrack(4);/*printf("Assigned DOUBLE\n")*/;;
     break;}
 case 14:
-#line 68 "parser.y"
+#line 71 "parser.y"
 {typTrack(2);/*printf("Assigned CHAR\n")*/;;
     break;}
 case 15:
-#line 72 "parser.y"
+#line 75 "parser.y"
 {;
+    break;}
+case 34:
+#line 109 "parser.y"
+{currScope = incrScope();;
+    break;}
+case 35:
+#line 113 "parser.y"
+{currScope = decrScope();;
+    break;}
+case 43:
+#line 129 "parser.y"
+{currScope = incrScope();;
+    break;}
+case 44:
+#line 131 "parser.y"
+{currScope=decrScope();;
     break;}
 }
 
@@ -1442,7 +1461,7 @@ YYLABEL(yyerrhandle)
 /* END */
 
  #line 1038 "/usr/share/bison++/bison.cc"
-#line 127 "parser.y"
+#line 136 "parser.y"
 
 
 
@@ -1461,6 +1480,19 @@ int main(int argc, char* argv[])
 	yyparse();
 	/* display final symbol table*/
 	return 0;
+}
+
+int incrScope(){
+	currScope+=1;
+	return currScope;
+}
+
+int decrScope(){
+	currScope-=1;
+	if(currScope<=0){
+		currScope = 1;
+	}
+	return currScope;
 }
 
 //assign the data type of variable decleration

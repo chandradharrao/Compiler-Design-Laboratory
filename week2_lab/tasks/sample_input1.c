@@ -1,3 +1,5 @@
+int x;
+
 int main()
 {
 	int a;
@@ -10,4 +12,8 @@ int main()
 
 	
 	y;
+
+	{
+		int a;
+	}
 }
