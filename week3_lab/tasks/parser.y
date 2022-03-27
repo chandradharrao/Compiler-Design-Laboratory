@@ -96,10 +96,10 @@ VAR		: T_ID '=' EXPR 	{
 		}	 
 
 //assign type here to be returned to the declaration grammar
-TYPE 	: T_INT {isDecl = 1;typTrack(1);/*printf("Assigned INT\n")*/;}
+TYPE 	: T_INT {isDecl = 1;typTrack(2);/*printf("Assigned INT\n")*/;}
 		| T_FLOAT {typTrack(3);/*printf("Assigned FLOAT\n")*/;}
 		| T_DOUBLE {typTrack(4);/*printf("Assigned DOUBLE\n")*/;}
-		| T_CHAR {typTrack(2);/*printf("Assigned CHAR\n")*/;}
+		| T_CHAR {typTrack(1);/*printf("Assigned CHAR\n")*/;}
 		;
     
 /* Grammar for assignment */   
@@ -126,7 +126,17 @@ EXPR 	: EXPR REL_OP E
 		   }
        	;
 	   
-E 	: E '+' T
+E 	: E '+' T{
+	printf("Addition expression called!\n");
+	printf("Currdatatype: %d\n",*currDatatype);
+	if(*currDatatype==2){
+		int sum =0;
+		printf("Args %s,%s\n",$1.node->val,$3.node->val);
+		sum = atoi($1.node->val)+atoi($3.node->val);
+		printf("The Sum obtained from expression is %d\n",sum);
+		sprintf($$.txt,"%d",sum);
+	}
+}
     | E '-' T
     | T {
 		$$.txt = (char*)malloc(100);
@@ -147,6 +157,13 @@ T 	: T '*' F
 
 F 	: '(' EXPR ')'
     | T_ID {
+		printf("T_ID of var %s called\n",$1.txt);
+		symbol* variable = check_symbol_table($1.txt,currScope);
+		if(variable && variable->val){
+			printf("%s\n","found Entry!!");
+			$$.node = variable;
+			printf("%s.val=%s\n",$$.node->name,$$.node->val);
+		}
 	}
     | T_NUM {
 		$$.txt = (char*)malloc(100);

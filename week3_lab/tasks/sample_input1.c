@@ -24,4 +24,6 @@ int main()
 	x = 5;
 	int y;
 	y = 7;
+
+	z = x+y;
 }

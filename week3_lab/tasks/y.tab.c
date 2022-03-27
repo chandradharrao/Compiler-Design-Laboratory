@@ -633,10 +633,10 @@ static const short yyrhs[] = {    44,
 #if (YY_parse_DEBUG != 0) || defined(YY_parse_ERROR_VERBOSE) 
 static const short yyrline[] = { 0,
     55,    58,    59,    60,    61,    64,    68,    69,    72,    75,
-    99,   100,   101,   102,   106,   121,   122,   129,   130,   131,
-   139,   140,   141,   148,   149,   151,   156,   159,   160,   161,
-   162,   163,   164,   169,   173,   175,   176,   179,   180,   181,
-   184,   185,   188,   190,   192,   193
+    99,   100,   101,   102,   106,   121,   122,   129,   140,   141,
+   149,   150,   151,   158,   159,   168,   173,   176,   177,   178,
+   179,   180,   181,   186,   190,   192,   193,   196,   197,   198,
+   201,   202,   205,   207,   209,   210
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","T_INT","T_CHAR",
@@ -1254,7 +1254,7 @@ case 10:
     break;}
 case 11:
 #line 99 "parser.y"
-{isDecl = 1;typTrack(1);/*printf("Assigned INT\n")*/;;
+{isDecl = 1;typTrack(2);/*printf("Assigned INT\n")*/;;
     break;}
 case 12:
 #line 100 "parser.y"
@@ -1266,7 +1266,7 @@ case 13:
     break;}
 case 14:
 #line 102 "parser.y"
-{typTrack(2);/*printf("Assigned CHAR\n")*/;;
+{typTrack(1);/*printf("Assigned CHAR\n")*/;;
     break;}
 case 15:
 #line 106 "parser.y"
@@ -1292,8 +1292,22 @@ case 17:
 				printf("Reduction of E to Expr: %s\n",yyval.txt);
 		   ;
     break;}
+case 18:
+#line 129 "parser.y"
+{
+	printf("Addition expression called!\n");
+	printf("Currdatatype: %d\n",*currDatatype);
+	if(*currDatatype==2){
+		int sum =0;
+		printf("Args %s,%s\n",yyvsp[-2].node->val,yyvsp[0].node->val);
+		sum = atoi(yyvsp[-2].node->val)+atoi(yyvsp[0].node->val);
+		printf("The Sum obtained from expression is %d\n",sum);
+		sprintf(yyval.txt,"%d",sum);
+	}
+;
+    break;}
 case 20:
-#line 131 "parser.y"
+#line 141 "parser.y"
 {
 		yyval.txt = (char*)malloc(100);
 		strcpy(yyval.txt,yyvsp[0].txt);
@@ -1301,7 +1315,7 @@ case 20:
 	;
     break;}
 case 23:
-#line 141 "parser.y"
+#line 151 "parser.y"
 {
 		yyval.txt = (char*)malloc(100);
 		strcpy(yyval.txt,yyvsp[0].txt);
@@ -1309,12 +1323,19 @@ case 23:
 	;
     break;}
 case 25:
-#line 149 "parser.y"
+#line 159 "parser.y"
 {
+		printf("T_ID of var %s called\n",yyvsp[0].txt);
+		symbol* variable = check_symbol_table(yyvsp[0].txt,currScope);
+		if(variable && variable->val){
+			printf("%s\n","found Entry!!");
+			yyval.node = variable;
+			printf("%s.val=%s\n",yyval.node->name,yyval.node->val);
+		}
 	;
     break;}
 case 26:
-#line 151 "parser.y"
+#line 168 "parser.y"
 {
 		yyval.txt = (char*)malloc(100);
 		strcpy(yyval.txt,yyvsp[0].txt);
@@ -1322,19 +1343,19 @@ case 26:
 	;
     break;}
 case 34:
-#line 169 "parser.y"
+#line 186 "parser.y"
 {currScope = incrScope();;
     break;}
 case 35:
-#line 173 "parser.y"
+#line 190 "parser.y"
 {currScope = decrScope();;
     break;}
 case 43:
-#line 188 "parser.y"
+#line 205 "parser.y"
 {currScope = incrScope();;
     break;}
 case 44:
-#line 190 "parser.y"
+#line 207 "parser.y"
 {currScope=decrScope();;
     break;}
 }
@@ -1541,7 +1562,7 @@ YYLABEL(yyerrhandle)
 /* END */
 
  #line 1038 "/usr/share/bison++/bison.cc"
-#line 195 "parser.y"
+#line 212 "parser.y"
 
 
 /* error handling function */

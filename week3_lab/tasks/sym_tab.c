@@ -37,7 +37,7 @@ symbol* doesExist(symbol* node){
 
     while(curr!=NULL){
         if(strEq(node->name,curr->name) && node->scope==curr->scope){
-            printf("%s\n","found!");
+            // printf("%s\n","found!");
             return curr;
         }else{
             curr=curr->next;
@@ -71,7 +71,7 @@ symbol* check_symbol_table(char* name,int scope){
         symbol* node = init_symbol(name,0,0,0,scope);
         symbol* resNode = doesExist(node);
         if(resNode!=NULL){
-            printf("%s\n","found!");
+            // printf("%s\n","found!");
             printf("%s\n",resNode->name);
             return resNode;
         }
