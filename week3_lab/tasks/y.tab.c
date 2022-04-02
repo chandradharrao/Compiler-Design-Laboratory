@@ -145,7 +145,7 @@ typedef union{
 	char* varname;
 	char* number;
 	char* cval;
-	int remVar; //in case of bad decleration
+	int remVar; //remove variable from sym tab;e
 } yy_parse_stype;
 #define YY_parse_STYPE yy_parse_stype
 #ifndef YY_USE_CLASS
@@ -633,10 +633,10 @@ static const short yyrhs[] = {    44,
 #if (YY_parse_DEBUG != 0) || defined(YY_parse_ERROR_VERBOSE) 
 static const short yyrline[] = { 0,
     55,    68,    69,    70,    71,    74,    74,    78,    79,    82,
-   113,   136,   137,   138,   139,   143,   184,   185,   200,   211,
-   219,   231,   242,   257,   268,   271,   302,   312,   326,   327,
-   328,   329,   330,   331,   336,   340,   342,   343,   346,   347,
-   348,   351,   352,   355,   357,   359,   360
+   114,   139,   140,   141,   142,   146,   190,   191,   209,   225,
+   241,   259,   272,   288,   305,   308,   347,   357,   371,   372,
+   373,   374,   375,   376,   381,   385,   387,   388,   391,   392,
+   393,   396,   397,   400,   402,   404,   405
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","T_INT","T_CHAR",
@@ -1242,41 +1242,43 @@ case 7:
 case 10:
 #line 82 "parser.y"
 {
-		printf("%s\n","Assignment while decleration!");
+		if(yyvsp[0].remVar!=1){
+			printf("%s\n","Assignment while decleration!");
+			if(isDecl){
+				printf("Declaring var %s...\n",yyvsp[-2].varname);
+				symbol* node = declare_variable(yyvsp[-2].varname);
 
-		if(isDecl){
-			printf("Declaring var %s...\n",yyvsp[-2].varname);
-			symbol* node = declare_variable(yyvsp[-2].varname);
-
-			if(!node){
-				yyerror("[ERROR]:Variable already declared!");
-			}
-			else{
-				printf("Declared: %s\n",node->name);
-				//if running datattype is int
-				if(*currDatatype==2){
-					temp = (char*)malloc(sizeof(char)*100);
-					intToString(yyvsp[0].ival);
-					node->val = temp;
+				if(!node){
+					yyerror("[ERROR]:Variable already declared!");
 				}
-				//if running datatype is float
-				else if(*currDatatype==3){
-					temp = (char*)malloc(sizeof(char)*100);
-					floatToString(yyvsp[0].fval);
-					node->val = temp;
-				}
-				//if running datatype is char
 				else{
-					node->val = yyvsp[0].cval;
+					printf("Declared: %s\n",node->name);
+					//if running datattype is int
+					if(*currDatatype==2){
+						temp = (char*)malloc(sizeof(char)*100);
+						intToString(yyvsp[0].ival);
+						node->val = temp;
+					}
+					//if running datatype is float
+					else if(*currDatatype==3){
+						temp = (char*)malloc(sizeof(char)*100);
+						floatToString(yyvsp[0].fval);
+						node->val = temp;
+					}
+					//if running datatype is char
+					else{
+						node->val = yyvsp[0].cval;
+					}
 				}
 			}
 		}
 ;
     break;}
 case 11:
-#line 113 "parser.y"
+#line 114 "parser.y"
 {
-			 	printf("%s\n","[DEBUG]:Reduction of T_ID to V");
+			if(yyvsp[0].remVar!=1){
+				printf("%s\n","[DEBUG]:Reduction of T_ID to V");
 			 	//if we are declaring variables like int x;
 				if(isDecl){
 					symbol* node = declare_variable(yyvsp[0].varname);
@@ -1295,88 +1297,100 @@ case 11:
 						yyerror("[ERROR]:Variable not declared!");
 					}
 				}
+			}
 		;
     break;}
 case 12:
-#line 136 "parser.y"
+#line 139 "parser.y"
 {isDecl=1;typTrack(2);/*printf("Assigned INT\n")*/;;
     break;}
 case 13:
-#line 137 "parser.y"
+#line 140 "parser.y"
 {isDecl=1;typTrack(3);/*printf("Assigned FLOAT\n")*/;;
     break;}
 case 14:
-#line 138 "parser.y"
+#line 141 "parser.y"
 {isDecl=1;typTrack(4);/*printf("Assigned DOUBLE\n")*/;;
     break;}
 case 15:
-#line 139 "parser.y"
+#line 142 "parser.y"
 {isDecl=1;typTrack(1);printf("Assigned CHAR\n");;
     break;}
 case 16:
-#line 143 "parser.y"
+#line 146 "parser.y"
 {
-	printf("%s\n","Assignment of val to var");
-	//check if declared in the symbol table
-	printf("Checking for %s,%d\n",yyvsp[-2].varname,currScope);
-	symbol* variable = check_symbol_table(yyvsp[-2].varname,currScope);
-	if(!variable){
-		yyerror("[ERROR]:Variable not declared!");
-	}else{
-		if(*currDatatype==2){
-			printf("To assign val: %d to %s\n",yyvsp[0].ival,yyvsp[-2].varname);
-			//weird error if i dont do this...
-			temp2 = (char*)malloc(sizeof(char)*100);
-			strcpy(temp2,yyvsp[-2].varname);
-			yyvsp[-2].ival = yyvsp[0].ival;
-			temp = (char*)malloc(sizeof(char)*100);
-			intToString(yyvsp[0].ival);
-			printf("Converted from int to string %s\n",temp);
-			
-			int res = insert_value_to_name(temp2,temp,currScope);
-			if(res){
-				printf("Assigned val in sym table\n");
-			}else{
-				printf("Var undeclared!\n");
+	if(yyvsp[0].remVar!=1){
+		printf("%s\n","Assignment of val to var");
+		//check if declared in the symbol table
+		printf("Checking for %s,%d\n",yyvsp[-2].varname,currScope);
+		symbol* variable = check_symbol_table(yyvsp[-2].varname,currScope);
+		if(!variable){
+			yyerror("[ERROR]:Variable not declared!");
+		}else{
+			if(*currDatatype==2){
+				printf("To assign val: %d to %s\n",yyvsp[0].ival,yyvsp[-2].varname);
+				//weird error if i dont do this...
+				temp2 = (char*)malloc(sizeof(char)*100);
+				strcpy(temp2,yyvsp[-2].varname);
+				yyvsp[-2].ival = yyvsp[0].ival;
+				temp = (char*)malloc(sizeof(char)*100);
+				intToString(yyvsp[0].ival);
+				printf("Converted from int to string %s\n",temp);
+				
+				int res = insert_value_to_name(temp2,temp,currScope);
+				if(res){
+					printf("Assigned val in sym table\n");
+				}else{
+					printf("Var undeclared!\n");
+				}
+			}
+			else if(*currDatatype==3){
+				temp2 = (char*)malloc(sizeof(char)*100);
+				strcpy(temp2,yyvsp[-2].varname);
+				yyvsp[-2].fval = yyvsp[0].fval;
+				temp = (char*)malloc(sizeof(char)*100);
+				floatToString(yyvsp[0].fval);
+				insert_value_to_name(temp2,temp,currScope);
+			}
+			else{
+				//character
+				insert_value_to_name(yyvsp[-2].varname,yyvsp[0].cval,currScope);
 			}
 		}
-		else if(*currDatatype==3){
-			temp2 = (char*)malloc(sizeof(char)*100);
-			strcpy(temp2,yyvsp[-2].varname);
-			yyvsp[-2].fval = yyvsp[0].fval;
-			temp = (char*)malloc(sizeof(char)*100);
-			floatToString(yyvsp[0].fval);
-			insert_value_to_name(temp2,temp,currScope);
-		}
-		else{
-			//character
-			insert_value_to_name(yyvsp[-2].varname,yyvsp[0].cval,currScope);
-		}
 	}
+	yyval.remVar = yyvsp[-2].remVar;
 ;
     break;}
 case 18:
-#line 185 "parser.y"
+#line 191 "parser.y"
 {
-			   	if(*currDatatype==2){
-					   yyval.ival = yyvsp[0].ival;
-					   printf("Reduction of E to Expr: %d\n",yyval.ival);
+			   	if(yyvsp[0].remVar!=1){
+					if(*currDatatype==2){
+					   	yyval.ival = yyvsp[0].ival;
+						printf("Reduction of E to Expr: %d\n",yyval.ival);
+					}
+					else if(*currDatatype==3){
+						yyval.fval = yyvsp[0].fval;
+					}
+					else{
+						//character type
+						yyval.cval = yyvsp[0].cval;
+					}
 				}
-				else if(*currDatatype==3){
-					yyval.fval = yyvsp[0].fval;
-				}
-				else{
-					//character type
-					yyval.cval = yyvsp[0].cval;
-				}
+			   	yyval.remVar = yyvsp[0].remVar;
 		   ;
     break;}
 case 19:
-#line 200 "parser.y"
+#line 209 "parser.y"
 {
-	printf("Addition expression called!\n");
 	printf("Currdatatype: %d\n",*currDatatype);
-	if(*currDatatype==2){
+	printf("Addition expression called!\n");
+
+	if(*currDatatype==1 || yyvsp[-2].remVar==1 || yyvsp[0].remVar==1){
+			yyerror("[ERROR}:Cannot do div for string!");
+			yyval.remVar = 1;
+	}
+	else if(*currDatatype==2){
 		int sum =0;
 		printf("Args %d,%d\n",yyvsp[-2].ival,yyvsp[0].ival);
 		sum = yyvsp[-2].ival+yyvsp[0].ival;
@@ -1386,33 +1400,48 @@ case 19:
 ;
     break;}
 case 20:
-#line 211 "parser.y"
+#line 225 "parser.y"
 {
-		if(*currDatatype==2){
+		if(*currDatatype==1 || yyvsp[-2].remVar==1 || yyvsp[0].remVar==1){
+			yyerror("[ERROR}:Cannot do div for string!");
+			yyval.remVar = 1;
+		}
+		else if(*currDatatype==2){
 			yyval.ival= yyvsp[-2].ival-yyvsp[0].ival;
 		}
 		else if(*currDatatype==3){
 			yyval.fval= yyvsp[-2].fval-yyvsp[0].fval;
 		}
+		else if(*currDatatype==1){
+			yyerror("[ERROR]:cannot do subtratcion with string!");
+		}
+		yyval.remVar = 1;
 	;
     break;}
 case 21:
-#line 219 "parser.y"
+#line 241 "parser.y"
 {
 		printf("Reduction of T to E\n");
-		if(*currDatatype==2){
-			yyval.ival = yyvsp[0].ival;
+		if(yyvsp[0].remVar!=1){
+			if(*currDatatype==2){
+				yyval.ival = yyvsp[0].ival;
+			}
+			else if(*currDatatype==3){
+				yyval.fval = yyvsp[0].fval;
+			}
+			else if(*currDatatype==1){
+				yyval.cval = yyvsp[0].cval;
+			}
 		}
-		else if(*currDatatype==3){
-			yyval.fval = yyvsp[0].fval;
-		}
+		yyval.remVar = yyvsp[0].remVar;
 	;
     break;}
 case 22:
-#line 231 "parser.y"
+#line 259 "parser.y"
 {
-	if(*currDatatype==1){
-		yyerror("[ERROR}:Cannot do mul for string!");
+	if(*currDatatype==1 || yyvsp[-2].remVar==1 || yyvsp[0].remVar==1){
+			yyerror("[ERROR}:Cannot do div for string!");
+			yyval.remVar = 1;
 	}
 	else if(*currDatatype==2){
 		yyval.ival = (int)yyvsp[-2].ival*(int)yyvsp[0].ival;
@@ -1420,13 +1449,15 @@ case 22:
 	else if(*currDatatype==3){
 		yyval.fval = (float)yyvsp[-2].fval*(float)yyvsp[0].fval;
 	}
+	yyval.remVar = 1;
 ;
     break;}
 case 23:
-#line 242 "parser.y"
+#line 272 "parser.y"
 {
-		if(*currDatatype==1){
+		if(*currDatatype==1 || yyvsp[-2].remVar==1 || yyvsp[0].remVar==1){
 			yyerror("[ERROR}:Cannot do div for string!");
+			yyval.remVar = 1;
 		}
 		else{
 			//lower grammar rules will take care to supply $1 and $3 with ivals and not fvals.
@@ -1441,25 +1472,31 @@ case 23:
 	;
     break;}
 case 24:
-#line 257 "parser.y"
+#line 288 "parser.y"
 {
 		printf("Reduction of F to T\n");
-		if(*currDatatype==2){
-			yyval.ival = yyvsp[0].ival;
+		if(yyvsp[0].remVar!=1){
+			if(*currDatatype==2){
+				yyval.ival = yyvsp[0].ival;
+			}
+			else if(*currDatatype==3){
+				yyval.fval = yyvsp[0].fval;
+			}
+			else if(*currDatatype==1){
+				strcpy(yyval.cval,yyvsp[0].cval);
+			}
 		}
-		else if(*currDatatype==3){
-			yyval.fval = yyvsp[0].fval;
-		}
+		yyval.remVar = yyvsp[0].remVar;
 	;
     break;}
 case 25:
-#line 268 "parser.y"
+#line 305 "parser.y"
 {
 	yyval = yyvsp[-1];
 ;
     break;}
 case 26:
-#line 271 "parser.y"
+#line 308 "parser.y"
 {
 		printf("T_ID of var %s called\n",yyvsp[0].varname);
 		symbol* variable = check_symbol_table(yyvsp[0].varname,currScope);
@@ -1478,6 +1515,11 @@ case 26:
 					printf("Int to int :)\n");
 					yyval.ival = atoi(variable->val);
 				}
+				//if var is string,error
+				else if(variable->type==1){
+					yyerror("[ERROR]:Cannot assign string to int!");
+					yyval.remVar = 1;
+				}
 				printf("T_ID reduction to F=%d\n",yyval.ival);
 			}
 			//running datatype is float
@@ -1487,13 +1529,16 @@ case 26:
 					yyval.fval = (float)atoi(variable->val);
 				}else if(variable->type==3){
 					yyval.fval = atof(variable->val);
+				}else if(variable->type==1){
+					yyerror("[ERROR]:Cannot assign string to float!");
+					yyval.remVar = 1;
 				}
 			}
 		}
 	;
     break;}
 case 27:
-#line 302 "parser.y"
+#line 347 "parser.y"
 {
 		if(*currDatatype==2){
 			printf("Integer Constant: %d\n",atoi(yyvsp[0].number));
@@ -1506,34 +1551,34 @@ case 27:
 	;
     break;}
 case 28:
-#line 312 "parser.y"
+#line 357 "parser.y"
 {
 		printf("String literal!\n");
 		if(*currDatatype==2){
 				yyerror("[ERROR:] type mismatch! Cant assign string to int type");
-				//remove incorrect decleration from symbol table
-				yyvsp[0].remVar = 1;
+				//remove decleration from symbol table
+				yyval.remVar = 1;
 			}
 		else if(*currDatatype==3){
 				yyerror("[ERROR:] type mismatch! Cant assign string to float type");
-				yyvsp[0].remVar = 1;
+				yyval.remVar = 1;
 			}
 	;
     break;}
 case 35:
-#line 336 "parser.y"
+#line 381 "parser.y"
 {currScope = incrScope();;
     break;}
 case 36:
-#line 340 "parser.y"
+#line 385 "parser.y"
 {currScope = decrScope();;
     break;}
 case 44:
-#line 355 "parser.y"
+#line 400 "parser.y"
 {currScope = incrScope();;
     break;}
 case 45:
-#line 357 "parser.y"
+#line 402 "parser.y"
 {currScope=decrScope();;
     break;}
 }
@@ -1740,7 +1785,7 @@ YYLABEL(yyerrhandle)
 /* END */
 
  #line 1038 "/usr/share/bison++/bison.cc"
-#line 362 "parser.y"
+#line 407 "parser.y"
 
 
 /* error handling function */

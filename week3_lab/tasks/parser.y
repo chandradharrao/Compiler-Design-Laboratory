@@ -48,6 +48,7 @@
 	char* varname;
 	char* number;
 	char* cval;
+	int remVar; //remove variable from sym tab;e
 }
 
 %%
@@ -79,37 +80,40 @@ LISTVAR : LISTVAR ',' VAR
 	  	;
 
 VAR		: T_ID '=' EXPR 	{
-		printf("%s\n","Assignment while decleration!");
-		if(isDecl){
-			printf("Declaring var %s...\n",$1.varname);
-			symbol* node = declare_variable($1.varname);
+		if($3.remVar!=1){
+			printf("%s\n","Assignment while decleration!");
+			if(isDecl){
+				printf("Declaring var %s...\n",$1.varname);
+				symbol* node = declare_variable($1.varname);
 
-			if(!node){
-				yyerror("[ERROR]:Variable already declared!");
-			}
-			else{
-				printf("Declared: %s\n",node->name);
-				//if running datattype is int
-				if(*currDatatype==2){
-					temp = (char*)malloc(sizeof(char)*100);
-					intToString($3.ival);
-					node->val = temp;
+				if(!node){
+					yyerror("[ERROR]:Variable already declared!");
 				}
-				//if running datatype is float
-				else if(*currDatatype==3){
-					temp = (char*)malloc(sizeof(char)*100);
-					floatToString($3.fval);
-					node->val = temp;
-				}
-				//if running datatype is char
 				else{
-					node->val = $3.cval;
+					printf("Declared: %s\n",node->name);
+					//if running datattype is int
+					if(*currDatatype==2){
+						temp = (char*)malloc(sizeof(char)*100);
+						intToString($3.ival);
+						node->val = temp;
+					}
+					//if running datatype is float
+					else if(*currDatatype==3){
+						temp = (char*)malloc(sizeof(char)*100);
+						floatToString($3.fval);
+						node->val = temp;
+					}
+					//if running datatype is char
+					else{
+						node->val = $3.cval;
+					}
 				}
 			}
 		}
 }
      	| T_ID 		{
-			 	printf("%s\n","[DEBUG]:Reduction of T_ID to V");
+			if($1.remVar!=1){
+				printf("%s\n","[DEBUG]:Reduction of T_ID to V");
 			 	//if we are declaring variables like int x;
 				if(isDecl){
 					symbol* node = declare_variable($1.varname);
@@ -128,6 +132,7 @@ VAR		: T_ID '=' EXPR 	{
 						yyerror("[ERROR]:Variable not declared!");
 					}
 				}
+			}
 		}	 
 
 //assign type here to be returned to the declaration grammar
@@ -139,66 +144,77 @@ TYPE 	: T_INT {isDecl=1;typTrack(2);/*printf("Assigned INT\n")*/;}
     
 /* Grammar for assignment */   
 ASSGN 	: T_ID '=' EXPR 	{
-	printf("%s\n","Assignment of val to var");
-	//check if declared in the symbol table
-	printf("Checking for %s,%d\n",$1.varname,currScope);
-	symbol* variable = check_symbol_table($1.varname,currScope);
-	if(!variable){
-		yyerror("[ERROR]:Variable not declared!");
-	}else{
-		if(*currDatatype==2){
-			printf("To assign val: %d to %s\n",$3.ival,$1.varname);
-			//weird error if i dont do this...
-			temp2 = (char*)malloc(sizeof(char)*100);
-			strcpy(temp2,$1.varname);
-			$1.ival = $3.ival;
-			temp = (char*)malloc(sizeof(char)*100);
-			intToString($3.ival);
-			printf("Converted from int to string %s\n",temp);
-			
-			int res = insert_value_to_name(temp2,temp,currScope);
-			if(res){
-				printf("Assigned val in sym table\n");
-			}else{
-				printf("Var undeclared!\n");
+	if($3.remVar!=1){
+		printf("%s\n","Assignment of val to var");
+		//check if declared in the symbol table
+		printf("Checking for %s,%d\n",$1.varname,currScope);
+		symbol* variable = check_symbol_table($1.varname,currScope);
+		if(!variable){
+			yyerror("[ERROR]:Variable not declared!");
+		}else{
+			if(*currDatatype==2){
+				printf("To assign val: %d to %s\n",$3.ival,$1.varname);
+				//weird error if i dont do this...
+				temp2 = (char*)malloc(sizeof(char)*100);
+				strcpy(temp2,$1.varname);
+				$1.ival = $3.ival;
+				temp = (char*)malloc(sizeof(char)*100);
+				intToString($3.ival);
+				printf("Converted from int to string %s\n",temp);
+				
+				int res = insert_value_to_name(temp2,temp,currScope);
+				if(res){
+					printf("Assigned val in sym table\n");
+				}else{
+					printf("Var undeclared!\n");
+				}
+			}
+			else if(*currDatatype==3){
+				temp2 = (char*)malloc(sizeof(char)*100);
+				strcpy(temp2,$1.varname);
+				$1.fval = $3.fval;
+				temp = (char*)malloc(sizeof(char)*100);
+				floatToString($3.fval);
+				insert_value_to_name(temp2,temp,currScope);
+			}
+			else{
+				//character
+				insert_value_to_name($1.varname,$3.cval,currScope);
 			}
 		}
-		else if(*currDatatype==3){
-			temp2 = (char*)malloc(sizeof(char)*100);
-			strcpy(temp2,$1.varname);
-			$1.fval = $3.fval;
-			temp = (char*)malloc(sizeof(char)*100);
-			floatToString($3.fval);
-			insert_value_to_name(temp2,temp,currScope);
-		}
-		else{
-			//character
-			insert_value_to_name($1.varname,$3.cval,currScope);
-		}
 	}
+	$$.remVar = $1.remVar;
 }
 		;
 
 EXPR 	: EXPR REL_OP E
        	| E {
-			   	if(*currDatatype==2){
-					   $$.ival = $1.ival;
-					   printf("Reduction of E to Expr: %d\n",$$.ival);
+			   	if($1.remVar!=1){
+					if(*currDatatype==2){
+					   	$$.ival = $1.ival;
+						printf("Reduction of E to Expr: %d\n",$$.ival);
+					}
+					else if(*currDatatype==3){
+						$$.fval = $1.fval;
+					}
+					else{
+						//character type
+						$$.cval = $1.cval;
+					}
 				}
-				else if(*currDatatype==3){
-					$$.fval = $1.fval;
-				}
-				else{
-					//character type
-					$$.cval = $1.cval;
-				}
+			   	$$.remVar = $1.remVar;
 		   }
        	;
 	   
 E 	: E '+' T{
-	printf("Addition expression called!\n");
 	printf("Currdatatype: %d\n",*currDatatype);
-	if(*currDatatype==2){
+	printf("Addition expression called!\n");
+
+	if(*currDatatype==1 || $1.remVar==1 || $3.remVar==1){
+			yyerror("[ERROR}:Cannot do div for string!");
+			$$.remVar = 1;
+	}
+	else if(*currDatatype==2){
 		int sum =0;
 		printf("Args %d,%d\n",$1.ival,$3.ival);
 		sum = $1.ival+$3.ival;
@@ -207,28 +223,43 @@ E 	: E '+' T{
 	}
 }
     | E '-' T {
-		if(*currDatatype==2){
+		if(*currDatatype==1 || $1.remVar==1 || $3.remVar==1){
+			yyerror("[ERROR}:Cannot do div for string!");
+			$$.remVar = 1;
+		}
+		else if(*currDatatype==2){
 			$$.ival= $1.ival-$3.ival;
 		}
 		else if(*currDatatype==3){
 			$$.fval= $1.fval-$3.fval;
 		}
+		else if(*currDatatype==1){
+			yyerror("[ERROR]:cannot do subtratcion with string!");
+		}
+		$$.remVar = 1;
 	}
     | T {
 		printf("Reduction of T to E\n");
-		if(*currDatatype==2){
-			$$.ival = $1.ival;
+		if($1.remVar!=1){
+			if(*currDatatype==2){
+				$$.ival = $1.ival;
+			}
+			else if(*currDatatype==3){
+				$$.fval = $1.fval;
+			}
+			else if(*currDatatype==1){
+				$$.cval = $1.cval;
+			}
 		}
-		else if(*currDatatype==3){
-			$$.fval = $1.fval;
-		}
+		$$.remVar = $1.remVar;
 	}
     ;
 	
 	
 T 	: T '*' F {
-	if(*currDatatype==1){
-		yyerror("[ERROR}:Cannot do mul for string!");
+	if(*currDatatype==1 || $1.remVar==1 || $3.remVar==1){
+			yyerror("[ERROR}:Cannot do div for string!");
+			$$.remVar = 1;
 	}
 	else if(*currDatatype==2){
 		$$.ival = (int)$1.ival*(int)$3.ival;
@@ -236,10 +267,12 @@ T 	: T '*' F {
 	else if(*currDatatype==3){
 		$$.fval = (float)$1.fval*(float)$3.fval;
 	}
+	$$.remVar = 1;
 }
     | T '/' F {
-		if(*currDatatype==1){
+		if(*currDatatype==1 || $1.remVar==1 || $3.remVar==1){
 			yyerror("[ERROR}:Cannot do div for string!");
+			$$.remVar = 1;
 		}
 		else{
 			//lower grammar rules will take care to supply $1 and $3 with ivals and not fvals.
@@ -254,12 +287,18 @@ T 	: T '*' F {
 	}
     | F {
 		printf("Reduction of F to T\n");
-		if(*currDatatype==2){
-			$$.ival = $1.ival;
+		if($1.remVar!=1){
+			if(*currDatatype==2){
+				$$.ival = $1.ival;
+			}
+			else if(*currDatatype==3){
+				$$.fval = $1.fval;
+			}
+			else if(*currDatatype==1){
+				strcpy($$.cval,$1.cval);
+			}
 		}
-		else if(*currDatatype==3){
-			$$.fval = $1.fval;
-		}
+		$$.remVar = $1.remVar;
 	}
     ;
 
@@ -284,6 +323,11 @@ F 	: '(' EXPR ')'{
 					printf("Int to int :)\n");
 					$$.ival = atoi(variable->val);
 				}
+				//if var is string,error
+				else if(variable->type==1){
+					yyerror("[ERROR]:Cannot assign string to int!");
+					$$.remVar = 1;
+				}
 				printf("T_ID reduction to F=%d\n",$$.ival);
 			}
 			//running datatype is float
@@ -293,6 +337,9 @@ F 	: '(' EXPR ')'{
 					$$.fval = (float)atoi(variable->val);
 				}else if(variable->type==3){
 					$$.fval = atof(variable->val);
+				}else if(variable->type==1){
+					yyerror("[ERROR]:Cannot assign string to float!");
+					$$.remVar = 1;
 				}
 			}
 		}
@@ -312,9 +359,11 @@ F 	: '(' EXPR ')'{
 		if(*currDatatype==2){
 				yyerror("[ERROR:] type mismatch! Cant assign string to int type");
 				//remove decleration from symbol table
+				$$.remVar = 1;
 			}
 		else if(*currDatatype==3){
 				yyerror("[ERROR:] type mismatch! Cant assign string to float type");
+				$$.remVar = 1;
 			}
 	}
     ;

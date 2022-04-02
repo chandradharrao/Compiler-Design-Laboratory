@@ -21,7 +21,7 @@ typedef union{
 	char* varname;
 	char* number;
 	char* cval;
-	int remVar; //in case of bad decleration
+	int remVar; //remove variable from sym tab;e
 } yy_parse_stype;
 #define YY_parse_STYPE yy_parse_stype
 #ifndef YY_USE_CLASS
