@@ -28,6 +28,8 @@ symbol* doesExist(symbol* node); //check if node exist in symbol table and retur
 
 symbol* insert_into_table(char* name, int size, int type, int lineno, int scope);	//inserts symbols into the table when declared
 
+int remove_from_table(char* name,int scope); //remove an entry from the symbol table upon bad decleration.
+
 int insert_value_to_name(char* name,char* value,int scope);	//inserts values into the table when a variable is initialised
 
 symbol* check_symbol_table(char* name,int scope); //checks symbol table whether the variable has been declared or not and return it if it was declared

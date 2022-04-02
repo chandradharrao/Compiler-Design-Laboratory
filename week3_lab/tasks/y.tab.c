@@ -145,6 +145,7 @@ typedef union{
 	char* varname;
 	char* number;
 	char* cval;
+	int remVar; //in case of bad decleration
 } yy_parse_stype;
 #define YY_parse_STYPE yy_parse_stype
 #ifndef YY_USE_CLASS
@@ -631,11 +632,11 @@ static const short yyrhs[] = {    44,
 
 #if (YY_parse_DEBUG != 0) || defined(YY_parse_ERROR_VERBOSE) 
 static const short yyrline[] = { 0,
-    54,    67,    68,    69,    70,    73,    73,    77,    78,    81,
-   111,   134,   135,   136,   137,   141,   182,   183,   198,   209,
-   217,   229,   240,   255,   266,   269,   300,   310,   321,   322,
-   323,   324,   325,   326,   331,   335,   337,   338,   341,   342,
-   343,   346,   347,   350,   352,   354,   355
+    55,    68,    69,    70,    71,    74,    74,    78,    79,    82,
+   113,   136,   137,   138,   139,   143,   184,   185,   200,   211,
+   219,   231,   242,   257,   268,   271,   302,   312,   326,   327,
+   328,   329,   330,   331,   336,   340,   342,   343,   346,   347,
+   348,   351,   352,   355,   357,   359,   360
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","T_INT","T_CHAR",
@@ -1217,7 +1218,7 @@ YYLABEL(yyreduce)
   switch (yyn) {
 
 case 1:
-#line 54 "parser.y"
+#line 55 "parser.y"
 { 
 		display_symbol_table();
 		printf("Valid syntax\n"); 
@@ -1231,17 +1232,18 @@ case 1:
 	;
     break;}
 case 6:
-#line 73 "parser.y"
+#line 74 "parser.y"
 {printf("New variable decleration!\n");;
     break;}
 case 7:
-#line 73 "parser.y"
+#line 74 "parser.y"
 {printf("Finished Variable decleration!\n");isDecl=0;;
     break;}
 case 10:
-#line 81 "parser.y"
+#line 82 "parser.y"
 {
 		printf("%s\n","Assignment while decleration!");
+
 		if(isDecl){
 			printf("Declaring var %s...\n",yyvsp[-2].varname);
 			symbol* node = declare_variable(yyvsp[-2].varname);
@@ -1272,7 +1274,7 @@ case 10:
 ;
     break;}
 case 11:
-#line 111 "parser.y"
+#line 113 "parser.y"
 {
 			 	printf("%s\n","[DEBUG]:Reduction of T_ID to V");
 			 	//if we are declaring variables like int x;
@@ -1296,23 +1298,23 @@ case 11:
 		;
     break;}
 case 12:
-#line 134 "parser.y"
+#line 136 "parser.y"
 {isDecl=1;typTrack(2);/*printf("Assigned INT\n")*/;;
     break;}
 case 13:
-#line 135 "parser.y"
+#line 137 "parser.y"
 {isDecl=1;typTrack(3);/*printf("Assigned FLOAT\n")*/;;
     break;}
 case 14:
-#line 136 "parser.y"
+#line 138 "parser.y"
 {isDecl=1;typTrack(4);/*printf("Assigned DOUBLE\n")*/;;
     break;}
 case 15:
-#line 137 "parser.y"
+#line 139 "parser.y"
 {isDecl=1;typTrack(1);printf("Assigned CHAR\n");;
     break;}
 case 16:
-#line 141 "parser.y"
+#line 143 "parser.y"
 {
 	printf("%s\n","Assignment of val to var");
 	//check if declared in the symbol table
@@ -1354,7 +1356,7 @@ case 16:
 ;
     break;}
 case 18:
-#line 183 "parser.y"
+#line 185 "parser.y"
 {
 			   	if(*currDatatype==2){
 					   yyval.ival = yyvsp[0].ival;
@@ -1370,7 +1372,7 @@ case 18:
 		   ;
     break;}
 case 19:
-#line 198 "parser.y"
+#line 200 "parser.y"
 {
 	printf("Addition expression called!\n");
 	printf("Currdatatype: %d\n",*currDatatype);
@@ -1384,7 +1386,7 @@ case 19:
 ;
     break;}
 case 20:
-#line 209 "parser.y"
+#line 211 "parser.y"
 {
 		if(*currDatatype==2){
 			yyval.ival= yyvsp[-2].ival-yyvsp[0].ival;
@@ -1395,7 +1397,7 @@ case 20:
 	;
     break;}
 case 21:
-#line 217 "parser.y"
+#line 219 "parser.y"
 {
 		printf("Reduction of T to E\n");
 		if(*currDatatype==2){
@@ -1407,7 +1409,7 @@ case 21:
 	;
     break;}
 case 22:
-#line 229 "parser.y"
+#line 231 "parser.y"
 {
 	if(*currDatatype==1){
 		yyerror("[ERROR}:Cannot do mul for string!");
@@ -1421,7 +1423,7 @@ case 22:
 ;
     break;}
 case 23:
-#line 240 "parser.y"
+#line 242 "parser.y"
 {
 		if(*currDatatype==1){
 			yyerror("[ERROR}:Cannot do div for string!");
@@ -1439,7 +1441,7 @@ case 23:
 	;
     break;}
 case 24:
-#line 255 "parser.y"
+#line 257 "parser.y"
 {
 		printf("Reduction of F to T\n");
 		if(*currDatatype==2){
@@ -1451,13 +1453,13 @@ case 24:
 	;
     break;}
 case 25:
-#line 266 "parser.y"
+#line 268 "parser.y"
 {
 	yyval = yyvsp[-1];
 ;
     break;}
 case 26:
-#line 269 "parser.y"
+#line 271 "parser.y"
 {
 		printf("T_ID of var %s called\n",yyvsp[0].varname);
 		symbol* variable = check_symbol_table(yyvsp[0].varname,currScope);
@@ -1491,7 +1493,7 @@ case 26:
 	;
     break;}
 case 27:
-#line 300 "parser.y"
+#line 302 "parser.y"
 {
 		if(*currDatatype==2){
 			printf("Integer Constant: %d\n",atoi(yyvsp[0].number));
@@ -1504,31 +1506,34 @@ case 27:
 	;
     break;}
 case 28:
-#line 310 "parser.y"
+#line 312 "parser.y"
 {
 		printf("String literal!\n");
 		if(*currDatatype==2){
 				yyerror("[ERROR:] type mismatch! Cant assign string to int type");
+				//remove incorrect decleration from symbol table
+				yyvsp[0].remVar = 1;
 			}
 		else if(*currDatatype==3){
 				yyerror("[ERROR:] type mismatch! Cant assign string to float type");
+				yyvsp[0].remVar = 1;
 			}
 	;
     break;}
 case 35:
-#line 331 "parser.y"
+#line 336 "parser.y"
 {currScope = incrScope();;
     break;}
 case 36:
-#line 335 "parser.y"
+#line 340 "parser.y"
 {currScope = decrScope();;
     break;}
 case 44:
-#line 350 "parser.y"
+#line 355 "parser.y"
 {currScope = incrScope();;
     break;}
 case 45:
-#line 352 "parser.y"
+#line 357 "parser.y"
 {currScope=decrScope();;
     break;}
 }
@@ -1735,7 +1740,7 @@ YYLABEL(yyerrhandle)
 /* END */
 
  #line 1038 "/usr/share/bison++/bison.cc"
-#line 357 "parser.y"
+#line 362 "parser.y"
 
 
 /* error handling function */

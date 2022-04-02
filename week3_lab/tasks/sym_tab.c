@@ -18,6 +18,26 @@ void init_table()	{
     //printf("table allocated!Now returning...\n");
 }
 
+int remove_from_table(char* name,int scope){
+    symbol* prev = NULL;
+    symbol* curr = t->head;
+
+    while(curr){
+        if(strEq(curr->name,name) && curr->scope==scope){
+            if(!prev){
+                t->head = curr->next;
+            }
+            else{
+                prev->next = curr->next;
+            }
+            return 1;
+        }
+        prev = curr;
+        curr = curr->next;
+    }
+    return 0;
+}
+
 symbol* init_symbol(char* name, int size, int type, int lineno, int scope){
     symbol* new = (symbol*)malloc(sizeof(symbol));
     new->name = name;
