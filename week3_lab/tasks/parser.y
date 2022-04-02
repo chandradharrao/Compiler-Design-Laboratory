@@ -51,7 +51,17 @@
 }
 
 %%
-START 	: PROG { display_symbol_table();printf("Valid syntax\n"); YYACCEPT; }	
+START 	: PROG { 
+		display_symbol_table();
+		printf("Valid syntax\n"); 
+		YYACCEPT; 
+
+		//destructor
+		free(temp);
+		free(temp2);
+		free(currDatatype);
+		free(currLineNumber);
+	}	
     	;	
 	  
 PROG 	:  	MAIN PROG				
@@ -91,6 +101,10 @@ VAR		: T_ID '=' EXPR 	{
 					floatToString($3.fval);
 					node->val = temp;
 				}
+				//if running datatype is char
+				else{
+					node->val = $3.cval;
+				}
 			}
 		}
 }
@@ -120,7 +134,7 @@ VAR		: T_ID '=' EXPR 	{
 TYPE 	: T_INT {isDecl=1;typTrack(2);/*printf("Assigned INT\n")*/;}
 		| T_FLOAT {isDecl=1;typTrack(3);/*printf("Assigned FLOAT\n")*/;}
 		| T_DOUBLE {isDecl=1;typTrack(4);/*printf("Assigned DOUBLE\n")*/;}
-		| T_CHAR {isDecl=1;typTrack(1);/*printf("Assigned CHAR\n")*/;}
+		| T_CHAR {isDecl=1;typTrack(1);printf("Assigned CHAR\n");}
 		;
     
 /* Grammar for assignment */   
@@ -157,6 +171,10 @@ ASSGN 	: T_ID '=' EXPR 	{
 			floatToString($3.fval);
 			insert_value_to_name(temp2,temp,currScope);
 		}
+		else{
+			//character
+			insert_value_to_name($1.varname,$3.cval,currScope);
+		}
 	}
 }
 		;
@@ -169,6 +187,10 @@ EXPR 	: EXPR REL_OP E
 				}
 				else if(*currDatatype==3){
 					$$.fval = $1.fval;
+				}
+				else{
+					//character type
+					$$.cval = $1.cval;
 				}
 		   }
        	;
@@ -286,16 +308,14 @@ F 	: '(' EXPR ')'{
 		printf("Reduction of T_NUM to F\n");
 	}
     | T_STRLITERAL {
-		if(*currDatatype==1){
-			$$.cval = $1.cval;
-		}
-		else{
-			if(*currDatatype==2){
+		printf("String literal!\n");
+		if(*currDatatype==2){
 				yyerror("[ERROR:] type mismatch! Cant assign string to int type");
-			}else{
+				//remove decleration from symbol table
+			}
+		else if(*currDatatype==3){
 				yyerror("[ERROR:] type mismatch! Cant assign string to float type");
 			}
-		}
 	}
     ;
 
@@ -340,7 +360,9 @@ COND : EXPR
 /* error handling function */
 void yyerror(char* s)
 {
-	printf("Error :%s at %d \n",s,yylineno);
+	printf("\033[0;31m");
+	printf("%s at %d \n",s,yylineno);
+	printf("\033[0m");
 }
 
 

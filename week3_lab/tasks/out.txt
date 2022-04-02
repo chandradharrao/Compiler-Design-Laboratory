@@ -145,6 +145,17 @@ Declaring var f...
 Declared var!
 Declared: f
 Finished Variable decleration!
+New variable decleration!
+String literal!
+[0;31m Error :[ERROR:] type mismatch! Cant assign string to int type at 19 
+Reduction of F to T
+Reduction of T to E
+Reduction of E to Expr: 1258319760
+Assignment while decleration!
+Declaring var ccc...
+Declared var!
+Declared: ccc
+Finished Variable decleration!
 +=====+=====+=====+=====+=====+=====+
 |Name |Size |Type |Value|Line |Scope|
 +=====+=====+=====+=====+=====+=====+
@@ -157,5 +168,6 @@ Finished Variable decleration!
 |c    |    8|    3|1.636|   13|    2|
 |u    |    8|    3|30.00|   16|    2|
 |f    |    8|    3|48.84|   17|    2|
+|ccc  |    1|    2|12583|   19|    2|
 +=====+=====+=====+=====+=====+=====+
 Valid syntax

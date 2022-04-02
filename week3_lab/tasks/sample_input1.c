@@ -15,4 +15,6 @@ int main()
 
 	float u = 5*6;
 	float f = 8.14*6;
+
+	int ccc = "dds";
 }
