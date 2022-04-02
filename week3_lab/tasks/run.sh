@@ -5,3 +5,6 @@ lex lexer.l
 gcc -g y.tab.c lex.yy.c sym_tab.c -ll
 # valgrind --leak-check=yes ./a.out<sample_input1.c   
 ./a.out<sample_input1.c
+./a.out<sample_input0.c
+./a.out<sample_input2.c
+./a.out<sample_input3.c
