@@ -29,7 +29,7 @@ number	{digits}{opFraction}{opExponent}
 "do" 		{return T_DO;}
 "#include" 	{return T_INCLUDE;}
 "main" 		{return T_MAIN;}
-\".*\"		{yylval.txt = strdup(yytext); return T_STRLITERAL; }
+\".*\"		{yylval.cval = strdup(yytext); return T_STRLITERAL; }
 "=="		{return T_EQCOMP;}
 "!="		{return T_NOTEQUAL;}
 ">="        {return T_GREATEREQ;}
@@ -50,14 +50,14 @@ number	{digits}{opFraction}{opExponent}
 "<"         	{return *yytext;}
 {number}	{
 			printf("YYTEXT %s\n",yytext);
-			yylval.txt = yytext;  //stores the value of the number to be used later for symbol table insertion;
+			yylval.number = yytext;  //stores the value of the number to be used later for symbol table insertion;
 			return T_NUM;
 		}
 		
 {id}\.h		{return T_HEADER;}  // ending in .h => header file name
 {id}        {
 				/*printf("YYTEXT %s\n",yytext);*/
-				yylval.txt = strdup(yytext); //stores the identifier to be used later for symbol table insertion
+				yylval.varname = strdup(yytext); //stores the identifier to be used later for symbol table insertion
 				return T_ID;
 		}
 .			{} // anything else => ignore

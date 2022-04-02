@@ -10,13 +10,6 @@
 	int yylex(); // declare the function performing lexical analysis
 	extern int yylineno; // track the line number
 
-	// enum types{
-	// 	char=1,
-	// 	int=2,
-	// 	float=3,
-	// 	double=4
-	// };
-
 	/*No need to use stack to track current line number and datatype of variable since in the LMD of tree expansion,after parsing the grammar for first variable,it goes to the second variable.*/
 
 	//current data type while parsing
@@ -32,8 +25,10 @@
 	symbol* declare_variable();
 
 	char temp[100]; //to store string version of integer
+	char temp2[100];
 
 	void intToString(int num);
+	void floatToString(float num);
 
 	int incrScope();
 	int decrScope();
@@ -47,8 +42,12 @@
 %start START
 
 %union{
-	char* txt;
-	struct symbol* node;
+	int dtype;
+	int ival;
+	float fval;
+	char* varname;
+	char* number;
+	char* cval;
 }
 
 %%
@@ -61,7 +60,7 @@ PROG 	:  	MAIN PROG
 		| 					
 		;
 	 
-DECLR 	: TYPE LISTVAR 
+DECLR 	: {printf("New variable decleration!\n");}TYPE LISTVAR {printf("Finished Variable decleration!\n");isDecl=0;}
 		;	
 
 
@@ -73,26 +72,25 @@ VAR		: T_ID '=' EXPR 	{
 		printf("%s\n","Assignment while decleration!");
 }
      	| T_ID 		{
-			 printf("%s\n","[DEBUG]:Reduction of T_ID to V");
-			 //if we are decleration
-			 if(isDecl){
-				symbol* node = declare_variable();
-				if(node==NULL){
-					yyerror("[ERROR]:Variable already declared!");
-					exit(0);
+			 	printf("%s\n","[DEBUG]:Reduction of T_ID to V");
+			 	//if we are declaring variables like int x;
+				if(isDecl){
+					symbol* node = declare_variable();
+					if(node==NULL){
+						yyerror("[ERROR]:Variable already declared!");
+						exit(0);
+					}
+					printf("Declared: %s\n",node->name);
 				}
-				$$.node = node;
-				printf("Declared: %s\n",$$.node->name);
-			 }
-			else{
-				//if we are using to terminate expressions like E+E
-				//search if the variable is declerared already
-				$$.node = check_symbol_table($$.txt,currScope);
-				if($$.node==NULL){
-					yyerror("[ERROR]:Variable not declared!");
-					exit(0);
+				else{
+					//if we are using to terminate expressions like E+E
+					//search if the variable is declerared already
+					symbol* node = check_symbol_table($$.varname,currScope);
+					if(node==NULL){
+						yyerror("[ERROR]:Variable not declared!");
+						exit(0);
+					}
 				}
-			}
 		}	 
 
 //assign type here to be returned to the declaration grammar
@@ -106,23 +104,43 @@ TYPE 	: T_INT {isDecl = 1;typTrack(2);/*printf("Assigned INT\n")*/;}
 ASSGN 	: T_ID '=' EXPR 	{
 	printf("%s\n","Assignment of val to var");
 	//check if declared in the symbol table
-	printf("Checking for %s,%d\n",$1.txt,currScope);
-	$1.node = check_symbol_table($1.txt,currScope);
-	if($1.node==NULL){
+	printf("Checking for %s,%d\n",$1.varname,currScope);
+	symbol* variable = check_symbol_table($1.varname,currScope);
+	if(!variable){
 		yyerror("[ERROR]:Variable not declared!");
-		exit(0);
 	}else{
-		printf("To assign val: %s to %s\n",$3.txt,$1.node->name);
-		insert_value_to_name($1.node->name,$3.txt,currScope);
+		if(*currDatatype==2){
+			printf("To assign val: %d to %s\n",$3.ival,$1.varname);
+			strcpy(temp2,$1.varname);
+			$1.ival = $3.ival;
+			intToString($3.ival);
+			printf("Converted from int to string %s\n",temp);
+			
+			int res = insert_value_to_name(temp2,temp,currScope);
+			if(res){
+				printf("Assigned val in sym table\n");
+			}else{
+				printf("Var undeclared!\n");
+			}
+		}
+		else if(*currDatatype==3){
+			$1.fval = $3.fval;
+			floatToString($3.fval);
+			insert_value_to_name($1.varname,temp,currScope);
+		}
 	}
 }
 		;
 
 EXPR 	: EXPR REL_OP E
        	| E {
-			   	$$.txt = (char*)malloc(100);
-			   	strcpy($$.txt,$1.txt);
-				printf("Reduction of E to Expr: %s\n",$$.txt);
+			   	if(*currDatatype==2){
+					   $$.ival = $1.ival;
+					   printf("Reduction of E to Expr: %d\n",$$.ival);
+				}
+				else if(*currDatatype==3){
+					$$.fval = $1.fval;
+				}
 		   }
        	;
 	   
@@ -131,17 +149,21 @@ E 	: E '+' T{
 	printf("Currdatatype: %d\n",*currDatatype);
 	if(*currDatatype==2){
 		int sum =0;
-		printf("Args %s,%s\n",$1.node->val,$3.node->val);
-		sum = atoi($1.node->val)+atoi($3.node->val);
+		printf("Args %d,%d\n",$1.ival,$3.ival);
+		sum = $1.ival+$3.ival;
 		printf("The Sum obtained from expression is %d\n",sum);
-		sprintf($$.txt,"%d",sum);
+		$$.ival = sum;
 	}
 }
     | E '-' T
     | T {
-		$$.txt = (char*)malloc(100);
-		strcpy($$.txt,$1.txt);
-		printf("Reduction of T to E: %s\n",$$.txt);
+		printf("Reduction of T to E\n");
+		if(*currDatatype==2){
+			$$.ival = $1.ival;
+		}
+		else if(*currDatatype==3){
+			$$.fval = $1.fval;
+		}
 	}
     ;
 	
@@ -149,26 +171,49 @@ E 	: E '+' T{
 T 	: T '*' F
     | T '/' F
     | F {
-		$$.txt = (char*)malloc(100);
-		strcpy($$.txt,$1.txt);
-		printf("Reduction of F to T: %s\n",$$.txt);
+		printf("Reduction of F to T\n");
+		if(*currDatatype==2){
+			$$.ival = $1.ival;
+		}
+		else if(*currDatatype==3){
+			$$.fval = $1.fval;
+		}
 	}
     ;
 
 F 	: '(' EXPR ')'
     | T_ID {
-		printf("T_ID of var %s called\n",$1.txt);
-		symbol* variable = check_symbol_table($1.txt,currScope);
+		printf("T_ID of var %s called\n",$1.varname);
+		symbol* variable = check_symbol_table($1.varname,currScope);
 		if(variable && variable->val){
 			printf("%s\n","found Entry!!");
-			$$.node = variable;
-			printf("%s.val=%s\n",$$.node->name,$$.node->val);
+			printf("%s.val=%s\n",variable->name,variable->val);
+			//running ie context datatype==int
+			if(*currDatatype==2){
+				//if variable is float convert to int
+				if(variable->type==3){
+					printf("Float to int :(\n");
+					$$.ival = (int)$1.fval;
+				}
+				//if variable is int,copy it
+				else if(variable->type==2){
+					printf("Int to int :)\n");
+					$$.ival = atoi(variable->val);
+				}
+				printf("T_ID reduction to F=%d\n",$$.ival);
+			}
+			else if(*currDatatype==3){
+			}
 		}
 	}
     | T_NUM {
-		$$.txt = (char*)malloc(100);
-		strcpy($$.txt,$1.txt);
-		printf("Reduction of T_NUM to F: %s\n",$$.txt);
+		if(*currDatatype==2){
+			printf("Integer Constant!\n");
+			$$.ival = atoi($1.number);
+		}
+		else if(*currDatatype==3){
+		}
+		printf("Reduction of T_NUM to F\n");
 	}
     | T_STRLITERAL 
     ;
@@ -263,7 +308,7 @@ void lineTrack(int lno){
 symbol* declare_variable(){
 	//printf("Processing to make sym table entry...\n");
 	lineTrack(yylineno);
-	symbol* res = insert_into_table(yylval.txt,size_of(*currDatatype),*currDatatype,*currLineNumber,currScope);
+	symbol* res = insert_into_table(yylval.varname,size_of(*currDatatype),*currDatatype,*currLineNumber,currScope);
 	if(res==NULL){
 		yyerror("[ERROR] Variable already declared!");
 		return NULL;
@@ -298,5 +343,9 @@ int size_of(int type){
 }
 
 void intToString(int num){
-		sprintf(temp,"%d",num);
+	sprintf(temp,"%d",num);
+}
+
+void floatToString(float num){
+	sprintf(temp,"%f",num);
 }

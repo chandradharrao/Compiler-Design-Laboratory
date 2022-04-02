@@ -775,7 +775,7 @@ YY_RULE_SETUP
 case 13:
 YY_RULE_SETUP
 #line 32 "lexer.l"
-{yylval.txt = strdup(yytext); return T_STRLITERAL; }
+{yylval.cval = strdup(yytext); return T_STRLITERAL; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
@@ -872,7 +872,7 @@ YY_RULE_SETUP
 #line 51 "lexer.l"
 {
 			printf("YYTEXT %s\n",yytext);
-			yylval.txt = yytext;  //stores the value of the number to be used later for symbol table insertion;
+			yylval.number = yytext;  //stores the value of the number to be used later for symbol table insertion;
 			return T_NUM;
 		}
 	YY_BREAK
@@ -886,7 +886,7 @@ YY_RULE_SETUP
 #line 58 "lexer.l"
 {
 				/*printf("YYTEXT %s\n",yytext);*/
-				yylval.txt = strdup(yytext); //stores the identifier to be used later for symbol table insertion
+				yylval.varname = strdup(yytext); //stores the identifier to be used later for symbol table insertion
 				return T_ID;
 		}
 	YY_BREAK
