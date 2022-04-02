@@ -22,10 +22,10 @@
 	int size_of(int type);
 
 	//function to declare variable
-	symbol* declare_variable();
+	symbol* declare_variable(char* varname);
 
-	char temp[100]; //to store string version of integer
-	char temp2[100];
+	char* temp; //to store string version of integer
+	char* temp2;;
 
 	void intToString(int num);
 	void floatToString(float num);
@@ -70,17 +70,41 @@ LISTVAR : LISTVAR ',' VAR
 
 VAR		: T_ID '=' EXPR 	{
 		printf("%s\n","Assignment while decleration!");
+		if(isDecl){
+			printf("Declaring var %s...\n",$1.varname);
+			symbol* node = declare_variable($1.varname);
+
+			if(!node){
+				yyerror("[ERROR]:Variable already declared!");
+			}
+			else{
+				printf("Declared: %s\n",node->name);
+				//if running datattype is int
+				if(*currDatatype==2){
+					temp = (char*)malloc(sizeof(char)*100);
+					intToString($3.ival);
+					node->val = temp;
+				}
+				//if running datatype is float
+				else if(*currDatatype==3){
+					temp = (char*)malloc(sizeof(char)*100);
+					floatToString($3.fval);
+					node->val = temp;
+				}
+			}
+		}
 }
      	| T_ID 		{
 			 	printf("%s\n","[DEBUG]:Reduction of T_ID to V");
 			 	//if we are declaring variables like int x;
 				if(isDecl){
-					symbol* node = declare_variable();
+					symbol* node = declare_variable($1.varname);
 					if(node==NULL){
 						yyerror("[ERROR]:Variable already declared!");
-						exit(0);
 					}
-					printf("Declared: %s\n",node->name);
+					else{
+						printf("Declared: %s\n",node->name);
+					}	
 				}
 				else{
 					//if we are using to terminate expressions like E+E
@@ -88,16 +112,15 @@ VAR		: T_ID '=' EXPR 	{
 					symbol* node = check_symbol_table($$.varname,currScope);
 					if(node==NULL){
 						yyerror("[ERROR]:Variable not declared!");
-						exit(0);
 					}
 				}
 		}	 
 
 //assign type here to be returned to the declaration grammar
-TYPE 	: T_INT {isDecl = 1;typTrack(2);/*printf("Assigned INT\n")*/;}
-		| T_FLOAT {typTrack(3);/*printf("Assigned FLOAT\n")*/;}
-		| T_DOUBLE {typTrack(4);/*printf("Assigned DOUBLE\n")*/;}
-		| T_CHAR {typTrack(1);/*printf("Assigned CHAR\n")*/;}
+TYPE 	: T_INT {isDecl=1;typTrack(2);/*printf("Assigned INT\n")*/;}
+		| T_FLOAT {isDecl=1;typTrack(3);/*printf("Assigned FLOAT\n")*/;}
+		| T_DOUBLE {isDecl=1;typTrack(4);/*printf("Assigned DOUBLE\n")*/;}
+		| T_CHAR {isDecl=1;typTrack(1);/*printf("Assigned CHAR\n")*/;}
 		;
     
 /* Grammar for assignment */   
@@ -111,8 +134,11 @@ ASSGN 	: T_ID '=' EXPR 	{
 	}else{
 		if(*currDatatype==2){
 			printf("To assign val: %d to %s\n",$3.ival,$1.varname);
+			//weird error if i dont do this...
+			temp2 = (char*)malloc(sizeof(char)*100);
 			strcpy(temp2,$1.varname);
 			$1.ival = $3.ival;
+			temp = (char*)malloc(sizeof(char)*100);
 			intToString($3.ival);
 			printf("Converted from int to string %s\n",temp);
 			
@@ -124,9 +150,12 @@ ASSGN 	: T_ID '=' EXPR 	{
 			}
 		}
 		else if(*currDatatype==3){
+			temp2 = (char*)malloc(sizeof(char)*100);
+			strcpy(temp2,$1.varname);
 			$1.fval = $3.fval;
+			temp = (char*)malloc(sizeof(char)*100);
 			floatToString($3.fval);
-			insert_value_to_name($1.varname,temp,currScope);
+			insert_value_to_name(temp2,temp,currScope);
 		}
 	}
 }
@@ -155,7 +184,14 @@ E 	: E '+' T{
 		$$.ival = sum;
 	}
 }
-    | E '-' T
+    | E '-' T {
+		if(*currDatatype==2){
+			$$.ival= $1.ival-$3.ival;
+		}
+		else if(*currDatatype==3){
+			$$.fval= $1.fval-$3.fval;
+		}
+	}
     | T {
 		printf("Reduction of T to E\n");
 		if(*currDatatype==2){
@@ -168,8 +204,32 @@ E 	: E '+' T{
     ;
 	
 	
-T 	: T '*' F
-    | T '/' F
+T 	: T '*' F {
+	if(*currDatatype==1){
+		yyerror("[ERROR}:Cannot do mul for string!");
+	}
+	else if(*currDatatype==2){
+		$$.ival = (int)$1.ival*(int)$3.ival;
+	}
+	else if(*currDatatype==3){
+		$$.fval = (float)$1.fval*(float)$3.fval;
+	}
+}
+    | T '/' F {
+		if(*currDatatype==1){
+			yyerror("[ERROR}:Cannot do div for string!");
+		}
+		else{
+			//lower grammar rules will take care to supply $1 and $3 with ivals and not fvals.
+			if(*currDatatype==2){
+				$$.ival = (int)$1.ival/(int)$3.ival;
+			}
+			//lower grammar rules will supply $1 and $3 with fvals and not ivals
+			else if(*currDatatype==3){
+				$$.fval = (float)$1.fval/(float)$3.fval;
+			}
+		}
+	}
     | F {
 		printf("Reduction of F to T\n");
 		if(*currDatatype==2){
@@ -181,7 +241,9 @@ T 	: T '*' F
 	}
     ;
 
-F 	: '(' EXPR ')'
+F 	: '(' EXPR ')'{
+	$$ = $2;
+}
     | T_ID {
 		printf("T_ID of var %s called\n",$1.varname);
 		symbol* variable = check_symbol_table($1.varname,currScope);
@@ -193,7 +255,7 @@ F 	: '(' EXPR ')'
 				//if variable is float convert to int
 				if(variable->type==3){
 					printf("Float to int :(\n");
-					$$.ival = (int)$1.fval;
+					$$.ival = (int)atof(variable->val);
 				}
 				//if variable is int,copy it
 				else if(variable->type==2){
@@ -202,20 +264,39 @@ F 	: '(' EXPR ')'
 				}
 				printf("T_ID reduction to F=%d\n",$$.ival);
 			}
+			//running datatype is float
 			else if(*currDatatype==3){
+				//if variable type is int,typecast
+				if(variable->type==2){
+					$$.fval = (float)atoi(variable->val);
+				}else if(variable->type==3){
+					$$.fval = atof(variable->val);
+				}
 			}
 		}
 	}
     | T_NUM {
 		if(*currDatatype==2){
-			printf("Integer Constant!\n");
+			printf("Integer Constant: %d\n",atoi($1.number));
 			$$.ival = atoi($1.number);
 		}
 		else if(*currDatatype==3){
+			$$.fval = atof($1.number);
 		}
 		printf("Reduction of T_NUM to F\n");
 	}
-    | T_STRLITERAL 
+    | T_STRLITERAL {
+		if(*currDatatype==1){
+			$$.cval = $1.cval;
+		}
+		else{
+			if(*currDatatype==2){
+				yyerror("[ERROR:] type mismatch! Cant assign string to int type");
+			}else{
+				yyerror("[ERROR:] type mismatch! Cant assign string to float type");
+			}
+		}
+	}
     ;
 
 REL_OP :   T_LESSEREQ
@@ -305,10 +386,10 @@ void lineTrack(int lno){
 }
 
 //function to insert variable decleration with type and line number into symbol table
-symbol* declare_variable(){
+symbol* declare_variable(char* varname){
 	//printf("Processing to make sym table entry...\n");
 	lineTrack(yylineno);
-	symbol* res = insert_into_table(yylval.varname,size_of(*currDatatype),*currDatatype,*currLineNumber,currScope);
+	symbol* res = insert_into_table(varname,size_of(*currDatatype),*currDatatype,*currLineNumber,currScope);
 	if(res==NULL){
 		yyerror("[ERROR] Variable already declared!");
 		return NULL;
