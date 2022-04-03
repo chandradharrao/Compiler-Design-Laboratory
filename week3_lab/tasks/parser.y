@@ -12,11 +12,11 @@
 
 	/*No need to use stack to track current line number and datatype of variable since in the LMD of tree expansion,after parsing the grammar for first variable,it goes to the second variable.*/
 
-	//current data type while parsing
+	//current/running data type while parsing
 	int* currDatatype=NULL;
 	//current line number of variable decleration during parsing
 	int* currLineNumber=NULL;
-	//manage curr scope
+	//current/running scope while parsing
 	int currScope = 1;
 	//get sizeof datatype
 	int size_of(int type);
@@ -25,7 +25,7 @@
 	symbol* declare_variable(char* varname);
 
 	char* temp; //to store string version of integer
-	char* temp2;;
+	char* temp2;; //to copy the varname
 
 	void intToString(int num);
 	void floatToString(float num);
@@ -51,7 +51,7 @@
 	char* varname;
 	char* number;
 	char* cval;
-	int remVar; //remove variable from sym tab;e
+	int remVar; //did we assign incompatible types? if yes,we shld not make an entry in the symbol table.Hence remove variable from sym table
 }
 
 %%
@@ -91,6 +91,7 @@ LISTVAR : LISTVAR ',' VAR
 	  	;
 
 VAR		: T_ID '=' EXPR 	{
+		//if we are assigning compatible types:
 		if($3.remVar!=1){
 			// printf("%s\n","Assignment while decleration!");
 			if(isDecl){
@@ -158,6 +159,7 @@ TYPE 	: T_INT {isDecl=1;typTrack(2);}
     
 /* Grammar for assignment */   
 ASSGN 	: T_ID  {
+	//find out the type of the variable and change the currDatatype to the datatype of teh variable so that the type casts made in future are correct.
 	symbol* var = check_symbol_table($1.varname,currScope);
 	if(var){
 		*currDatatype = var->type;
@@ -179,10 +181,13 @@ ASSGN 	: T_ID  {
 		}else{
 			if(*currDatatype==2){
 				//printf("To assign val: %d to %s\n",$4.ival,$1.varname);
-				//weird error if i dont do this...
+				//Copy variable name (weird error if i dont do this...)
 				temp2 = (char*)malloc(sizeof(char)*100);
 				strcpy(temp2,$1.varname);
+
 				$1.ival = $4.ival;
+
+				//convert value into string to store in symbol table
 				temp = (char*)malloc(sizeof(char)*100);
 				intToString($4.ival);
 				//printf("Converted from int to string %s\n",temp);
@@ -198,9 +203,12 @@ ASSGN 	: T_ID  {
 				//printf("Round5 $4.fval = %f\n",$4.fval);
 				temp2 = (char*)malloc(sizeof(char)*100);
 				strcpy(temp2,$1.varname);
+
 				$1.fval = $4.fval;
+
 				temp = (char*)malloc(sizeof(char)*100);
 				floatToString($4.fval);
+
 				int res = insert_value_to_name(temp2,temp,variable->scope);
 			}
 			else{
@@ -239,7 +247,7 @@ E 	: E '+' T{
 
 	if(*currDatatype==1 || $1.remVar==1 || $3.remVar==1){
 			yyerror("[ERROR}:Cannot do div for string!");
-			$$.remVar = 1;
+			$$.remVar = 1; //incompatible datatype assignment
 	}
 	else if(*currDatatype==2){
 		int sum =0;
@@ -509,10 +517,10 @@ int size_of(int type){
 	int size = 0;
 	switch(*currDatatype){
 		case 1:
-			size = 4;
+			size = 1;
 			break;
 		case 2:
-			size = 1;
+			size = 4;
 			break;
 		case 3:
 			size = 8;

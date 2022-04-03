@@ -6,4 +6,7 @@ int main()
 	c=6.5;
 	double d=5.44;
 	double e=d+9.0-4.0/2.0;
+	if(6>7){
+		int u = 9.99;
+	}
 }

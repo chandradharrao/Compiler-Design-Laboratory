@@ -1899,10 +1899,10 @@ int size_of(int type){
 	int size = 0;
 	switch(*currDatatype){
 		case 1:
-			size = 4;
+			size = 1;
 			break;
 		case 2:
-			size = 1;
+			size = 4;
 			break;
 		case 3:
 			size = 8;
