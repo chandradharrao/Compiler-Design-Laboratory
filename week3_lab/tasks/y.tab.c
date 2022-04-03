@@ -569,11 +569,11 @@ YY_parse_CONSTRUCTOR_CODE;
  #line 352 "/usr/share/bison++/bison.cc"
 
 
-#define	YYFINAL		91
+#define	YYFINAL		86
 #define	YYFLAG		-32768
 #define	YYNTBASE	44
 
-#define YYTRANSLATE(x) ((unsigned)(x) <= 285 ? yytranslate[x] : 67)
+#define YYTRANSLATE(x) ((unsigned)(x) <= 285 ? yytranslate[x] : 66)
 
 static const char yytranslate[] = {     0,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -613,8 +613,7 @@ static const short yyprhs[] = {     0,
     29,    31,    33,    35,    37,    39,    40,    45,    49,    51,
     55,    59,    61,    65,    69,    71,    75,    77,    79,    81,
     83,    85,    87,    89,    91,    93,    94,   104,   106,   107,
-   110,   113,   114,   117,   120,   121,   128,   136,   137,   142,
-   144
+   110,   113,   114,   117,   120,   126,   134,   135,   140,   142
 };
 
 static const short yyrhs[] = {    45,
@@ -628,11 +627,11 @@ static const short yyrhs[] = {    45,
     38,    53,    39,     0,    28,     0,    29,     0,    23,     0,
     14,     0,    13,     0,    40,     0,    41,     0,    11,     0,
     12,     0,     0,    50,    27,    38,    60,    39,    42,    59,
-    61,    43,     0,    48,     0,     0,    62,    61,     0,    64,
-    61,     0,     0,    46,    31,     0,    51,    31,     0,     0,
-    21,    63,    38,    66,    39,    61,     0,    21,    38,    66,
-    39,    61,    22,    61,     0,     0,    42,    65,    61,    43,
-     0,    53,     0,    51,     0
+    61,    43,     0,    48,     0,     0,    62,    61,     0,    63,
+    61,     0,     0,    46,    31,     0,    51,    31,     0,    21,
+    38,    65,    39,    61,     0,    21,    38,    65,    39,    61,
+    22,    61,     0,     0,    42,    64,    61,    43,     0,    53,
+     0,    51,     0
 };
 
 #endif
@@ -643,8 +642,7 @@ static const short yyrline[] = { 0,
    128,   153,   154,   155,   156,   160,   171,   216,   217,   236,
    257,   269,   288,   300,   316,   334,   337,   376,   388,   402,
    403,   404,   405,   406,   407,   412,   416,   418,   419,   422,
-   423,   424,   427,   428,   429,   429,   430,   433,   435,   437,
-   438
+   423,   424,   427,   428,   429,   430,   433,   435,   437,   438
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","T_INT","T_CHAR",
@@ -654,7 +652,7 @@ static const char * const yytname[] = {   "$","error","$illegal.","T_INT","T_CHA
 "T_MAIN","T_ID","T_NUM","T_IFX","';'","','","'='","'+'","'-'","'*'","'/'","'('",
 "')'","'<'","'>'","'{'","'}'","START","PROG","DECLR","@1","LISTVAR","VAR","TYPE",
 "ASSGN","@2","EXPR","E","T","F","REL_OP","MAIN","@3","EMPTY_LISTVAR","STMT",
-"STMT_NO_BLOCK","@4","BLOCK","@5","COND",""
+"STMT_NO_BLOCK","BLOCK","@4","COND",""
 };
 #endif
 
@@ -663,8 +661,7 @@ static const short yyr1[] = {     0,
     49,    50,    50,    50,    50,    52,    51,    53,    53,    54,
     54,    54,    55,    55,    55,    56,    56,    56,    56,    57,
     57,    57,    57,    57,    57,    59,    58,    60,    60,    61,
-    61,    61,    62,    62,    63,    62,    62,    65,    64,    66,
-    66
+    61,    61,    62,    62,    62,    62,    64,    63,    65,    65
 };
 
 static const short yyr2[] = {     0,
@@ -672,8 +669,7 @@ static const short yyr2[] = {     0,
      1,     1,     1,     1,     1,     0,     4,     3,     1,     3,
      3,     1,     3,     3,     1,     3,     1,     1,     1,     1,
      1,     1,     1,     1,     1,     0,     9,     1,     0,     2,
-     2,     0,     2,     2,     0,     6,     7,     0,     4,     1,
-     1
+     2,     0,     2,     2,     5,     7,     0,     4,     1,     1
 };
 
 static const short yydefact[] = {     5,
@@ -683,65 +679,61 @@ static const short yydefact[] = {     5,
     22,    25,     0,     0,    38,     0,     0,    34,    35,    31,
     30,    32,    33,     0,     0,     0,     0,     0,    10,     8,
      0,    26,    18,    20,    21,    23,    24,    36,     6,     0,
-    48,     0,     0,     0,     6,     6,     0,     0,     6,    43,
-    44,    37,    40,    41,    27,    51,    50,     0,     0,     0,
-     6,     0,    49,     0,     6,     6,    46,    47,     0,     0,
-     0
+    47,     0,     0,     0,     6,     6,     0,     6,    43,    44,
+    37,    40,    41,    27,    50,    49,     0,     0,     6,    48,
+    45,     6,    46,     0,     0,     0
 };
 
-static const short yydefgoto[] = {    89,
-     6,    62,     8,    21,    22,     9,    63,    12,    77,    30,
-    31,    32,    44,    11,    59,    36,    64,    65,    68,    66,
-    69,    78
+static const short yydefgoto[] = {    84,
+     6,    62,     8,    21,    22,     9,    63,    12,    29,    30,
+    31,    32,    44,    11,    59,    36,    64,    65,    66,    68,
+    77
 };
 
 static const short yypact[] = {    14,
--32768,-32768,-32768,-32768,-32768,-32768,   -21,    18,   -15,   -11,
-    14,    38,    14,    23,    40,    14,-32768,   -14,-32768,    42,
-    48,-32768,    23,-32768,-32768,-32768,-32768,   -14,    -6,    -7,
-    33,-32768,   -14,    23,    48,    27,   -10,-32768,-32768,-32768,
--32768,-32768,-32768,   -14,   -14,   -14,   -14,   -14,    -6,-32768,
-    41,-32768,    -7,    33,    33,-32768,-32768,-32768,    15,    46,
--32768,    45,    54,    43,     4,     4,    26,    49,    15,-32768,
--32768,-32768,-32768,-32768,    55,-32768,    -6,    50,    26,    47,
-    17,    53,-32768,    69,     4,     4,-32768,-32768,    93,    94,
--32768
+-32768,-32768,-32768,-32768,-32768,-32768,   -19,    42,    -6,    -7,
+    14,    -5,    14,    13,    12,    14,-32768,    -3,-32768,    27,
+    38,-32768,    13,-32768,-32768,-32768,-32768,    -3,    -4,   -20,
+     2,-32768,    -3,    13,    38,    35,    -9,-32768,-32768,-32768,
+-32768,-32768,-32768,    -3,    -3,    -3,    -3,    -3,    -4,-32768,
+    33,-32768,   -20,     2,     2,-32768,-32768,-32768,     6,    39,
+-32768,    47,    48,    37,     1,     1,    34,     6,-32768,-32768,
+-32768,-32768,-32768,    49,-32768,    -4,    44,    41,     1,-32768,
+    59,     1,-32768,    85,    86,-32768
 };
 
 static const short yypgoto[] = {-32768,
-    37,    52,-32768,    72,    62,    89,     0,-32768,    44,    56,
-    28,    34,-32768,-32768,-32768,-32768,   -25,-32768,-32768,-32768,
--32768,    19
+    60,    53,-32768,    64,    54,    81,     0,-32768,   -27,    46,
+    10,    11,-32768,-32768,-32768,-32768,   -14,-32768,-32768,-32768,
+-32768
 };
 
 
-#define	YYLAST		100
+#define	YYLAST		90
 
 
 static const short yytable[] = {    10,
-    38,    39,    40,    41,    38,    39,    40,    41,    25,    13,
-    10,    15,    10,    26,    27,    10,     1,     2,     3,    16,
-     1,     2,     3,    28,    60,   -42,    45,    46,    52,    42,
-    43,     5,     4,    42,    43,    60,     4,    60,   -42,    73,
-    74,     5,     5,    80,     5,    61,   -42,    17,    25,    19,
-    20,     7,    24,    75,    27,    84,    61,   -42,    61,    87,
-    88,    29,     7,    28,     7,    51,    76,     7,    47,    48,
-    18,    37,    54,    55,    33,    70,    49,    23,    76,    34,
-    56,    57,    58,    67,    71,    72,    79,   -16,    81,    83,
-    86,    85,    90,    91,    35,    50,    14,    82,     0,    53
+    37,    38,    39,    40,    41,    49,    38,    39,    40,    41,
+    10,    13,    10,    45,    46,    10,     1,     2,     3,    25,
+    15,    60,   -42,    16,    26,    27,    60,    18,     5,    52,
+    42,    43,     4,     5,    28,    42,    43,    47,    48,    76,
+    20,     5,    61,   -42,     1,     2,     3,    61,   -42,    23,
+    72,    73,     7,    78,    54,    55,    25,    56,    57,    33,
+     4,    74,    27,     7,    81,     7,    75,    83,     7,    34,
+    17,    28,    19,    51,    58,    24,    67,    69,    70,    71,
+    82,   -16,    79,    80,    85,    86,    35,    50,    14,    53
 };
 
 static const short yycheck[] = {     0,
-    11,    12,    13,    14,    11,    12,    13,    14,    23,    31,
-    11,    27,    13,    28,    29,    16,     3,     4,     5,    31,
-     3,     4,     5,    38,    21,    22,    34,    35,    39,    40,
-    41,    28,    19,    40,    41,    21,    19,    21,    22,    65,
-    66,    28,    28,    69,    28,    42,    43,    11,    23,    13,
-    28,     0,    16,    28,    29,    81,    42,    43,    42,    85,
-    86,    18,    11,    38,    13,    39,    67,    16,    36,    37,
-    33,    28,    45,    46,    33,    31,    33,    38,    79,    32,
-    47,    48,    42,    38,    31,    43,    38,    33,    39,    43,
-    22,    39,     0,     0,    23,    34,     8,    79,    -1,    44
+    28,    11,    12,    13,    14,    33,    11,    12,    13,    14,
+    11,    31,    13,    34,    35,    16,     3,     4,     5,    23,
+    27,    21,    22,    31,    28,    29,    21,    33,    28,    39,
+    40,    41,    19,    28,    38,    40,    41,    36,    37,    67,
+    28,    28,    42,    43,     3,     4,     5,    42,    43,    38,
+    65,    66,     0,    68,    45,    46,    23,    47,    48,    33,
+    19,    28,    29,    11,    79,    13,    67,    82,    16,    32,
+    11,    38,    13,    39,    42,    16,    38,    31,    31,    43,
+    22,    33,    39,    43,     0,     0,    23,    34,     8,    44
 };
 
 #line 352 "/usr/share/bison++/bison.cc"
@@ -1270,7 +1262,7 @@ case 10:
 		if(yyvsp[0].remVar!=1){
 			// printf("%s\n","Assignment while decleration!");
 			if(isDecl){
-				printf("Declaring var %s...\n",yyvsp[-2].varname);
+				//printf("Declaring var %s...\n",$1.varname);
 				symbol* node = declare_variable(yyvsp[-2].varname);
 
 				if(!node){
@@ -1298,7 +1290,7 @@ case 10:
 			}
 		}
 		else{
-			printf("Removing var....\n");
+			//printf("Removing var....\n");
 		}
 ;
     break;}
@@ -1350,12 +1342,12 @@ case 16:
 	symbol* var = check_symbol_table(yyvsp[0].varname,currScope);
 	if(var){
 		*currDatatype = var->type;
-		if(var->type==3)
-			printf("Curr datatype is float\n");
-		else if(var->type==2)
-			printf("curr datatype is int\n");
+		// if(var->type==3)
+			//printf("Curr datatype is float\n");
+		// else if(var->type==2)
+			//printf("curr datatype is int\n");
 	}else{
-		printf("No var???????\n");
+		//printf("No var???????\n");
 	}
 ;
     break;}
@@ -1388,7 +1380,7 @@ case 17:
 				}
 			}
 			else if(*currDatatype==3 || *currDatatype==4){
-				printf("Round5 $4.fval = %f\n",yyvsp[0].fval);
+				//printf("Round5 $4.fval = %f\n",$4.fval);
 				temp2 = (char*)malloc(sizeof(char)*100);
 				strcpy(temp2,yyvsp[-3].varname);
 				yyvsp[-3].fval = yyvsp[0].fval;
@@ -1415,7 +1407,7 @@ case 19:
 					}
 					else if(*currDatatype==3 || *currDatatype==4){
 						yyval.fval = yyvsp[0].fval;
-						printf("Round4 $$.fval = %f\n",yyval.fval);
+						//printf("Round4 $$.fval = %f\n",$$.fval);
 					}
 					else{
 						//character type
@@ -1429,7 +1421,7 @@ case 20:
 #line 236 "parser.y"
 {
 	// printf("Currdatatype: %d\n",*currDatatype);
-	printf("Addition expression called!\n");
+	//printf("Addition expression called!\n");
 
 	if(*currDatatype==1 || yyvsp[-2].remVar==1 || yyvsp[0].remVar==1){
 			yyerror("[ERROR}:Cannot do div for string!");
@@ -1443,9 +1435,9 @@ case 20:
 		yyval.ival = sum;
 	}
 	else if(*currDatatype==3 || *currDatatype==4){
-		printf("Args %f,%f\n",yyvsp[-2].fval,yyvsp[0].fval);
+		//printf("Args %f,%f\n",$1.fval,$3.fval);
 		yyval.fval = yyvsp[-2].fval+yyvsp[0].fval;
-		printf("Result of sum: %f\n",yyval.fval);
+		//printf("Result of sum: %f\n",$$.fval);
 	}
 ;
     break;}
@@ -1474,7 +1466,7 @@ case 22:
 			}
 			else if(*currDatatype==3 || *currDatatype==4){
 				yyval.fval = yyvsp[0].fval;
-				printf("Round3: $$.fval = %f\n",yyval.fval);
+				//printf("Round3: $$.fval = %f\n",$$.fval);
 			}
 			else if(*currDatatype==1){
 				yyval.cval = yyvsp[0].cval;
@@ -1520,14 +1512,14 @@ case 24:
 case 25:
 #line 316 "parser.y"
 {
-		printf("Reduction of F to T\n");
+		//printf("Reduction of F to T\n");
 		if(yyvsp[0].remVar!=1){
 			if(*currDatatype==2){
 				yyval.ival = yyvsp[0].ival;
 			}
 			else if(*currDatatype==3 || *currDatatype==4){
 				yyval.fval = yyvsp[0].fval;
-				printf("Round2: $$.fval = %f\n",yyval.fval);
+				//printf("Round2: $$.fval = %f\n",$$.fval);
 			}
 			else if(*currDatatype==1){
 				strcpy(yyval.cval,yyvsp[0].cval);
@@ -1592,9 +1584,9 @@ case 28:
 			yyval.ival = atoi(yyvsp[0].number);
 		}
 		else if(*currDatatype==3 || *currDatatype==4){
-			printf("Number is %s\n",yyvsp[0].number);
+			//printf("Number is %s\n",$1.number);
 			yyval.fval = atof(yyvsp[0].number);
-			printf("$$.fval is %f\n",yyval.fval);
+			//printf("$$.fval is %f\n",$$.fval);
 		}
 		//printf("Reduction of T_NUM to F\n");
 	;
@@ -1622,15 +1614,11 @@ case 37:
 #line 416 "parser.y"
 {currScope = decrScope();;
     break;}
-case 45:
-#line 429 "parser.y"
-{printf("If block found!\n");;
-    break;}
-case 48:
+case 47:
 #line 433 "parser.y"
 {currScope = incrScope();;
     break;}
-case 49:
+case 48:
 #line 435 "parser.y"
 {currScope=decrScope();;
     break;}

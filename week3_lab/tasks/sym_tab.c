@@ -88,12 +88,12 @@ symbol* insert_into_table(char* name, int size, int type, int lineno, int scope)
 symbol* check_symbol_table(char* name,int scope){
     //check if the variable exists in current scope or in outer global scopes
     for(int i = scope;i>=1;i--){
-        printf("Checking for %s in scop:%d\n",name,i);
+        //printf("Checking for %s in scop:%d\n",name,i);
         symbol* node = init_symbol(name,0,0,0,i);
         symbol* resNode = doesExist(node);
         if(resNode!=NULL){
-            printf("%s\n","found!");
-            printf("%s\n",resNode->name);
+            //printf("%s\n","found!");
+            //printf("%s\n",resNode->name);
             return resNode;
         }
     }
