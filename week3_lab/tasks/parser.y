@@ -157,8 +157,19 @@ TYPE 	: T_INT {isDecl=1;typTrack(2);}
 		;
     
 /* Grammar for assignment */   
-ASSGN 	: T_ID '=' EXPR 	{
-	if($3.remVar!=1){
+ASSGN 	: T_ID  {
+	symbol* var = check_symbol_table($1.varname,currScope);
+	if(var){
+		*currDatatype = var->type;
+		if(var->type==3)
+			printf("Curr datatype is float\n");
+		else if(var->type==2)
+			printf("curr datatype is int");
+	}else{
+		printf("No var???????\n");
+	}
+} '=' EXPR 	{
+	if($4.remVar!=1){
 		//printf("%s\n","Assignment of val to var");
 		//check if declared in the symbol table
 		//printf("Checking for %s,%d\n",$1.varname,currScope);
@@ -167,13 +178,13 @@ ASSGN 	: T_ID '=' EXPR 	{
 			yyerror("[ERROR]:Variable not declared");
 		}else{
 			if(*currDatatype==2){
-				//printf("To assign val: %d to %s\n",$3.ival,$1.varname);
+				//printf("To assign val: %d to %s\n",$4.ival,$1.varname);
 				//weird error if i dont do this...
 				temp2 = (char*)malloc(sizeof(char)*100);
 				strcpy(temp2,$1.varname);
-				$1.ival = $3.ival;
+				$1.ival = $4.ival;
 				temp = (char*)malloc(sizeof(char)*100);
-				intToString($3.ival);
+				intToString($4.ival);
 				//printf("Converted from int to string %s\n",temp);
 				
 				int res = insert_value_to_name(temp2,temp,currScope);
@@ -184,16 +195,17 @@ ASSGN 	: T_ID '=' EXPR 	{
 				}
 			}
 			else if(*currDatatype==3 || *currDatatype==4){
+				printf("Round5 $4.fval = %f\n",$4.fval);
 				temp2 = (char*)malloc(sizeof(char)*100);
 				strcpy(temp2,$1.varname);
-				$1.fval = $3.fval;
+				$1.fval = $4.fval;
 				temp = (char*)malloc(sizeof(char)*100);
-				floatToString($3.fval);
+				floatToString($4.fval);
 				insert_value_to_name(temp2,temp,currScope);
 			}
 			else{
 				//character
-				insert_value_to_name($1.varname,$3.cval,currScope);
+				insert_value_to_name($1.varname,$4.cval,currScope);
 			}
 		}
 	}
@@ -210,6 +222,7 @@ EXPR 	: EXPR REL_OP E
 					}
 					else if(*currDatatype==3 || *currDatatype==4){
 						$$.fval = $1.fval;
+						printf("Round4 $$.fval = %f\n",$$.fval);
 					}
 					else{
 						//character type
@@ -221,8 +234,8 @@ EXPR 	: EXPR REL_OP E
        	;
 	   
 E 	: E '+' T{
-	//printf("Currdatatype: %d\n",*currDatatype);
-	//printf("Addition expression called!\n");
+	// printf("Currdatatype: %d\n",*currDatatype);
+	printf("Addition expression called!\n");
 
 	if(*currDatatype==1 || $1.remVar==1 || $3.remVar==1){
 			yyerror("[ERROR}:Cannot do div for string!");
@@ -230,13 +243,15 @@ E 	: E '+' T{
 	}
 	else if(*currDatatype==2){
 		int sum =0;
-		//printf("Args %d,%d\n",$1.ival,$3.ival);
+		// printf("Args %d,%d\n",$1.ival,$3.ival);
 		sum = $1.ival+$3.ival;
 		//printf("The Sum obtained from expression is %d\n",sum);
 		$$.ival = sum;
 	}
 	else if(*currDatatype==3 || *currDatatype==4){
+		printf("Args %f,%f\n",$1.fval,$3.fval);
 		$$.fval = $1.fval+$3.fval;
+		printf("Result of sum: %f\n",$$.fval);
 	}
 }
     | E '-' T {
@@ -259,6 +274,7 @@ E 	: E '+' T{
 			}
 			else if(*currDatatype==3 || *currDatatype==4){
 				$$.fval = $1.fval;
+				printf("Round3: $$.fval = %f\n",$$.fval);
 			}
 			else if(*currDatatype==1){
 				$$.cval = $1.cval;
@@ -298,13 +314,14 @@ T 	: T '*' F {
 		}
 	}
     | F {
-		//printf("Reduction of F to T\n");
+		printf("Reduction of F to T\n");
 		if($1.remVar!=1){
 			if(*currDatatype==2){
 				$$.ival = $1.ival;
 			}
 			else if(*currDatatype==3 || *currDatatype==4){
 				$$.fval = $1.fval;
+				printf("Round2: $$.fval = %f\n",$$.fval);
 			}
 			else if(*currDatatype==1){
 				strcpy($$.cval,$1.cval);
@@ -362,7 +379,9 @@ F 	: '(' EXPR ')'{
 			$$.ival = atoi($1.number);
 		}
 		else if(*currDatatype==3 || *currDatatype==4){
+			printf("Number is %s\n",$1.number);
 			$$.fval = atof($1.number);
+			printf("$$.fval is %f\n",$$.fval);
 		}
 		//printf("Reduction of T_NUM to F\n");
 	}

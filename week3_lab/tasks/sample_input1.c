@@ -8,7 +8,10 @@ int main()
 	int q = z+y;
 
 	float a=3.14;
-	float b=3.14*a;
+	int ggg;
+	float b;
+	int hhh;
+	b=3.14*a;
 
 	float c;
 	c = 5.14/a;
