@@ -209,7 +209,7 @@ typedef
 #define	T_LESSEREQ	269
 #define	T_LEFTSHIFT	270
 #define	T_RIGHTSHIFT	271
-#define	T_printLN	272
+#define	T_PRINTLN	272
 #define	T_STRING	273
 #define	T_FLOAT	274
 #define	T_BOOLEAN	275
@@ -285,7 +285,7 @@ static const int T_GREATEREQ;
 static const int T_LESSEREQ;
 static const int T_LEFTSHIFT;
 static const int T_RIGHTSHIFT;
-static const int T_printLN;
+static const int T_PRINTLN;
 static const int T_STRING;
 static const int T_FLOAT;
 static const int T_BOOLEAN;
@@ -321,7 +321,7 @@ static const int T_IFX;
 	,T_LESSEREQ=269
 	,T_LEFTSHIFT=270
 	,T_RIGHTSHIFT=271
-	,T_printLN=272
+	,T_PRINTLN=272
 	,T_STRING=273
 	,T_FLOAT=274
 	,T_BOOLEAN=275

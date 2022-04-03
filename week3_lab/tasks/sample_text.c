@@ -1,6 +1,15 @@
+// int main()
+// {
+// 	float y;
+//     int x;
+//     y = 5+3.14;
+// }
+
 int main()
 {
-	float y;
-    int x;
-    y = 5+3.14;
+	if(1>5){
+        int x;
+    }else{
+        int y;
+    }
 }

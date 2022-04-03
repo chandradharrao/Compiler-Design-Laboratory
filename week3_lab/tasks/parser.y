@@ -37,7 +37,7 @@
 	int isDecl = 0;
 %}
 
-%token T_INT T_CHAR T_DOUBLE T_WHILE  T_INC T_DEC   T_OROR T_ANDAND T_EQCOMP T_NOTEQUAL T_GREATEREQ T_LESSEREQ T_LEFTSHIFT T_RIGHTSHIFT T_printLN T_STRING  T_FLOAT T_BOOLEAN T_IF T_ELSE T_STRLITERAL T_DO T_INCLUDE T_HEADER T_MAIN T_ID T_NUM
+%token T_INT T_CHAR T_DOUBLE T_WHILE  T_INC T_DEC   T_OROR T_ANDAND T_EQCOMP T_NOTEQUAL T_GREATEREQ T_LESSEREQ T_LEFTSHIFT T_RIGHTSHIFT T_PRINTLN T_STRING  T_FLOAT T_BOOLEAN T_IF T_ELSE T_STRLITERAL T_DO T_INCLUDE T_HEADER T_MAIN T_ID T_NUM
 
 %start START
 
@@ -164,7 +164,7 @@ ASSGN 	: T_ID  {
 		if(var->type==3)
 			printf("Curr datatype is float\n");
 		else if(var->type==2)
-			printf("curr datatype is int");
+			printf("curr datatype is int\n");
 	}else{
 		printf("No var???????\n");
 	}
@@ -187,7 +187,7 @@ ASSGN 	: T_ID  {
 				intToString($4.ival);
 				//printf("Converted from int to string %s\n",temp);
 				
-				int res = insert_value_to_name(temp2,temp,currScope);
+				int res = insert_value_to_name(temp2,temp,variable->scope);
 				if(res){
 					//printf("Assigned val in sym table\n");
 				}else{
@@ -201,11 +201,11 @@ ASSGN 	: T_ID  {
 				$1.fval = $4.fval;
 				temp = (char*)malloc(sizeof(char)*100);
 				floatToString($4.fval);
-				insert_value_to_name(temp2,temp,currScope);
+				int res = insert_value_to_name(temp2,temp,variable->scope);
 			}
 			else{
 				//character
-				insert_value_to_name($1.varname,$4.cval,currScope);
+				insert_value_to_name($1.varname,$4.cval,variable->scope);
 			}
 		}
 	}
@@ -426,7 +426,7 @@ STMT 	: STMT_NO_BLOCK STMT
 
 STMT_NO_BLOCK : DECLR ';'
        | ASSGN ';'
-       | T_IF '(' COND ')' STMT %prec T_IFX	/* if loop*/
+       | T_IF {printf("If block found!\n");} '(' COND ')' STMT %prec T_IFX	/* if loop*/
        | T_IF '(' COND ')' STMT T_ELSE STMT	/* if else loop */ 
        ;
 
