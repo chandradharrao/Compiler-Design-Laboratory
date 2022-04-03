@@ -92,7 +92,7 @@ symbol* check_symbol_table(char* name,int scope){
         symbol* resNode = doesExist(node);
         if(resNode!=NULL){
             // printf("%s\n","found!");
-            printf("%s\n",resNode->name);
+            //printf("%s\n",resNode->name);
             return resNode;
         }
     }

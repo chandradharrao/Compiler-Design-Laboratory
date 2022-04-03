@@ -49,7 +49,7 @@ number	{digits}{opFraction}{opExponent}
 ">"         	{return *yytext;}
 "<"         	{return *yytext;}
 {number}	{
-			printf("YYTEXT %s\n",yytext);
+			// printf("YYTEXT %s\n",yytext);
 			yylval.number = yytext;  //stores the value of the number to be used later for symbol table insertion;
 			return T_NUM;
 		}

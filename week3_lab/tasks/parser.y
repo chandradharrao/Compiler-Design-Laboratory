@@ -37,9 +37,12 @@
 	int isDecl = 0;
 %}
 
-%token T_INT T_CHAR T_DOUBLE T_WHILE  T_INC T_DEC   T_OROR T_ANDAND T_EQCOMP T_NOTEQUAL T_GREATEREQ T_LESSEREQ T_LEFTSHIFT T_RIGHTSHIFT T_//printLN T_STRING  T_FLOAT T_BOOLEAN T_IF T_ELSE T_STRLITERAL T_DO T_INCLUDE T_HEADER T_MAIN T_ID T_NUM
+%token T_INT T_CHAR T_DOUBLE T_WHILE  T_INC T_DEC   T_OROR T_ANDAND T_EQCOMP T_NOTEQUAL T_GREATEREQ T_LESSEREQ T_LEFTSHIFT T_RIGHTSHIFT T_printLN T_STRING  T_FLOAT T_BOOLEAN T_IF T_ELSE T_STRLITERAL T_DO T_INCLUDE T_HEADER T_MAIN T_ID T_NUM
 
 %start START
+
+%nonassoc T_IFX
+%nonassoc T_ELSE
 
 %union{
 	int dtype;
@@ -73,7 +76,7 @@ PROG 	:  	MAIN PROG
 	 
 DECLR 	: 
 {
-	//printf("New variable decleration!\n");
+	isDecl = 1;
 }
 TYPE LISTVAR 
 {
@@ -89,9 +92,9 @@ LISTVAR : LISTVAR ',' VAR
 
 VAR		: T_ID '=' EXPR 	{
 		if($3.remVar!=1){
-			//printf("%s\n","Assignment while decleration!");
+			// printf("%s\n","Assignment while decleration!");
 			if(isDecl){
-				//printf("Declaring var %s...\n",$1.varname);
+				printf("Declaring var %s...\n",$1.varname);
 				symbol* node = declare_variable($1.varname);
 
 				if(!node){
@@ -118,6 +121,9 @@ VAR		: T_ID '=' EXPR 	{
 				}
 			}
 		}
+		else{
+			printf("Removing var....\n");
+		}
 }
      	| T_ID 		{
 			if($1.remVar!=1){
@@ -137,7 +143,7 @@ VAR		: T_ID '=' EXPR 	{
 					//search if the variable is declerared already
 					symbol* node = check_symbol_table($$.varname,currScope);
 					if(node==NULL){
-						yyerror("[ERROR]:Variable not declared!");
+						yyerror("[ERROR]:Variable not declared");
 					}
 				}
 			}
@@ -158,7 +164,7 @@ ASSGN 	: T_ID '=' EXPR 	{
 		//printf("Checking for %s,%d\n",$1.varname,currScope);
 		symbol* variable = check_symbol_table($1.varname,currScope);
 		if(!variable){
-			yyerror("[ERROR]:Variable not declared!");
+			yyerror("[ERROR]:Variable not declared");
 		}else{
 			if(*currDatatype==2){
 				//printf("To assign val: %d to %s\n",$3.ival,$1.varname);
@@ -229,10 +235,13 @@ E 	: E '+' T{
 		//printf("The Sum obtained from expression is %d\n",sum);
 		$$.ival = sum;
 	}
+	else if(*currDatatype==3 || *currDatatype==4){
+		$$.fval = $1.fval+$3.fval;
+	}
 }
     | E '-' T {
 		if(*currDatatype==1 || $1.remVar==1 || $3.remVar==1){
-			yyerror("[ERROR}:Cannot do div for string!");
+			yyerror("[ERROR}:Cannot do sub for string!");
 			$$.remVar = 1;
 		}
 		else if(*currDatatype==2){
@@ -241,10 +250,6 @@ E 	: E '+' T{
 		else if(*currDatatype==3 || *currDatatype==4){
 			$$.fval= $1.fval-$3.fval;
 		}
-		else if(*currDatatype==1){
-			yyerror("[ERROR]:cannot do subtratcion with string!");
-		}
-		$$.remVar = 1;
 	}
     | T {
 		//printf("Reduction of T to E\n");
@@ -275,7 +280,6 @@ T 	: T '*' F {
 	else if(*currDatatype==3 || *currDatatype==4){
 		$$.fval = (float)$1.fval*(float)$3.fval;
 	}
-	$$.remVar = 1;
 }
     | T '/' F {
 		if(*currDatatype==1 || $1.remVar==1 || $3.remVar==1){
@@ -339,7 +343,7 @@ F 	: '(' EXPR ')'{
 				//printf("T_ID reduction to F=%d\n",$$.ival);
 			}
 			//running datatype is float
-			else if(*currDatatype==3 || || *currDatatype==4){
+			else if(*currDatatype==3 || *currDatatype==4){
 				//if variable type is int,typecast
 				if(variable->type==2){
 					$$.fval = (float)atoi(variable->val);
@@ -401,13 +405,15 @@ STMT 	: STMT_NO_BLOCK STMT
        	|
        	;
 
-STMT_NO_BLOCK 	: DECLR ';'
-       			| ASSGN ';' 
-       			;
+STMT_NO_BLOCK : DECLR ';'
+       | ASSGN ';'
+       | T_IF '(' COND ')' STMT %prec T_IFX	/* if loop*/
+       | T_IF '(' COND ')' STMT T_ELSE STMT	/* if else loop */ 
+       ;
 
 BLOCK 	: '{' 	{currScope = incrScope();}
 			STMT 
-			'}'{currScope=decrScope();}
+		'}'{currScope=decrScope();}
 
 COND : EXPR 
        | ASSGN
@@ -417,17 +423,17 @@ COND : EXPR
 /* error handling function */
 void yyerror(char* s)
 {
-	//printf("\033[0;31m");
-	//printf("%s at %d \n",s,yylineno);
-	//printf("\033[0m");
+	printf("\033[0;31m");
+	printf("%s at line %d \n",s,yylineno);
+	printf("\033[0m");
 }
 
 
 int main(int argc, char* argv[])
 {
-	////printf("Running Parser!\n");
+	//printf("Running Parser!\n");
 	init_table();
-	////printf("Table assigned too!\n");
+	//printf("Table assigned too!\n");
 	yyparse();
 	/* display final symbol table*/
 	return 0;
@@ -452,7 +458,7 @@ void typTrack(int type){
 		currDatatype = malloc(sizeof(int));
 	}
 	*currDatatype = type;
-	////printf("Finished creating dtype!\n");
+	//printf("Finished creating dtype!\n");
 }
 
 //track the line number of variable decleration
@@ -461,12 +467,12 @@ void lineTrack(int lno){
 		currLineNumber = malloc(sizeof(int));
 	}
 	*currLineNumber = lno;
-	////printf("Finished asigning lineno!\n");
+	//printf("Finished asigning lineno!\n");
 }
 
 //function to insert variable decleration with type and line number into symbol table
 symbol* declare_variable(char* varname){
-	////printf("Processing to make sym table entry...\n");
+	//printf("Processing to make sym table entry...\n");
 	lineTrack(yylineno);
 	symbol* res = insert_into_table(varname,size_of(*currDatatype),*currDatatype,*currLineNumber,currScope);
 	if(res==NULL){

@@ -871,7 +871,7 @@ case 32:
 YY_RULE_SETUP
 #line 51 "lexer.l"
 {
-			printf("YYTEXT %s\n",yytext);
+			// printf("YYTEXT %s\n",yytext);
 			yylval.number = yytext;  //stores the value of the number to be used later for symbol table insertion;
 			return T_NUM;
 		}

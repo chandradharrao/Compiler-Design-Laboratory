@@ -13,7 +13,7 @@
 
  #line 8 "/usr/share/bison++/bison.h"
 
-#line 44 "parser.y"
+#line 47 "parser.y"
 typedef union{
 	int dtype;
 	int ival;
@@ -209,7 +209,7 @@ typedef
 #define	T_LESSEREQ	269
 #define	T_LEFTSHIFT	270
 #define	T_RIGHTSHIFT	271
-#define	T_PRINTLN	272
+#define	T_printLN	272
 #define	T_STRING	273
 #define	T_FLOAT	274
 #define	T_BOOLEAN	275
@@ -222,6 +222,7 @@ typedef
 #define	T_MAIN	282
 #define	T_ID	283
 #define	T_NUM	284
+#define	T_IFX	285
 
 
 #line 169 "/usr/share/bison++/bison.h"
@@ -284,7 +285,7 @@ static const int T_GREATEREQ;
 static const int T_LESSEREQ;
 static const int T_LEFTSHIFT;
 static const int T_RIGHTSHIFT;
-static const int T_PRINTLN;
+static const int T_printLN;
 static const int T_STRING;
 static const int T_FLOAT;
 static const int T_BOOLEAN;
@@ -297,6 +298,7 @@ static const int T_HEADER;
 static const int T_MAIN;
 static const int T_ID;
 static const int T_NUM;
+static const int T_IFX;
 
 
 #line 212 "/usr/share/bison++/bison.h"
@@ -319,7 +321,7 @@ static const int T_NUM;
 	,T_LESSEREQ=269
 	,T_LEFTSHIFT=270
 	,T_RIGHTSHIFT=271
-	,T_PRINTLN=272
+	,T_printLN=272
 	,T_STRING=273
 	,T_FLOAT=274
 	,T_BOOLEAN=275
@@ -332,6 +334,7 @@ static const int T_NUM;
 	,T_MAIN=282
 	,T_ID=283
 	,T_NUM=284
+	,T_IFX=285
 
 
 #line 215 "/usr/share/bison++/bison.h"

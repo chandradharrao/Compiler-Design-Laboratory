@@ -137,7 +137,7 @@ Maintained by Magnus Ekdahl <magnus@debian.org>
 	//if we are processing a decleration statement
 	int isDecl = 0;
 
-#line 44 "parser.y"
+#line 47 "parser.y"
 typedef union{
 	int dtype;
 	int ival;
@@ -360,7 +360,7 @@ typedef
 #define	T_LESSEREQ	269
 #define	T_LEFTSHIFT	270
 #define	T_RIGHTSHIFT	271
-#define	T_PRINTLN	272
+#define	T_printLN	272
 #define	T_STRING	273
 #define	T_FLOAT	274
 #define	T_BOOLEAN	275
@@ -373,6 +373,7 @@ typedef
 #define	T_MAIN	282
 #define	T_ID	283
 #define	T_NUM	284
+#define	T_IFX	285
 
 
 #line 263 "/usr/share/bison++/bison.cc"
@@ -436,7 +437,7 @@ static const int T_GREATEREQ;
 static const int T_LESSEREQ;
 static const int T_LEFTSHIFT;
 static const int T_RIGHTSHIFT;
-static const int T_PRINTLN;
+static const int T_printLN;
 static const int T_STRING;
 static const int T_FLOAT;
 static const int T_BOOLEAN;
@@ -449,6 +450,7 @@ static const int T_HEADER;
 static const int T_MAIN;
 static const int T_ID;
 static const int T_NUM;
+static const int T_IFX;
 
 
 #line 307 "/usr/share/bison++/bison.cc"
@@ -471,7 +473,7 @@ enum YY_parse_ENUM_TOKEN { YY_parse_NULL_TOKEN=0
 	,T_LESSEREQ=269
 	,T_LEFTSHIFT=270
 	,T_RIGHTSHIFT=271
-	,T_PRINTLN=272
+	,T_printLN=272
 	,T_STRING=273
 	,T_FLOAT=274
 	,T_BOOLEAN=275
@@ -484,6 +486,7 @@ enum YY_parse_ENUM_TOKEN { YY_parse_NULL_TOKEN=0
 	,T_MAIN=282
 	,T_ID=283
 	,T_NUM=284
+	,T_IFX=285
 
 
 #line 310 "/usr/share/bison++/bison.cc"
@@ -534,7 +537,7 @@ const int YY_parse_CLASS::T_GREATEREQ=268;
 const int YY_parse_CLASS::T_LESSEREQ=269;
 const int YY_parse_CLASS::T_LEFTSHIFT=270;
 const int YY_parse_CLASS::T_RIGHTSHIFT=271;
-const int YY_parse_CLASS::T_PRINTLN=272;
+const int YY_parse_CLASS::T_printLN=272;
 const int YY_parse_CLASS::T_STRING=273;
 const int YY_parse_CLASS::T_FLOAT=274;
 const int YY_parse_CLASS::T_BOOLEAN=275;
@@ -547,6 +550,7 @@ const int YY_parse_CLASS::T_HEADER=281;
 const int YY_parse_CLASS::T_MAIN=282;
 const int YY_parse_CLASS::T_ID=283;
 const int YY_parse_CLASS::T_NUM=284;
+const int YY_parse_CLASS::T_IFX=285;
 
 
 #line 341 "/usr/share/bison++/bison.cc"
@@ -565,26 +569,26 @@ YY_parse_CONSTRUCTOR_CODE;
  #line 352 "/usr/share/bison++/bison.cc"
 
 
-#define	YYFINAL		75
+#define	YYFINAL		85
 #define	YYFLAG		-32768
-#define	YYNTBASE	43
+#define	YYNTBASE	44
 
-#define YYTRANSLATE(x) ((unsigned)(x) <= 284 ? yytranslate[x] : 63)
+#define YYTRANSLATE(x) ((unsigned)(x) <= 285 ? yytranslate[x] : 65)
 
 static const char yytranslate[] = {     0,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-     2,     2,     2,     2,     2,     2,     2,     2,     2,    37,
-    38,    35,    33,    31,    34,     2,    36,     2,     2,     2,
-     2,     2,     2,     2,     2,     2,     2,     2,    30,    39,
-    32,    40,     2,     2,     2,     2,     2,     2,     2,     2,
+     2,     2,     2,     2,     2,     2,     2,     2,     2,    38,
+    39,    36,    34,    32,    35,     2,    37,     2,     2,     2,
+     2,     2,     2,     2,     2,     2,     2,     2,    31,    40,
+    33,    41,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-     2,     2,    41,     2,    42,     2,     2,     2,     2,     2,
+     2,     2,    42,     2,    43,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -600,7 +604,7 @@ static const char yytranslate[] = {     0,
      2,     2,     2,     2,     2,     1,     2,     3,     4,     5,
      6,     7,     8,     9,    10,    11,    12,    13,    14,    15,
     16,    17,    18,    19,    20,    21,    22,    23,    24,    25,
-    26,    27,    28,    29
+    26,    27,    28,    29,    30
 };
 
 #if YY_parse_DEBUG != 0
@@ -609,53 +613,55 @@ static const short yyprhs[] = {     0,
     29,    31,    33,    35,    37,    39,    43,    47,    49,    53,
     57,    59,    63,    67,    69,    73,    75,    77,    79,    81,
     83,    85,    87,    89,    91,    92,   102,   104,   105,   108,
-   111,   112,   115,   118,   119,   124,   126
+   111,   112,   115,   118,   124,   132,   133,   138,   140
 };
 
-static const short yyrhs[] = {    44,
-     0,    56,    44,     0,    45,    30,    44,     0,    50,    30,
-    44,     0,     0,     0,    46,    49,    47,     0,    47,    31,
-    48,     0,    48,     0,    28,    32,    51,     0,    28,     0,
-     3,     0,    19,     0,     5,     0,     4,     0,    28,    32,
-    51,     0,    51,    55,    52,     0,    52,     0,    52,    33,
-    53,     0,    52,    34,    53,     0,    53,     0,    53,    35,
-    54,     0,    53,    36,    54,     0,    54,     0,    37,    51,
-    38,     0,    28,     0,    29,     0,    23,     0,    14,     0,
-    13,     0,    39,     0,    40,     0,    11,     0,    12,     0,
-     0,    49,    27,    37,    58,    38,    41,    57,    59,    42,
-     0,    47,     0,     0,    60,    59,     0,    61,    59,     0,
-     0,    45,    30,     0,    50,    30,     0,     0,    41,    62,
-    59,    42,     0,    51,     0,    50,     0
+static const short yyrhs[] = {    45,
+     0,    57,    45,     0,    46,    31,    45,     0,    51,    31,
+    45,     0,     0,     0,    47,    50,    48,     0,    48,    32,
+    49,     0,    49,     0,    28,    33,    52,     0,    28,     0,
+     3,     0,    19,     0,     5,     0,     4,     0,    28,    33,
+    52,     0,    52,    56,    53,     0,    53,     0,    53,    34,
+    54,     0,    53,    35,    54,     0,    54,     0,    54,    36,
+    55,     0,    54,    37,    55,     0,    55,     0,    38,    52,
+    39,     0,    28,     0,    29,     0,    23,     0,    14,     0,
+    13,     0,    40,     0,    41,     0,    11,     0,    12,     0,
+     0,    50,    27,    38,    59,    39,    42,    58,    60,    43,
+     0,    48,     0,     0,    61,    60,     0,    62,    60,     0,
+     0,    46,    31,     0,    51,    31,     0,    21,    38,    64,
+    39,    60,     0,    21,    38,    64,    39,    60,    22,    60,
+     0,     0,    42,    63,    60,    43,     0,    52,     0,    51,
+     0
 };
 
 #endif
 
 #if (YY_parse_DEBUG != 0) || defined(YY_parse_ERROR_VERBOSE) 
 static const short yyrline[] = { 0,
-    55,    68,    69,    70,    71,    74,    74,    78,    79,    82,
-   114,   139,   140,   141,   142,   146,   190,   191,   209,   225,
-   241,   259,   272,   288,   305,   308,   347,   357,   371,   372,
-   373,   374,   375,   376,   381,   385,   387,   388,   391,   392,
-   393,   396,   397,   400,   402,   404,   405
+    58,    71,    72,    73,    74,    77,    81,    89,    90,    93,
+   128,   153,   154,   155,   156,   160,   204,   205,   223,   242,
+   254,   272,   284,   300,   317,   320,   359,   369,   383,   384,
+   385,   386,   387,   388,   393,   397,   399,   400,   403,   404,
+   405,   408,   409,   410,   411,   414,   416,   418,   419
 };
 
 static const char * const yytname[] = {   "$","error","$illegal.","T_INT","T_CHAR",
 "T_DOUBLE","T_WHILE","T_INC","T_DEC","T_OROR","T_ANDAND","T_EQCOMP","T_NOTEQUAL",
-"T_GREATEREQ","T_LESSEREQ","T_LEFTSHIFT","T_RIGHTSHIFT","T_PRINTLN","T_STRING",
+"T_GREATEREQ","T_LESSEREQ","T_LEFTSHIFT","T_RIGHTSHIFT","T_printLN","T_STRING",
 "T_FLOAT","T_BOOLEAN","T_IF","T_ELSE","T_STRLITERAL","T_DO","T_INCLUDE","T_HEADER",
-"T_MAIN","T_ID","T_NUM","';'","','","'='","'+'","'-'","'*'","'/'","'('","')'",
-"'<'","'>'","'{'","'}'","START","PROG","DECLR","@1","LISTVAR","VAR","TYPE","ASSGN",
-"EXPR","E","T","F","REL_OP","MAIN","@2","EMPTY_LISTVAR","STMT","STMT_NO_BLOCK",
-"BLOCK","@3","\37777777614"
+"T_MAIN","T_ID","T_NUM","T_IFX","';'","','","'='","'+'","'-'","'*'","'/'","'('",
+"')'","'<'","'>'","'{'","'}'","START","PROG","DECLR","@1","LISTVAR","VAR","TYPE",
+"ASSGN","EXPR","E","T","F","REL_OP","MAIN","@2","EMPTY_LISTVAR","STMT","STMT_NO_BLOCK",
+"BLOCK","@3","COND",""
 };
 #endif
 
 static const short yyr1[] = {     0,
-    43,    44,    44,    44,    44,    46,    45,    47,    47,    48,
-    48,    49,    49,    49,    49,    50,    51,    51,    52,    52,
-    52,    53,    53,    53,    54,    54,    54,    54,    55,    55,
-    55,    55,    55,    55,    57,    56,    58,    58,    59,    59,
-    59,    60,    60,    62,    61,    -1,    -1
+    44,    45,    45,    45,    45,    47,    46,    48,    48,    49,
+    49,    50,    50,    50,    50,    51,    52,    52,    53,    53,
+    53,    54,    54,    54,    55,    55,    55,    55,    56,    56,
+    56,    56,    56,    56,    58,    57,    59,    59,    60,    60,
+    60,    61,    61,    61,    61,    63,    62,    64,    64
 };
 
 static const short yyr2[] = {     0,
@@ -663,7 +669,7 @@ static const short yyr2[] = {     0,
      1,     1,     1,     1,     1,     3,     3,     1,     3,     3,
      1,     3,     3,     1,     3,     1,     1,     1,     1,     1,
      1,     1,     1,     1,     0,     9,     1,     0,     2,     2,
-     0,     2,     2,     0,     4,     1,     1
+     0,     2,     2,     5,     7,     0,     4,     1,     1
 };
 
 static const short yydefact[] = {     5,
@@ -672,56 +678,60 @@ static const short yydefact[] = {     5,
      0,    16,    18,    21,    24,     3,    11,     7,     9,    38,
      4,     0,    33,    34,    30,    29,    31,    32,     0,     0,
      0,     0,     0,     0,     0,    37,     0,    25,    17,    19,
-    20,    22,    23,    10,     8,     0,    35,     6,    44,     0,
-     0,     0,     6,     6,     6,    42,    43,    36,    39,    40,
-     0,    45,     0,     0,     0
+    20,    22,    23,    10,     8,     0,    35,     6,     0,    46,
+     0,     0,     0,     6,     6,     0,     6,    42,    43,    36,
+    39,    40,    26,    49,    48,     0,     0,     6,    47,    44,
+     6,    45,     0,     0,     0
 };
 
-static const short yydefgoto[] = {    73,
-     6,     7,     8,    28,    29,     9,    10,    22,    23,    24,
-    25,    39,    11,    58,    47,    62,    63,    64,    65
+static const short yydefgoto[] = {    83,
+     6,    61,     8,    28,    29,     9,    62,    22,    23,    24,
+    25,    39,    11,    58,    47,    63,    64,    65,    67,    76
 };
 
-static const short yypact[] = {     6,
--32768,-32768,-32768,-32768,   -19,-32768,    -6,    11,    -1,     9,
-     6,    12,     6,    14,    10,     6,-32768,-32768,-32768,-32768,
-    12,    -7,    19,    20,-32768,-32768,    22,    28,-32768,    14,
--32768,   -11,-32768,-32768,-32768,-32768,-32768,-32768,    12,    12,
-    12,    12,    12,    12,    14,    28,    24,-32768,    19,    20,
-    20,-32768,-32768,    -7,-32768,    23,-32768,    -5,-32768,    33,
-    36,     8,    -5,    -5,    -5,-32768,-32768,-32768,-32768,-32768,
-    25,-32768,    65,    68,-32768
+static const short yypact[] = {    14,
+-32768,-32768,-32768,-32768,   -19,-32768,    -3,    52,    18,     8,
+    14,    36,    14,    13,    23,    14,-32768,-32768,-32768,-32768,
+    36,    -5,   -14,   -11,-32768,-32768,    17,    40,-32768,    13,
+-32768,    -9,-32768,-32768,-32768,-32768,-32768,-32768,    36,    36,
+    36,    36,    36,    36,    13,    40,    34,-32768,   -14,   -11,
+   -11,-32768,-32768,    -5,-32768,    33,-32768,     6,    38,-32768,
+    48,    49,    35,     1,     1,    39,     6,-32768,-32768,-32768,
+-32768,-32768,   -19,-32768,    -5,    42,    41,     1,-32768,    60,
+     1,-32768,    83,    85,-32768
 };
 
 static const short yypgoto[] = {-32768,
-    35,   -46,-32768,    39,    26,    62,   -20,   -13,    34,    17,
-    18,-32768,-32768,-32768,-32768,   -43,-32768,-32768,-32768
+    -1,    47,-32768,    56,    43,    79,     0,   -20,    50,    12,
+    27,-32768,-32768,-32768,-32768,   -27,-32768,-32768,-32768,-32768
 };
 
 
-#define	YYLAST		73
+#define	YYLAST		89
 
 
-static const short yytable[] = {    33,
-    34,    35,    36,    33,    34,    35,    36,    32,     1,     2,
-     3,    60,    12,     1,     2,     3,    60,    60,    60,    69,
-    70,    71,     5,    13,     4,    15,    48,    37,    38,     4,
-    54,    37,    38,     5,    18,    59,   -41,    61,    16,    19,
-    20,    27,    61,    61,    61,    17,    30,    26,    21,    68,
-    31,    40,    41,    44,    42,    43,    50,    51,    45,    52,
-    53,    56,    66,    57,    74,    67,    72,    75,    46,    14,
-    55,     0,    49
+static const short yytable[] = {    10,
+    32,    33,    34,    35,    36,    33,    34,    35,    36,    17,
+    10,    26,    10,    12,    31,    10,     1,     2,     3,    40,
+    41,    59,   -41,    54,    42,    43,    59,    13,     5,    48,
+    37,    38,     4,     5,    37,    38,    71,    72,    16,    77,
+    27,     5,    60,   -41,    15,    75,     7,    60,   -41,    44,
+    80,    50,    51,    82,     1,     2,     3,     7,    18,     7,
+    30,    18,     7,    19,    20,    74,    73,    20,    52,    53,
+     4,    45,    56,    21,    57,    66,    21,    70,    68,    69,
+    78,    81,    84,    79,    85,    46,    14,    55,    49
 };
 
-static const short yycheck[] = {    11,
-    12,    13,    14,    11,    12,    13,    14,    21,     3,     4,
-     5,    58,    32,     3,     4,     5,    63,    64,    65,    63,
-    64,    65,    28,    30,    19,    27,    38,    39,    40,    19,
-    44,    39,    40,    28,    23,    41,    42,    58,    30,    28,
-    29,    28,    63,    64,    65,    11,    37,    13,    37,    42,
-    16,    33,    34,    32,    35,    36,    40,    41,    31,    42,
-    43,    38,    30,    41,     0,    30,    42,     0,    30,     8,
-    45,    -1,    39
+static const short yycheck[] = {     0,
+    21,    11,    12,    13,    14,    11,    12,    13,    14,    11,
+    11,    13,    13,    33,    16,    16,     3,     4,     5,    34,
+    35,    21,    22,    44,    36,    37,    21,    31,    28,    39,
+    40,    41,    19,    28,    40,    41,    64,    65,    31,    67,
+    28,    28,    42,    43,    27,    66,     0,    42,    43,    33,
+    78,    40,    41,    81,     3,     4,     5,    11,    23,    13,
+    38,    23,    16,    28,    29,    66,    28,    29,    42,    43,
+    19,    32,    39,    38,    42,    38,    38,    43,    31,    31,
+    39,    22,     0,    43,     0,    30,     8,    45,    39
 };
 
 #line 352 "/usr/share/bison++/bison.cc"
@@ -1218,10 +1228,10 @@ YYLABEL(yyreduce)
   switch (yyn) {
 
 case 1:
-#line 55 "parser.y"
+#line 58 "parser.y"
 { 
 		display_symbol_table();
-		printf("Valid syntax\n"); 
+		//printf("Valid syntax\n"); 
 		YYACCEPT; 
 
 		//destructor
@@ -1232,18 +1242,23 @@ case 1:
 	;
     break;}
 case 6:
-#line 74 "parser.y"
-{printf("New variable decleration!\n");;
+#line 78 "parser.y"
+{
+	isDecl = 1;
+;
     break;}
 case 7:
-#line 74 "parser.y"
-{printf("Finished Variable decleration!\n");isDecl=0;;
-    break;}
-case 10:
 #line 82 "parser.y"
 {
+	//printf("Finished Variable decleration!\n");
+	isDecl=0;
+;
+    break;}
+case 10:
+#line 93 "parser.y"
+{
 		if(yyvsp[0].remVar!=1){
-			printf("%s\n","Assignment while decleration!");
+			// printf("%s\n","Assignment while decleration!");
 			if(isDecl){
 				printf("Declaring var %s...\n",yyvsp[-2].varname);
 				symbol* node = declare_variable(yyvsp[-2].varname);
@@ -1252,7 +1267,7 @@ case 10:
 					yyerror("[ERROR]:Variable already declared!");
 				}
 				else{
-					printf("Declared: %s\n",node->name);
+					//printf("Declared: %s\n",node->name);
 					//if running datattype is int
 					if(*currDatatype==2){
 						temp = (char*)malloc(sizeof(char)*100);
@@ -1260,7 +1275,7 @@ case 10:
 						node->val = temp;
 					}
 					//if running datatype is float
-					else if(*currDatatype==3){
+					else if(*currDatatype==3 || *currDatatype==4){
 						temp = (char*)malloc(sizeof(char)*100);
 						floatToString(yyvsp[0].fval);
 						node->val = temp;
@@ -1272,13 +1287,16 @@ case 10:
 				}
 			}
 		}
+		else{
+			printf("Removing var....\n");
+		}
 ;
     break;}
 case 11:
-#line 114 "parser.y"
+#line 128 "parser.y"
 {
 			if(yyvsp[0].remVar!=1){
-				printf("%s\n","[DEBUG]:Reduction of T_ID to V");
+				//printf("%s\n","[DEBUG]:Reduction of T_ID to V");
 			 	//if we are declaring variables like int x;
 				if(isDecl){
 					symbol* node = declare_variable(yyvsp[0].varname);
@@ -1286,7 +1304,7 @@ case 11:
 						yyerror("[ERROR]:Variable already declared!");
 					}
 					else{
-						printf("Declared: %s\n",node->name);
+						//printf("Declared: %s\n",node->name);
 					}	
 				}
 				else{
@@ -1294,57 +1312,57 @@ case 11:
 					//search if the variable is declerared already
 					symbol* node = check_symbol_table(yyval.varname,currScope);
 					if(node==NULL){
-						yyerror("[ERROR]:Variable not declared!");
+						yyerror("[ERROR]:Variable not declared");
 					}
 				}
 			}
 		;
     break;}
 case 12:
-#line 139 "parser.y"
-{isDecl=1;typTrack(2);/*printf("Assigned INT\n")*/;;
+#line 153 "parser.y"
+{isDecl=1;typTrack(2);;
     break;}
 case 13:
-#line 140 "parser.y"
-{isDecl=1;typTrack(3);/*printf("Assigned FLOAT\n")*/;;
+#line 154 "parser.y"
+{isDecl=1;typTrack(3);;
     break;}
 case 14:
-#line 141 "parser.y"
-{isDecl=1;typTrack(4);/*printf("Assigned DOUBLE\n")*/;;
+#line 155 "parser.y"
+{isDecl=1;typTrack(4);;
     break;}
 case 15:
-#line 142 "parser.y"
-{isDecl=1;typTrack(1);printf("Assigned CHAR\n");;
+#line 156 "parser.y"
+{isDecl=1;typTrack(1);;
     break;}
 case 16:
-#line 146 "parser.y"
+#line 160 "parser.y"
 {
 	if(yyvsp[0].remVar!=1){
-		printf("%s\n","Assignment of val to var");
+		//printf("%s\n","Assignment of val to var");
 		//check if declared in the symbol table
-		printf("Checking for %s,%d\n",yyvsp[-2].varname,currScope);
+		//printf("Checking for %s,%d\n",$1.varname,currScope);
 		symbol* variable = check_symbol_table(yyvsp[-2].varname,currScope);
 		if(!variable){
-			yyerror("[ERROR]:Variable not declared!");
+			yyerror("[ERROR]:Variable not declared");
 		}else{
 			if(*currDatatype==2){
-				printf("To assign val: %d to %s\n",yyvsp[0].ival,yyvsp[-2].varname);
+				//printf("To assign val: %d to %s\n",$3.ival,$1.varname);
 				//weird error if i dont do this...
 				temp2 = (char*)malloc(sizeof(char)*100);
 				strcpy(temp2,yyvsp[-2].varname);
 				yyvsp[-2].ival = yyvsp[0].ival;
 				temp = (char*)malloc(sizeof(char)*100);
 				intToString(yyvsp[0].ival);
-				printf("Converted from int to string %s\n",temp);
+				//printf("Converted from int to string %s\n",temp);
 				
 				int res = insert_value_to_name(temp2,temp,currScope);
 				if(res){
-					printf("Assigned val in sym table\n");
+					//printf("Assigned val in sym table\n");
 				}else{
-					printf("Var undeclared!\n");
+					//printf("Var undeclared!\n");
 				}
 			}
-			else if(*currDatatype==3){
+			else if(*currDatatype==3 || *currDatatype==4){
 				temp2 = (char*)malloc(sizeof(char)*100);
 				strcpy(temp2,yyvsp[-2].varname);
 				yyvsp[-2].fval = yyvsp[0].fval;
@@ -1362,14 +1380,14 @@ case 16:
 ;
     break;}
 case 18:
-#line 191 "parser.y"
+#line 205 "parser.y"
 {
 			   	if(yyvsp[0].remVar!=1){
 					if(*currDatatype==2){
 					   	yyval.ival = yyvsp[0].ival;
-						printf("Reduction of E to Expr: %d\n",yyval.ival);
+						//printf("Reduction of E to Expr: %d\n",$$.ival);
 					}
-					else if(*currDatatype==3){
+					else if(*currDatatype==3 || *currDatatype==4){
 						yyval.fval = yyvsp[0].fval;
 					}
 					else{
@@ -1381,10 +1399,10 @@ case 18:
 		   ;
     break;}
 case 19:
-#line 209 "parser.y"
+#line 223 "parser.y"
 {
-	printf("Currdatatype: %d\n",*currDatatype);
-	printf("Addition expression called!\n");
+	//printf("Currdatatype: %d\n",*currDatatype);
+	//printf("Addition expression called!\n");
 
 	if(*currDatatype==1 || yyvsp[-2].remVar==1 || yyvsp[0].remVar==1){
 			yyerror("[ERROR}:Cannot do div for string!");
@@ -1392,41 +1410,40 @@ case 19:
 	}
 	else if(*currDatatype==2){
 		int sum =0;
-		printf("Args %d,%d\n",yyvsp[-2].ival,yyvsp[0].ival);
+		//printf("Args %d,%d\n",$1.ival,$3.ival);
 		sum = yyvsp[-2].ival+yyvsp[0].ival;
-		printf("The Sum obtained from expression is %d\n",sum);
+		//printf("The Sum obtained from expression is %d\n",sum);
 		yyval.ival = sum;
+	}
+	else if(*currDatatype==3 || *currDatatype==4){
+		yyval.fval = yyvsp[-2].fval+yyvsp[0].fval;
 	}
 ;
     break;}
 case 20:
-#line 225 "parser.y"
+#line 242 "parser.y"
 {
 		if(*currDatatype==1 || yyvsp[-2].remVar==1 || yyvsp[0].remVar==1){
-			yyerror("[ERROR}:Cannot do div for string!");
+			yyerror("[ERROR}:Cannot do sub for string!");
 			yyval.remVar = 1;
 		}
 		else if(*currDatatype==2){
 			yyval.ival= yyvsp[-2].ival-yyvsp[0].ival;
 		}
-		else if(*currDatatype==3){
+		else if(*currDatatype==3 || *currDatatype==4){
 			yyval.fval= yyvsp[-2].fval-yyvsp[0].fval;
 		}
-		else if(*currDatatype==1){
-			yyerror("[ERROR]:cannot do subtratcion with string!");
-		}
-		yyval.remVar = 1;
 	;
     break;}
 case 21:
-#line 241 "parser.y"
+#line 254 "parser.y"
 {
-		printf("Reduction of T to E\n");
+		//printf("Reduction of T to E\n");
 		if(yyvsp[0].remVar!=1){
 			if(*currDatatype==2){
 				yyval.ival = yyvsp[0].ival;
 			}
-			else if(*currDatatype==3){
+			else if(*currDatatype==3 || *currDatatype==4){
 				yyval.fval = yyvsp[0].fval;
 			}
 			else if(*currDatatype==1){
@@ -1437,7 +1454,7 @@ case 21:
 	;
     break;}
 case 22:
-#line 259 "parser.y"
+#line 272 "parser.y"
 {
 	if(*currDatatype==1 || yyvsp[-2].remVar==1 || yyvsp[0].remVar==1){
 			yyerror("[ERROR}:Cannot do div for string!");
@@ -1446,14 +1463,13 @@ case 22:
 	else if(*currDatatype==2){
 		yyval.ival = (int)yyvsp[-2].ival*(int)yyvsp[0].ival;
 	}
-	else if(*currDatatype==3){
+	else if(*currDatatype==3 || *currDatatype==4){
 		yyval.fval = (float)yyvsp[-2].fval*(float)yyvsp[0].fval;
 	}
-	yyval.remVar = 1;
 ;
     break;}
 case 23:
-#line 272 "parser.y"
+#line 284 "parser.y"
 {
 		if(*currDatatype==1 || yyvsp[-2].remVar==1 || yyvsp[0].remVar==1){
 			yyerror("[ERROR}:Cannot do div for string!");
@@ -1465,21 +1481,21 @@ case 23:
 				yyval.ival = (int)yyvsp[-2].ival/(int)yyvsp[0].ival;
 			}
 			//lower grammar rules will supply $1 and $3 with fvals and not ivals
-			else if(*currDatatype==3){
+			else if(*currDatatype==3 || *currDatatype==4){
 				yyval.fval = (float)yyvsp[-2].fval/(float)yyvsp[0].fval;
 			}
 		}
 	;
     break;}
 case 24:
-#line 288 "parser.y"
+#line 300 "parser.y"
 {
-		printf("Reduction of F to T\n");
+		//printf("Reduction of F to T\n");
 		if(yyvsp[0].remVar!=1){
 			if(*currDatatype==2){
 				yyval.ival = yyvsp[0].ival;
 			}
-			else if(*currDatatype==3){
+			else if(*currDatatype==3 || *currDatatype==4){
 				yyval.fval = yyvsp[0].fval;
 			}
 			else if(*currDatatype==1){
@@ -1490,29 +1506,29 @@ case 24:
 	;
     break;}
 case 25:
-#line 305 "parser.y"
+#line 317 "parser.y"
 {
 	yyval = yyvsp[-1];
 ;
     break;}
 case 26:
-#line 308 "parser.y"
+#line 320 "parser.y"
 {
-		printf("T_ID of var %s called\n",yyvsp[0].varname);
+		//printf("T_ID of var %s called\n",$1.varname);
 		symbol* variable = check_symbol_table(yyvsp[0].varname,currScope);
 		if(variable && variable->val){
-			printf("%s\n","found Entry!!");
-			printf("%s.val=%s\n",variable->name,variable->val);
+			//printf("%s\n","found Entry!!");
+			//printf("%s.val=%s\n",variable->name,variable->val);
 			//running ie context datatype==int
 			if(*currDatatype==2){
 				//if variable is float convert to int
-				if(variable->type==3){
-					printf("Float to int :(\n");
+				if(variable->type==3 || variable->type==4){
+					//printf("Float to int :(\n");
 					yyval.ival = (int)atof(variable->val);
 				}
 				//if variable is int,copy it
 				else if(variable->type==2){
-					printf("Int to int :)\n");
+					//printf("Int to int :)\n");
 					yyval.ival = atoi(variable->val);
 				}
 				//if var is string,error
@@ -1520,14 +1536,14 @@ case 26:
 					yyerror("[ERROR]:Cannot assign string to int!");
 					yyval.remVar = 1;
 				}
-				printf("T_ID reduction to F=%d\n",yyval.ival);
+				//printf("T_ID reduction to F=%d\n",$$.ival);
 			}
 			//running datatype is float
-			else if(*currDatatype==3){
+			else if(*currDatatype==3 || *currDatatype==4){
 				//if variable type is int,typecast
 				if(variable->type==2){
 					yyval.fval = (float)atoi(variable->val);
-				}else if(variable->type==3){
+				}else if(variable->type==3 || variable->type==4){
 					yyval.fval = atof(variable->val);
 				}else if(variable->type==1){
 					yyerror("[ERROR]:Cannot assign string to float!");
@@ -1538,47 +1554,47 @@ case 26:
 	;
     break;}
 case 27:
-#line 347 "parser.y"
+#line 359 "parser.y"
 {
 		if(*currDatatype==2){
-			printf("Integer Constant: %d\n",atoi(yyvsp[0].number));
+			//printf("Integer Constant: %d\n",atoi($1.number));
 			yyval.ival = atoi(yyvsp[0].number);
 		}
-		else if(*currDatatype==3){
+		else if(*currDatatype==3 || *currDatatype==4){
 			yyval.fval = atof(yyvsp[0].number);
 		}
-		printf("Reduction of T_NUM to F\n");
+		//printf("Reduction of T_NUM to F\n");
 	;
     break;}
 case 28:
-#line 357 "parser.y"
+#line 369 "parser.y"
 {
-		printf("String literal!\n");
+		//printf("String literal!\n");
 		if(*currDatatype==2){
 				yyerror("[ERROR:] type mismatch! Cant assign string to int type");
 				//remove decleration from symbol table
 				yyval.remVar = 1;
 			}
-		else if(*currDatatype==3){
+		else if(*currDatatype==3 || *currDatatype==4){
 				yyerror("[ERROR:] type mismatch! Cant assign string to float type");
 				yyval.remVar = 1;
 			}
 	;
     break;}
 case 35:
-#line 381 "parser.y"
+#line 393 "parser.y"
 {currScope = incrScope();;
     break;}
 case 36:
-#line 385 "parser.y"
+#line 397 "parser.y"
 {currScope = decrScope();;
     break;}
-case 44:
-#line 400 "parser.y"
+case 46:
+#line 414 "parser.y"
 {currScope = incrScope();;
     break;}
-case 45:
-#line 402 "parser.y"
+case 47:
+#line 416 "parser.y"
 {currScope=decrScope();;
     break;}
 }
@@ -1785,14 +1801,14 @@ YYLABEL(yyerrhandle)
 /* END */
 
  #line 1038 "/usr/share/bison++/bison.cc"
-#line 407 "parser.y"
+#line 421 "parser.y"
 
 
 /* error handling function */
 void yyerror(char* s)
 {
 	printf("\033[0;31m");
-	printf("%s at %d \n",s,yylineno);
+	printf("%s at line %d \n",s,yylineno);
 	printf("\033[0m");
 }
 
@@ -1848,7 +1864,7 @@ symbol* declare_variable(char* varname){
 		return NULL;
 	}
 	else{
-		printf("%s\n","Declared var!");
+		//printf("%s\n","Declared var!");
 		return res;
 	}
 }
