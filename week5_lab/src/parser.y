@@ -11,6 +11,8 @@
 	extern int yylineno; 											// track the line number
 
 	FILE* icg_quad_file;
+
+	//temperoray variable name which is incremented everytime
 	int temp_no = 1;
 %}
 
@@ -29,30 +31,50 @@ START : ASSGN	{
 
 /* Grammar for assignment */
 ASSGN : T_ID '=' E	{	//call quad_code_gen with appropriate parameters	
+	$$ = strdup($1);
+	char* op = strdup("=");
+	char* op1 = strdup(" ");
+	quad_code_gen($$,$3,op,op1);
 }
 	;
 
 /* Expression Grammar */
-E : E '+' T 	{	//create a new temporary and call quad_code_gen with appropriate parameters	
+E : E '+' T 	{	//create a new temporary and call quad_code_gen with appropriate parameters
+	$$ = new_temp();
+	char* op = strdup("+");
+	quad_code_gen($$,$1,op,$3);
+
 }
 	| E '-' T 	{	//create a new temporary and call quad_code_gen with appropriate parameters	
+		$$ = new_temp();
+		char* op = strdup("-");
+		quad_code_gen($$,$1,op,$3);
 	}
 	| T
 	;
 	
 	
-T : T '*' F 	{	//create a new temporary and call quad_code_gen with appropriate parameters	
+T : T '*' F 	{	//create a new temporary and call quad_code_gen with appropriate parameters
+	$$ = new_temp();
+	char* op = strdup("*");
+	quad_code_gen($$,$1,op,$3);	
 }
-	| T '/' F 	{	//create a new temporary and call quad_code_gen with appropriate parameters	
+	| T '/' F 	{	//create a new temporary and call quad_code_gen with appropriate parameters
+		$$ = new_temp();
+		char* op = strdup("/");
+		quad_code_gen($$,$1,op,$3);	
 	}
 	| F
 	;
 
 F : '(' E ')' 	{	//assign the value of node E to node F	
+	$$ = strdup($2);
 }
 	| T_ID 		{	//assign a copy of t_ID of node F	
+		$$ = strdup($1);
 	}
 	| T_NUM 	{	//assign a copy of t_ID of node F	
+		$$ = strdup($1);
 	}
 	;
 

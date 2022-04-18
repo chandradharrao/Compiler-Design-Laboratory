@@ -1,0 +1,5 @@
+/, temp1, c, 6.7
++, temp2, temp1, 12.45
+*, temp3, a, 1234.0
+-, temp4, temp2, temp3
+=, b, temp4,  
