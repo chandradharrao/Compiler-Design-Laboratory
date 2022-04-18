@@ -1,7 +1,8 @@
 %{
+    #define YYSTYPE char*
+    #include <unistd.h>
     #include "y.tab.h"
     #include <stdio.h>
-    #include <string.h>
     extern void yyerror(const char *); // declare the error handling function
 %}
 
@@ -31,11 +32,11 @@ number	{digits}{opFraction}{opExponent}
 ">"         	{return *yytext;}
 "<"         	{return *yytext;}
 {number}	{
-			yylval.text = strdup(yytext);  //stores the value of the number to be used later for symbol table insertion
+			yylval = strdup(yytext);  //stores the value of the number to be used later for symbol table insertion
 			return T_NUM;
 		}
 {id}        	{
-					yylval.text = strdup(yytext); //stores the identifier to be used later for symbol table insertion
+					yylval = strdup(yytext); //stores the identifier to be used later for symbol table insertion
 					return T_ID;
 				}
 .		{} // anything else => ignore
