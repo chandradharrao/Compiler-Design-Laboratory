@@ -121,6 +121,9 @@ STMT 	: 	{printf("Blockless stmnt\n");} STMT_NO_BLOCK {int_code_label();}
 STMT_AFTER_IF	:	{printf("Stmnt after if\n");{int_code_label();}} STMT 
 			;
 
+EL	:	T_ELSE STMT_AFTER_IF ;
+	|
+	;
 
 STMT_NO_BLOCK 	: ASSGN ';'{printf("Done with stmnt no block assi clause\n");}
 
@@ -130,15 +133,7 @@ STMT_NO_BLOCK 	: ASSGN ';'{printf("Done with stmnt no block assi clause\n");}
 					{int_code_label();}
 					STMT 
 					{int_code_label();}
-					T_ELSE 
-					STMT_AFTER_IF ;
-				
-				| 	{printf("Entering if??\n");} 
-					T_IF '(' COND ')' 
-					{int_code_if(strdup($4));}
-					{printf("Done with stmnt no block if clause!\n");} 
-					STMT_AFTER_IF 
-					%prec T_IFX;
+					EL;
        
 //increment and decrement at particular points in the grammar to implement scope tracking
 BLOCK : '{' {printf("\nBlock stmnt exe!\n");} STMT '}' {printf("Block stmnt done!\n");};

@@ -5,5 +5,5 @@ Label, ,  , L1
 +,temp2, x, 1
 =,x, temp2,  
 Label, ,  , L2
-+,temp3, z, 1
++,temp3, y, 2
 =,y, temp3,  
