@@ -1,5 +1,5 @@
 %{
-	#include "sym_tab.c"
+	#include "quad_generation.c"
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
@@ -16,17 +16,17 @@
 	//label name integer
 	int label_no = 1;
 
+	//queue to store labels created in "if" stmnts
+	char* labels_q[1000];	
+	int rear=0;
+	int top = 0;
+
+	void int_code_label();
 %}
 
 %token T_INT T_CHAR T_DOUBLE T_WHILE  T_INC T_DEC   T_OROR T_ANDAND T_EQCOMP T_NOTEQUAL T_GREATEREQ T_LESSEREQ T_LEFTSHIFT T_RIGHTSHIFT T_PRINTLN T_STRING  T_FLOAT T_BOOLEAN T_IF T_ELSE T_STRLITERAL T_DO T_INCLUDE T_HEADER T_MAIN T_ID T_NUM
 
 %start START
-
-%union{
-	char* temp;
-	char* label;
-}
-
 
 %nonassoc T_IFX
 %nonassoc T_ELSE
@@ -34,138 +34,113 @@
 %%
 START : PROG { printf("Valid syntax\n"); YYACCEPT; }	
         ;	
-	  
-PROG :  MAIN PROG				
-	|DECLR ';' PROG 				
-	| ASSGN ';' PROG 			
-	| 					
-	;
-	 
-
-DECLR : TYPE LISTVAR 
-	;	
-
-
-LISTVAR : LISTVAR ',' VAR 
-	  | VAR
-	  ;
-
-VAR: T_ID '=' EXPR 	{
-				/*
-				    check if symbol is in the table
-				    if it is then error for redeclared variable
-				    else make entry and insert into table
-				    insert value coming from EXPR
-				    revert variables to default values:value,type
-                   		 */
-			}
-     | T_ID 		{
-				/*
-                   			finished in lab 2
-                    		*/
-			}	 
-
-//assign type here to be returned to the declaration grammar
-TYPE : T_INT 
-       | T_FLOAT 
-       | T_DOUBLE 
-       | T_CHAR 
-       ;
+	  								
+PROG	: ASSGN ';' PROG 			
+		| {printf("Stmnt prog chosen\n");} STMT {printf("Done with stmnt\n"); } PROG {printf("Done with Stmnt prog choosen!\n");}
+		| 					
+		; 
     
 /* Grammar for assignment */   
-ASSGN : T_ID '=' EXPR 	{
-			/*
-               			 Check if variable is declared in the table
-               			 insert value
-            		*/
-			}
+ASSGN 	: T_ID '=' EXPR 	{
+		$$ = strdup($1);
+		char* op = strdup("=");
+		char* op1 = strdup(" ");
+		quad_code_gen($$,$3,op,op1);
+	}
 	;
 
-EXPR : EXPR REL_OP E {
-	$$ 
+EXPR 	: EXPR REL_OP E {
+		printf("A condition!\n");
+		$$ = new_temp();
+		char* op = strdup($2);
+		printf("Recieved Operator: %s\n",op);
+		printf("Gen quad code!!\n");
+		quad_code_gen($1,$3,op,$$);
 }
-       | E 	//store value using value variable declared before
-       ;
+	| E {
+		$$ = strdup($1);
+		}
+    ;
 	   
 /* Expression Grammar */	   
-E : E '+' T 	{ 
-		$$.temp = new_temp();
+E 	: E '+' T { 
+		$$= new_temp();
 		char* op = strdup("+");
-		quad_code_gen($$.temp,$1.temp,op,$3.temp);	
+		quad_code_gen($$,$1,op,$3);	
 	}
     | E '-' T 	{ 
-		$$.temp = new_temp();
+		$$ = new_temp();
 		char* op = strdup("-");
-		quad_code_gen($$.temp,$1.temp,op,$3.temp);	
+		quad_code_gen($$,$1,op,$3);	
 	}
     | T {
-		$$.temp = strdup($1);
+		$$ = strdup($1);
 	}
     ;
 	
 	
-T : T '*' F 	{ 
-		$$.temp = new_temp();
+T 	: T '*' F { 
+		$$ = new_temp();
 		char* op = strdup("*");
-		quad_code_gen($$.temp,$1.temp,op,$3.temp);	
+		quad_code_gen($$,$1,op,$3);	
 	}
-    | T '/' F 	{ 
-		$$.temp = new_temp();
+    | T '/' F { 
+		$$ = new_temp();
 		char* op = strdup("/");
-		quad_code_gen($$.temp,$1.temp,op,$3.temp);		
+		quad_code_gen($$,$1,op,$3);		
 	}
-    | F //copy value from F to grammar rule T
+    | F { $$ = strdup($1);}
     ;
 
-F : '(' EXPR ')' {
-	$$.text = strdup($2);
+F 	: '(' EXPR ')' {
+		$$ = strdup($2);
 	}
     | T_ID 	{
-	$$.text = strdup($1);		
+		$$ = strdup($1);	
+		printf("Transferred %s...\n",$$);	
 	}
     | T_NUM {
-    		$$.text = strdup($1);
+    	$$ = strdup($1);
+		printf("Transferred %s...\n",$$);	
 	}
     ;
 
-REL_OP :   T_LESSEREQ {$$.text = strdup($1);}
-	   | T_GREATEREQ {$$.text = strdup($1);}
-	   | '<' {$$.text = strdup($1);}
-	   | '>' {$$.text = strdup($1);}
-	   | T_EQCOMP {$$.text = strdup($1);}
-	   | T_NOTEQUAL {$$.text = strdup($1);}
-	   ;	
+REL_OP 	:'<' {$$ = strdup($1);}
+		| '>' {printf("Assigned >\n");$$ = strdup(">");}
+		| T_EQCOMP {$$ = strdup($1);}
+		| T_NOTEQUAL {$$ = strdup($1);}
+		;	
 
-
-/* Grammar for main function */
-//increment and decrement at particular points in the grammar to implement scope tracking
-MAIN : TYPE T_MAIN '(' EMPTY_LISTVAR ')' '{' STMT '}';
-
-EMPTY_LISTVAR : LISTVAR
-		|	
+STMT 	: 	{printf("Blockless stmnt\n");} STMT_NO_BLOCK
+		| 	{printf("Gear for block stmnt\n");} BLOCK STMT
+		|	{printf("Empty stmnt exe!\n");}
 		;
 
-STMT : STMT_NO_BLOCK STMT
-       | BLOCK STMT
-       |
-       ;
 
+STMT_NO_BLOCK 	: ASSGN ';'{printf("Done with stmnt no block assi clause\n");}
+				| {printf("Entering if??\n");} T_IF '(' COND ')' {
+						printf("If statement matched!\n");
+						char* l1 = strdup(new_label());
+						char* l2 = strdup(new_label());
 
-STMT_NO_BLOCK : DECLR ';'
-       | ASSGN ';'
-       | T_IF '(' COND ')' {$3 = labelgen();} STMT %prec T_IFX	/* if loop*/
-       | T_IF '(' COND ')' STMT T_ELSE STMT	/* if else loop */ 
-       ;
+						quad_code_gen(strdup($4),strdup(" "),strdup("if"),strdup(l1));
+						quad_code_gen(strdup(" "),strdup(" "),strdup("goto"),strdup(l2));
+
+						labels_q[rear++]=strdup(l1);
+						printf("Inserted %s\n",labels_q[rear-1]);
+						labels_q[rear++]=strdup(l2);
+						printf("Inserted %s\n",labels_q[rear-1]);
+
+				}{printf("Done with stmnt no block if clause!\n"); int_code_label();} STMT {int_code_label();}
+				| {printf("Entering if else clause??wtf??\n");} T_IF '(' COND ')' STMT T_ELSE STMT	/* if 
+				else loop */ 
+				;
        
 //increment and decrement at particular points in the grammar to implement scope tracking
-BLOCK : '{' STMT '}';
+BLOCK : '{' {printf("\nBlock stmnt exe!\n");} STMT '}' {printf("Block stmnt done!\n");};
 
-COND : EXPR {
-	quad_code_gen(strdup("if"),$1);
-}
-    | ASSGN
-       ;
-
+COND 	: EXPR {printf("Cond done sir!\n");}
+    	;
 
 %%
 
@@ -173,6 +148,17 @@ COND : EXPR {
 void yyerror(char* s)
 {
 	printf("Error :%s at %d \n",s,yylineno);
+}
+
+void int_code_label(){
+	if(top<rear){
+		printf("Generating int. code for label...\n");
+		char* l1 = labels_q[top++];
+		printf("Retrieved %s\n",l1);
+		quad_code_gen(strdup(" "),strdup(" "),strdup("Label"),strdup(l1));
+	}else{
+		printf("First if statement yet to be declared...\n");
+	}
 }
 
 

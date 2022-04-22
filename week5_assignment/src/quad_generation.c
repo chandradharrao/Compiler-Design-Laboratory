@@ -3,10 +3,16 @@
 #include <string.h>
 #include "quad_generation.h"
 
+/*
+a->first operand
+b->second operand
+op->operator
+c->result storing operand
+*/
 void quad_code_gen(char* a, char* b, char* op, char* c)
 {
 	//use fprintf to output the quadruple code to icg_quad_file
-	fprintf(icg_quad_file,"%s, %s, %s, %s\n",op,a,b,c);
+	fprintf(icg_quad_file,"%s,%s, %s, %s\n",op,a,b,c);
 }
 
 char* new_temp()
@@ -21,7 +27,6 @@ char* new_temp()
 char* new_label(){
 	char* new_label = (char*)malloc(sizeof(char)*100);
 	sprintf(new_label,"L%d",label_no);
-	fprintf(icg_quad_file,"%s, %s, %s, %s\n",strdup("Label"),strdup(" "),strdup(" "),strdup(new_label));
 	label_no++;
-	
+	return new_label;
 }

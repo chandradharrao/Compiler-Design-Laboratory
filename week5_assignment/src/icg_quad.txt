@@ -1,0 +1,7 @@
+>,x, y, temp1
+if,temp1,  , L1
+goto, ,  , L2
+Label, ,  , L1
++,temp2, x, y
+=,x, temp2,  
+Label, ,  , L2

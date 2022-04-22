@@ -4,3 +4,4 @@ extern int label_no;
 
 void quad_code_gen(char* a, char* b, char* op, char* c);
 char* new_temp();
+char* new_label();

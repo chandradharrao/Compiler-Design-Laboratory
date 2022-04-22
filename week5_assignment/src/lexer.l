@@ -2,6 +2,7 @@
     #define YYSTYPE char*
     #include "y.tab.h"
     #include <stdio.h>
+	#include<string.h>
     extern void yyerror(const char *); // declare the error handling function
    
 %}
@@ -24,7 +25,7 @@ number	{digits}{opFraction}{opExponent}
 "double"	{return T_DOUBLE;}
 "float"		{return T_FLOAT;}
 "while" 	{return T_WHILE;}
-"if"		{return T_IF;}
+"if"		{printf("IF recognied\n");return T_IF;}
 "else"		{return T_ELSE;}
 "do" 		{return T_DO;}
 "#include" 	{return T_INCLUDE;}
@@ -49,14 +50,14 @@ number	{digits}{opFraction}{opExponent}
 ">"         	{return *yytext;}
 "<"         	{return *yytext;}
 {number}	{
-			yylval=strdup(yytext);  //stores the value of the number to be used later for symbol table insertion
+			yylval=strdup(yytext); 
 			return T_NUM;
 		}
-{id}\.h	{return T_HEADER;}  // ending in .h => header file name
-{id}        	{
-			yylval=strdup(yytext); //stores the identifier to be used later for symbol table insertion
-			return T_ID;
-		}
+{id}\.h	{return T_HEADER;}  
+{id} {
+	yylval=strdup(yytext);
+	return T_ID;
+}
 .		{} // anything else => ignore
 %%
 
