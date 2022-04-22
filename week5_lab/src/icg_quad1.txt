@@ -1,0 +1,4 @@
+/, temp1, 9, 2
++, temp2, temp1, a
+-, temp3, temp2, b
+=, x, temp3,  
