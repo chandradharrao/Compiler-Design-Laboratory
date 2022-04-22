@@ -34,12 +34,12 @@
 %nonassoc T_ELSE
 
 %%
-START : PROG { printf("Valid syntax\n"); YYACCEPT; }	
+START : PROG { /*printf("Valid syntax\n");*/ YYACCEPT; }	
         ;	
 	  								
 PROG	: ASSGN ';' PROG 		
 		|	
-		| {printf("Stmnt prog chosen\n");} STMT {printf("Done with stmnt\n"); } PROG {printf("Done with Stmnt prog choosen!\n");}					
+		| {/*printf("Stmnt prog chosen\n");*/} STMT {/*printf("Done with stmnt\n"); */} PROG {/*printf("Done with Stmnt prog choosen!\n");*/}					
 		; 
     
 /* Grammar for assignment */   
@@ -108,26 +108,26 @@ F 	: '(' EXPR ')' {
     ;
 
 REL_OP 	:'<' {$$ = strdup($1);}
-		| '>' {printf("Assigned >\n");$$ = strdup(">");}
+		| '>' {/*printf("Assigned >\n");*/$$ = strdup(">");}
 		| T_EQCOMP {$$ = strdup($1);}
 		| T_NOTEQUAL {$$ = strdup($1);}
 		;	
 
-STMT 	: 	{printf("Blockless stmnt\n");} STMT_NO_BLOCK {int_code_label();}
-		| 	{printf("Gear for block stmnt\n");} BLOCK STMT
-		|	{printf("Empty stmnt exe!\n");}
+STMT 	: 	{/*printf("Blockless stmnt\n");*/} STMT_NO_BLOCK {int_code_label();}
+		| 	{/*printf("Gear for block stmnt\n");*/} BLOCK STMT
+		|	{/*printf("Empty stmnt exe!\n");*/}
 		;
 
-STMT_AFTER_IF	:	{printf("Stmnt after if\n");{int_code_label();}} STMT 
+STMT_AFTER_IF	:	{/*printf("Stmnt after if\n");*/{int_code_label();}} STMT 
 			;
 
 EL	:	T_ELSE STMT_AFTER_IF ;
 	|
 	;
 
-STMT_NO_BLOCK 	: ASSGN ';'{printf("Done with stmnt no block assi clause\n");}
+STMT_NO_BLOCK 	: ASSGN ';'{/*printf("Done with stmnt no block assi clause\n");*/}
 
-				| 	{printf("Entering if else clause??wtf??\n");} 
+				| 	{/*printf("Entering if else clause??wtf??\n");*/} 
 					T_IF '(' COND ')' 
 					{int_code_if(strdup($4));}
 					{int_code_label();}
@@ -136,9 +136,9 @@ STMT_NO_BLOCK 	: ASSGN ';'{printf("Done with stmnt no block assi clause\n");}
 					EL;
        
 //increment and decrement at particular points in the grammar to implement scope tracking
-BLOCK : '{' {printf("\nBlock stmnt exe!\n");} STMT '}' {printf("Block stmnt done!\n");};
+BLOCK : '{' {/*printf("\nBlock stmnt exe!\n");*/} STMT '}' {printf("Block stmnt done!\n");};
 
-COND 	: EXPR {printf("Cond done sir!\n");}
+COND 	: EXPR {/*printf("Cond done sir!\n");*/}
     	;
 
 %%
@@ -151,17 +151,17 @@ void yyerror(char* s)
 
 void int_code_label(){
 	if(top<rear){
-		printf("Generating int. code for label...\n");
+		//printf("Generating int. code for label...\n");
 		char* l1 = labels_q[top++];
-		printf("Retrieved %s\n",l1);
+		//printf("Retrieved %s\n",l1);
 		quad_code_gen(strdup(" "),strdup(" "),strdup("Label"),strdup(l1));
 	}else{
-		printf("First if statement yet to be declared...\n");
+		//printf("First if statement yet to be declared...\n");
 	}
 }
 
 void int_code_if(char* dollar4){
-	printf("If statement matched!\n");
+	//printf("If statement matched!\n");
 	char* l1 = strdup(new_label());
 	char* l2 = strdup(new_label());
 
@@ -169,9 +169,9 @@ void int_code_if(char* dollar4){
 	quad_code_gen(strdup(" "),strdup(" "),strdup("goto"),strdup(l2));
 
 	labels_q[rear++]=strdup(l1);
-	printf("Inserted %s\n",labels_q[rear-1]);
+	//printf("Inserted %s\n",labels_q[rear-1]);
 	labels_q[rear++]=strdup(l2);
-	printf("Inserted %s\n",labels_q[rear-1]);
+	//printf("Inserted %s\n",labels_q[rear-1]);
 }
 
 
