@@ -21,7 +21,9 @@
 	int rear=0;
 	int top = 0;
 
+	//function to generate intermediate codes for "if" and "label"
 	void int_code_label();
+	void int_code_if();
 %}
 
 %token T_INT T_CHAR T_DOUBLE T_WHILE  T_INC T_DEC   T_OROR T_ANDAND T_EQCOMP T_NOTEQUAL T_GREATEREQ T_LESSEREQ T_LEFTSHIFT T_RIGHTSHIFT T_PRINTLN T_STRING  T_FLOAT T_BOOLEAN T_IF T_ELSE T_STRLITERAL T_DO T_INCLUDE T_HEADER T_MAIN T_ID T_NUM
@@ -35,9 +37,9 @@
 START : PROG { printf("Valid syntax\n"); YYACCEPT; }	
         ;	
 	  								
-PROG	: ASSGN ';' PROG 			
-		| {printf("Stmnt prog chosen\n");} STMT {printf("Done with stmnt\n"); } PROG {printf("Done with Stmnt prog choosen!\n");}
-		| 					
+PROG	: ASSGN ';' PROG 		
+		|	
+		| {printf("Stmnt prog chosen\n");} STMT {printf("Done with stmnt\n"); } PROG {printf("Done with Stmnt prog choosen!\n");}					
 		; 
     
 /* Grammar for assignment */   
@@ -118,23 +120,23 @@ STMT 	: 	{printf("Blockless stmnt\n");} STMT_NO_BLOCK
 
 
 STMT_NO_BLOCK 	: ASSGN ';'{printf("Done with stmnt no block assi clause\n");}
-				| {printf("Entering if??\n");} T_IF '(' COND ')' {
-						printf("If statement matched!\n");
-						char* l1 = strdup(new_label());
-						char* l2 = strdup(new_label());
 
-						quad_code_gen(strdup($4),strdup(" "),strdup("if"),strdup(l1));
-						quad_code_gen(strdup(" "),strdup(" "),strdup("goto"),strdup(l2));
-
-						labels_q[rear++]=strdup(l1);
-						printf("Inserted %s\n",labels_q[rear-1]);
-						labels_q[rear++]=strdup(l2);
-						printf("Inserted %s\n",labels_q[rear-1]);
-
-				}{printf("Done with stmnt no block if clause!\n"); int_code_label();} STMT {int_code_label();}
-				| {printf("Entering if else clause??wtf??\n");} T_IF '(' COND ')' STMT T_ELSE STMT	/* if 
-				else loop */ 
-				;
+				| 	{printf("Entering if else clause??wtf??\n");} 
+					T_IF '(' COND ')' 
+					{int_code_if(strdup($4));}
+					{int_code_label();}
+					STMT 
+					{int_code_label();}
+					T_ELSE 
+					STMT ;
+				
+				| 	{printf("Entering if??\n");} 
+					T_IF '(' COND ')' 
+					{int_code_if(strdup($4));}
+					{printf("Done with stmnt no block if clause!\n"); int_code_label();} 
+					STMT 
+					{int_code_label();}
+					%prec T_IFX
        
 //increment and decrement at particular points in the grammar to implement scope tracking
 BLOCK : '{' {printf("\nBlock stmnt exe!\n");} STMT '}' {printf("Block stmnt done!\n");};
@@ -159,6 +161,20 @@ void int_code_label(){
 	}else{
 		printf("First if statement yet to be declared...\n");
 	}
+}
+
+void int_code_if(char* dollar4){
+	printf("If statement matched!\n");
+	char* l1 = strdup(new_label());
+	char* l2 = strdup(new_label());
+
+	quad_code_gen(strdup(dollar4),strdup(" "),strdup("if"),strdup(l1));
+	quad_code_gen(strdup(" "),strdup(" "),strdup("goto"),strdup(l2));
+
+	labels_q[rear++]=strdup(l1);
+	printf("Inserted %s\n",labels_q[rear-1]);
+	labels_q[rear++]=strdup(l2);
+	printf("Inserted %s\n",labels_q[rear-1]);
 }
 
 

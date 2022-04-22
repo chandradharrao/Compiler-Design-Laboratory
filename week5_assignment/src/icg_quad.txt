@@ -2,6 +2,8 @@
 if,temp1,  , L1
 goto, ,  , L2
 Label, ,  , L1
-+,temp2, x, y
++,temp2, x, 1
 =,x, temp2,  
 Label, ,  , L2
++,temp3, y, 2
+=,y, temp3,  
