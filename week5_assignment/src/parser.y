@@ -113,10 +113,13 @@ REL_OP 	:'<' {$$ = strdup($1);}
 		| T_NOTEQUAL {$$ = strdup($1);}
 		;	
 
-STMT 	: 	{printf("Blockless stmnt\n");} STMT_NO_BLOCK
+STMT 	: 	{printf("Blockless stmnt\n");} STMT_NO_BLOCK {int_code_label();}
 		| 	{printf("Gear for block stmnt\n");} BLOCK STMT
 		|	{printf("Empty stmnt exe!\n");}
 		;
+
+STMT_AFTER_IF	:	{printf("Stmnt after if\n");{int_code_label();}} STMT 
+			;
 
 
 STMT_NO_BLOCK 	: ASSGN ';'{printf("Done with stmnt no block assi clause\n");}
@@ -128,15 +131,14 @@ STMT_NO_BLOCK 	: ASSGN ';'{printf("Done with stmnt no block assi clause\n");}
 					STMT 
 					{int_code_label();}
 					T_ELSE 
-					STMT ;
+					STMT_AFTER_IF ;
 				
 				| 	{printf("Entering if??\n");} 
 					T_IF '(' COND ')' 
 					{int_code_if(strdup($4));}
-					{printf("Done with stmnt no block if clause!\n"); int_code_label();} 
-					STMT 
-					{int_code_label();}
-					%prec T_IFX
+					{printf("Done with stmnt no block if clause!\n");} 
+					STMT_AFTER_IF 
+					%prec T_IFX;
        
 //increment and decrement at particular points in the grammar to implement scope tracking
 BLOCK : '{' {printf("\nBlock stmnt exe!\n");} STMT '}' {printf("Block stmnt done!\n");};
